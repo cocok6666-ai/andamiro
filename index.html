@@ -65,9 +65,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .hubhead.wd{background:linear-gradient(135deg,#2E8B83,#1B625C)}
 .hubhead h2{font-family:var(--display);font-weight:400;font-size:28px}
 .hubhead p{font-size:14px;opacity:.95;margin-top:4px}
-.goals{margin:0 0 18px;padding:14px 16px;border-radius:16px;background:#fff;border:1px solid var(--line)}
-.goals h3{font-size:13px;color:var(--mute);margin-bottom:6px;letter-spacing:.06em}
-.goals li{font-size:14px;margin-left:18px;padding:1px 0}
 .group{margin-bottom:18px}
 .group h3{font-family:var(--display);font-weight:400;font-size:21px;margin:0 2px 8px;display:flex;align-items:baseline;gap:8px}
 .group h3 span{font-family:var(--sans);font-size:12px;color:var(--mute);font-weight:400}
@@ -214,12 +211,6 @@ const MENU = {
   proverb:{
     cls:'pv', title:'재미있는 속담이야기', short:'속담', icon:'📜',
     sub:'삶의 지혜가 담긴 속담을 읽고, 찾고, 만들어 보아요',
-    goals:[
-      '속담의 뜻을 알고 적절한 상황에 사용할 수 있다.',
-      '속담을 이용한 표현(글짓기, 가훈, 좌우명)을 할 수 있다.',
-      '속담으로 복잡한 상황을 간결하게 표현할 수 있다.',
-      '찾고자 하는 속담을 검색어로 쉽게 찾을 수 있다.'
-    ],
     groups:[
       {id:'p-intro', title:'속담이란', note:'속담 알아보기', items:[
         {id:'p-meaning', status:'done', render:()=>renderMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
@@ -257,12 +248,6 @@ const MENU = {
   words:{
     cls:'wd', title:'아름다운 순우리말', short:'우리말', icon:'🌸',
     sub:'곱고 정겨운 우리말을 찾아 익히고 친구에게 소개해요',
-    goals:[
-      '우리말의 우수성을 알고 적절한 상황에 사용할 수 있다.',
-      '순우리말을 이용한 표현을 할 수 있다.',
-      '자주 쓰지 않던 아름다운 우리말을 친구들에게 소개할 수 있다.',
-      '찾고자 하는 우리말을 검색어로 쉽게 찾을 수 있다.'
-    ],
     groups:[
       {id:'w-find', title:'우리말 찾기', note:'5,500여 개', items:[
         {id:'w-f-char', status:'done', render:()=>renderWfind(), init:()=>initWfind(), ic:'🔡', title:'글자로 찾기', desc:'글자 단위로 검색해 자유롭게 찾아봐요. 처음 시작하는 친구에게 알맞아요.', plan:['글자 입력(예: “나”가 들어간 우리말)','검색 결과 목록 → 낱말 뜻풀이']},
@@ -329,7 +314,6 @@ function viewHub(k){
   </section>`).join('');
   return `<div class="screen">${bar('home','안다미로',m.short)}
     <div class="hubhead ${m.cls}"><h2>${m.icon} ${esc(m.title)}</h2><p>${esc(m.sub)}</p></div>
-    <div class="goals"><h3>학습 목표</h3><ul>${m.goals.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
     ${groups}</div>`;
 }
 
