@@ -1,5 +1,5 @@
-const CACHE = 'andamiro-v4';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/hero.png'];
+const CACHE = 'andamiro-v5';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192-2.png', './icons/icon-512-2.png', './icons/hero-2.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
