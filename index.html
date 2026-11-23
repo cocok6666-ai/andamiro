@@ -66,7 +66,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .o-wrap .cta.nx{margin:0 auto;padding:8px 20px;position:static;box-shadow:none}
 /* 속담의 유래: 한 화면에 딱 맞춤 */
 #app:has(.o-wrap){padding-bottom:10px;min-height:0}
-.screen:has(.o-wrap){display:flex;flex-direction:column;height:calc(100dvh - 30px)}
+.screen:has(.o-wrap){display:flex;flex-direction:column;height:calc(100dvh - 36px)}
 .o-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
 .o-wrap .otw{position:static;margin:0 -18px 6px;padding:2px 18px 8px;box-shadow:none;background:none}
 .o-wrap .tabs.o3 .chip{min-height:clamp(44px,7dvh,56px);font-size:12.5px}
@@ -100,17 +100,103 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 }
 /* 상단 배너 공통: 은은한 패턴 + 도형 분할 */
 :root{--pat-sg:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2236%22 height=%2218%22%3E%3Cg fill=%22none%22 stroke=%22%23FFE2A0%22 stroke-opacity=%22.15%22 stroke-width=%221%22%3E%3Ccircle cx=%220%22 cy=%220%22 r=%2216%22/%3E%3Ccircle cx=%220%22 cy=%220%22 r=%2211%22/%3E%3Ccircle cx=%220%22 cy=%220%22 r=%226%22/%3E%3Ccircle cx=%2236%22 cy=%220%22 r=%2216%22/%3E%3Ccircle cx=%2236%22 cy=%220%22 r=%2211%22/%3E%3Ccircle cx=%2236%22 cy=%220%22 r=%226%22/%3E%3Ccircle cx=%2218%22 cy=%229%22 r=%2216%22/%3E%3Ccircle cx=%2218%22 cy=%229%22 r=%2211%22/%3E%3Ccircle cx=%2218%22 cy=%229%22 r=%226%22/%3E%3C/g%3E%3C/svg%3E");--pat-dot:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2222%22 height=%2222%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%222%22 fill=%22%23E4FFF6%22 fill-opacity=%22.16%22/%3E%3Ccircle cx=%220%22 cy=%220%22 r=%221.3%22 fill=%22%23E4FFF6%22 fill-opacity=%22.12%22/%3E%3Ccircle cx=%2222%22 cy=%220%22 r=%221.3%22 fill=%22%23E4FFF6%22 fill-opacity=%22.12%22/%3E%3Ccircle cx=%220%22 cy=%2222%22 r=%221.3%22 fill=%22%23E4FFF6%22 fill-opacity=%22.12%22/%3E%3Ccircle cx=%2222%22 cy=%2222%22 r=%221.3%22 fill=%22%23E4FFF6%22 fill-opacity=%22.12%22/%3E%3C/svg%3E");--pat-dia:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2218%22 height=%2218%22%3E%3Cpath d=%22M9 1.5 L16.5 9 L9 16.5 L1.5 9Z%22 fill=%22none%22 stroke=%22%232B2A28%22 stroke-opacity=%22.08%22 stroke-width=%221%22/%3E%3C/svg%3E");--pat-diaw:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2218%22 height=%2218%22%3E%3Cpath d=%22M9 1.5 L16.5 9 L9 16.5 L1.5 9Z%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.2%22 stroke-width=%221%22/%3E%3C/svg%3E")}
-.hubhead,.lbanner,.ghead{position:relative;overflow:hidden;isolation:isolate}
-.hubhead::after,.lbanner::after,.ghead::after{content:"";position:absolute;right:-34px;top:-46px;width:132px;height:132px;border-radius:50%;border:1.5px dashed rgba(255,236,180,.5);box-shadow:0 0 0 14px rgba(255,236,180,.08),inset 0 0 0 12px rgba(255,236,180,.06);z-index:-1;pointer-events:none}
-.hubhead.pv,.lbanner.pv{background:linear-gradient(112deg,transparent 0 70%,rgba(70,15,8,.18) 70% 100%),radial-gradient(circle at 90% 10%,rgba(255,226,160,.40),transparent 48%),var(--pat-sg),linear-gradient(135deg,#DB5B3E,#B13A25 55%,#862618)}
-.hubhead.wd,.lbanner.wd{background:linear-gradient(112deg,transparent 0 70%,rgba(4,50,45,.20) 70% 100%),radial-gradient(circle at 90% 10%,rgba(228,255,246,.38),transparent 48%),var(--pat-dot),linear-gradient(135deg,#3AA79B,#1F7B71 55%,#145C54)}
-.hubhead::before,.lbanner::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,rgba(240,191,90,.9),transparent);z-index:-1}
+.hubhead,.lbanner,.ghead,.fhead{position:relative;overflow:hidden;isolation:isolate}
+.hubhead::after,.lbanner::after,.ghead::after,.fhead::after{content:"";position:absolute;right:-34px;top:-46px;width:132px;height:132px;border-radius:50%;border:1.5px dashed rgba(255,236,180,.5);box-shadow:0 0 0 14px rgba(255,236,180,.08),inset 0 0 0 12px rgba(255,236,180,.06);z-index:-1;pointer-events:none}
+.hubhead.pv,.lbanner.pv,.fhead.pv{background:linear-gradient(112deg,transparent 0 70%,rgba(70,15,8,.18) 70% 100%),radial-gradient(circle at 90% 10%,rgba(255,226,160,.40),transparent 48%),var(--pat-sg),linear-gradient(135deg,#DB5B3E,#B13A25 55%,#862618)}
+.hubhead.wd,.lbanner.wd,.fhead.wd{background:linear-gradient(112deg,transparent 0 70%,rgba(4,50,45,.20) 70% 100%),radial-gradient(circle at 90% 10%,rgba(228,255,246,.38),transparent 48%),var(--pat-dot),linear-gradient(135deg,#3AA79B,#1F7B71 55%,#145C54)}
+.hubhead::before,.lbanner::before,.fhead::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,rgba(240,191,90,.9),transparent);z-index:-1}
 .ghead{background:linear-gradient(112deg,transparent 0 72%,rgba(255,255,255,.22) 72% 100%),radial-gradient(circle at 92% 8%,rgba(255,255,255,.6),transparent 46%),var(--pat-dia),linear-gradient(160deg,var(--c1),var(--c2))}
 .gtile{background:radial-gradient(circle at 100% 0,rgba(255,255,255,.5),transparent 55%),var(--pat-dia),linear-gradient(160deg,var(--c1),var(--c2))}
 .i3{background:radial-gradient(circle at 100% 0,rgba(255,255,255,.35),transparent 50%),var(--pat-diaw),linear-gradient(150deg,var(--c1),var(--c2))}
 .lbanner{margin:-12px -18px 14px;padding:16px 20px 20px;border-radius:0 0 26px 26px;color:#fff}
 .lbanner h2{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.25;margin:0 0 4px;color:#FFF6DC;text-shadow:0 2px 0 rgba(60,12,6,.35);word-break:keep-all}
 .lbanner .lead{color:rgba(255,255,255,.95);margin:0;font-size:15.5px;line-height:1.5}
+/* ===== 검색 화면: 한 화면 맞춤 + 가로 넘기기 ===== */
+#app:has(.fitwrap){padding-bottom:10px;min-height:0}
+.screen:has(.fitwrap){display:flex;flex-direction:column;height:calc(100dvh - 36px)}
+.fitwrap{flex:1;min-height:0;display:flex;flex-direction:column}
+.fitwrap.wd{--pv:var(--wd);--pv-soft:var(--wd-soft);--pv-deep:var(--wd-deep)}
+.fhead{display:flex;align-items:center;gap:10px;margin:-12px -18px 8px;padding:9px 18px 11px;color:#fff;border-radius:0 0 20px 20px;flex:none}
+.fhead .fhe{font-size:30px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.fhead b{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.2;color:#FFF6DC;display:block}
+.fhead small{display:block;font-size:13px;line-height:1.3;opacity:.95;margin-top:1px;word-break:keep-all}
+.fctl{flex:none;margin-bottom:6px}
+.fin{display:flex;gap:8px;position:relative}
+.fin input{flex:1;min-width:0;font:inherit;font-size:17.5px;padding:10px 40px 10px 13px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);outline:none}
+.fin input:focus{border-color:var(--pv)}
+.fin input::placeholder{font-size:16px;color:#9b9486}
+.fin .fclr{position:absolute;right:6px;top:50%;translate:0 -50%;width:30px;height:30px;border-radius:50%;color:#8a8372;font-size:15px}
+.fin .fgo{flex:none;padding:0 16px;border-radius:14px;background:var(--pv);color:#fff;font-weight:700;font-size:15.5px}
+.fchips{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.fchips .chip{padding:5px 12px;font-size:14px}
+.fchips .chip.on{background:var(--pv);color:#fff}
+.fitwrap .jamo{grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 0}
+.fitwrap .jamo button{padding:3px 0;font-size:17px;border-radius:9px}
+.fseg{display:flex;gap:6px;background:var(--paper2);border-radius:99px;padding:4px}
+.fseg button{flex:1;text-align:center;padding:8px 0;border-radius:99px;font-weight:700;font-size:16px}
+.fseg button.on{background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);color:var(--pv-deep)}
+.fstage{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.fmsg{margin:auto;text-align:center;color:var(--mute);font-size:16px;line-height:1.6;padding:0 20px;word-break:keep-all}
+.fmsg b{display:block;color:var(--ink);font-size:17px}
+.fmsg .em{display:block;font-size:34px}
+.fpg{flex:none;display:flex;align-items:center;gap:10px;margin:6px 0 4px;min-height:0}
+.fpg:empty{display:none}
+.fpg .pgm{flex:1;min-width:0}
+.fpg .pgm b{display:block;text-align:center;font-size:15px}
+.fpg input[type=range]{width:100%;margin:2px 0 0;accent-color:var(--pv);height:22px}
+.fpg .pgb{height:40px;width:50px}
+.cp{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cp::-webkit-scrollbar{display:none}
+.cpage{flex:0 0 100%;scroll-snap-align:start;display:grid;gap:8px;align-content:start;padding:2px 1px}
+.ftile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:18px;padding:6px 4px;background:linear-gradient(160deg,var(--c1),var(--c2));color:#2B2A28;box-shadow:0 4px 0 rgba(0,0,0,.1);min-width:0;transition:transform .08s}
+.ftile:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.1)}
+.ftile .te{font-size:clamp(26px,4.4dvh,38px);line-height:1.1}
+.ftile b{font-size:14.5px;margin-top:2px;line-height:1.25;word-break:keep-all}
+.ftile small{font-size:11.8px;color:#4b4a44;margin-top:1px}
+.rhd{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 6px;font-size:14px;color:#4a463e;min-height:30px}
+.rhd b{font-size:15.5px;color:var(--ink)}
+.rhd button{height:30px;padding:0 12px;border-radius:99px;background:var(--paper2);font-size:13.5px;font-weight:700;flex:none}
+.rpv{flex:1;min-height:0;position:relative;touch-action:pan-y}
+.rcard{height:100%}
+.rcard.slR{animation:slR .22s ease}.rcard.slL{animation:slL .22s ease}
+@keyframes slR{from{opacity:0;transform:translateX(38px)}to{opacity:1;transform:none}}
+@keyframes slL{from{opacity:0;transform:translateX(-38px)}to{opacity:1;transform:none}}
+.bc{height:100%;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 6px 14px rgba(60,40,20,.10)}
+.bc.wd{--pv:var(--wd);--pv-soft:var(--wd-soft);--pv-deep:var(--wd-deep)}
+.bc .bt{flex:none;min-height:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:16px;color:#FFF6DC;font-family:var(--display);font-size:clamp(23px,3.7dvh,33px);line-height:1.4;word-break:keep-all;text-shadow:0 2px 0 rgba(60,12,6,.3)}
+.bc.pv .bt{background:var(--pat-sg),linear-gradient(135deg,#DB5B3E,#B13A25 55%,#862618)}
+.bc.wd .bt{background:var(--pat-dot),linear-gradient(135deg,#3AA79B,#1F7B71 55%,#145C54)}
+.bc .bt small{font-family:var(--sans);font-size:14px;opacity:.92;text-shadow:none}
+.bc .bt mark{background:#FFE08A;color:#5a2d0c;border-radius:4px;padding:0 2px;text-shadow:none}
+.bc .bb{flex:1;min-height:0;overflow-y:auto;padding:14px 16px 16px}
+.bb .bm{font-size:clamp(16px,2.5dvh,19px);line-height:1.6;word-break:keep-all}
+.bb .bm b,.bb .bs b,.bb .bx b{display:inline-block;font-size:12.5px;background:var(--pv);color:#fff;border-radius:99px;padding:1px 9px;margin-right:6px}
+.bb .bs{margin-top:10px;font-size:15.5px;color:var(--pv-deep);line-height:1.6;word-break:keep-all}
+.bb .bx{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--pv-soft);font-size:16px;line-height:1.55;word-break:keep-all}
+.bb ol{padding-left:20px;font-size:17px;line-height:1.6;word-break:keep-all}
+.bb .lvb{float:right;font-size:12.6px;color:var(--mute);background:var(--paper2);border-radius:99px;padding:1px 8px}
+.fother{flex:none;display:flex;align-items:center;gap:6px;padding-top:8px;border-top:1px solid var(--line);margin-top:4px}
+.fother small{font-size:12px;color:var(--mute);flex:none}
+.fother button{flex:1;min-width:0;height:36px;border-radius:99px;background:var(--paper2);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:3px;color:var(--ink)}
+.fother button i{font-style:normal;font-size:15px}
+/* 검색 첫 화면: 큰 카드 */
+.screen.fgs{margin-bottom:-40px}
+.fgrid{display:grid;gap:6px;margin:0 -18px;height:calc(100dvh - 62px);min-height:360px}
+.fgrid.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.fgrid.n2{grid-template-columns:1fr 1fr}
+.fgrid.n3{grid-template-columns:1fr;grid-template-rows:repeat(3,1fr)}
+.fcard{position:relative;overflow:hidden;isolation:isolate;color:#FFF6DC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 10px 16px;text-align:center;outline:1px solid rgba(240,191,90,.55);outline-offset:-7px;
+  background:linear-gradient(112deg,transparent 0 68%,rgba(0,0,0,.14) 68% 100%),radial-gradient(circle at 90% 8%,rgba(255,255,255,.34),transparent 46%),var(--pat),linear-gradient(150deg,var(--c1),var(--c2))}
+.fcard::after{content:"";position:absolute;right:-34px;top:-40px;width:120px;height:120px;border-radius:50%;border:1.5px dashed rgba(255,236,180,.5);box-shadow:0 0 0 12px rgba(255,236,180,.08);z-index:-1}
+.fcard:active{filter:brightness(.93)}
+.fcard .fico{width:70px;height:70px;border-radius:22px;display:grid;place-items:center;font-size:38px;line-height:1;background:linear-gradient(180deg,#FFFEF6,#FFE9B4 58%,#F7C666);box-shadow:0 6px 0 #A86D0C,0 12px 16px rgba(0,0,0,.35),inset 0 2px 0 #fff;position:relative;margin-bottom:6px}
+.fgrid.n2 .fcard .fico{width:92px;height:92px;font-size:50px;border-radius:26px}
+.fcard.wd .fico{background:linear-gradient(180deg,#FFFFFF,#DDF7F0 58%,#A5E3D6);box-shadow:0 6px 0 #0B5A52,0 12px 16px rgba(0,0,0,.35),inset 0 2px 0 #fff}
+.fcard b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.25;text-shadow:0 2px 0 rgba(60,12,6,.45),0 5px 8px rgba(0,0,0,.3);word-break:keep-all}
+.fgrid.n2 .fcard b{font-size:25px}
+.fcard small{font-size:13.5px;line-height:1.45;opacity:.96;word-break:keep-all;padding:0 6px;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.fcard .go{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:21px;font-weight:700;background:linear-gradient(180deg,#FFEBB0,#F0B84D);color:#8E2A1B;box-shadow:0 3px 0 #A86D0C,0 6px 10px rgba(0,0,0,.3);margin-top:2px}
+.fcard.wd .go{color:#0F5F57}
 /* 속담이란 주화면: 큰 카드 3장 */
 .screen.intro3{margin-bottom:-40px}
 .i3wrap{display:flex;flex-direction:column;gap:6px;margin:0 -18px;min-height:calc(100dvh - 62px)}
@@ -521,7 +607,19 @@ function viewIntro(g,m){
   return `<div class="screen intro3">${bar([['처음','home'],[m.short,'proverb'],[g.title]],m.cls)}<div class="i3wrap">${cards}</div></div>`;
 }
 
+const FCOL={
+  pv:[['#E2603F','#8E2A1B'],['#E3A52F','#935C08'],['#2FA093','#14594F'],['#8070D4','#43308F']],
+  wd:[['#35A89B','#14594F'],['#E2708F','#9A3355']]
+};
+function viewFindHome(g,m,k){
+  const n=g.items.length, pal=FCOL[m.cls];
+  const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
+    const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
+    return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
+  return `<div class="screen fgs">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}<div class="fgrid n${n}">${cards}</div></div>`;
+}
 function viewGroup(id){
+  { const gi=groupIndex[id]; if(id!=='p-intro' && gi.g.items.every(x=>x.status==='done')) return viewFindHome(gi.g,MENU[gi.k],gi.k); }
   if(id==='p-intro'){ const {g}=groupIndex[id]; return viewIntro(g,MENU.proverb); }
   const {k,g}=groupIndex[id], m=MENU[k], i=m.groups.indexOf(g), c=PALT[i%6];
   return `<div class="screen hubs">
@@ -781,57 +879,6 @@ function loadProverbs(){
   return DB.pv;
 }
 const CREDIT = '<div class="credit">속담·낱말 자료 출처: 국립국어원 <a href="https://opendict.korean.go.kr" target="_blank" rel="noopener">우리말샘</a><br>(CC BY-SA 2.0 KR) · 학생용으로 골라 다듬었어요</div>';
-function renderFind(){
-  return `<div id="sf">
-    <div class="sf-box"><div class="sf-in"><input id="sfq" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="낱말을 입력해 보세요 (예: 호랑이, 바늘)" aria-label="속담 속 낱말"><button class="sf-clear" id="sfx" aria-label="지우기">✕</button></div>
-    <div class="sf-opt"><button class="chip on" data-lv="all">모든 속담</button><button class="chip" data-lv="A">쉬운 속담만</button></div></div>
-    <div id="sfr"><div class="sf-info">속담 데이터를 불러오는 중…</div></div>${CREDIT}</div>`;
-}
-function initFind(){
-  const q=document.getElementById('sfq'), out=document.getElementById('sfr');
-  let data=[], lv='all', shown=30, last=[];
-  const hl=(text,toks)=>{
-    const e=esc(text); if(!toks.length) return e;
-    const re=new RegExp('('+toks.map(t=>[...t].map(c=>c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s*')).join('|')+')','g');
-    return text.split(re).map((x,i)=>i%2?`<mark>${esc(x)}</mark>`:esc(x)).join('');
-  };
-  const card=(p,toks)=>`<button class="pcard" data-id="${p.id}"><span class="pt">${hl(p.t,toks)}${p.lv==='B'?'<span class="lvb">조금 어려움</span>':''}</span>
-    <div class="pm">${esc(p.m)}${p.s.length?`<div class="ps"><b>비슷한 속담</b> ${p.s.map(esc).join(' · ')}</div>`:''}</div></button>`;
-  const pick=a=>a[Math.floor(Math.random()*a.length)];
-  function draw(){
-    const raw=q.value.trim(), toks=raw.split(/\s+/).filter(Boolean).map(t=>t.replace(/\s+/g,''));
-    const pool=lv==='A'?data.filter(p=>p.lv==='A'):data;
-    if(!toks.length){
-      const t=pick(data.filter(p=>p.lv==='A'&&p.t.length<=16));
-      out.innerHTML=`<div class="today"><small>오늘의 속담</small><div class="pt">${esc(t.t)}</div><div class="pm">${esc(t.m)}</div></div>
-        <div class="sf-info">검색창에 속담 속 낱말을 입력하면 찾아 줘요. 낱말의 일부만 써도 돼요. 찾은 속담을 누르면 뜻이 나와요.</div>`;
-      return;
-    }
-    const all=pool.filter(p=>toks.every(t=>p.n.includes(t)));
-    const body=pool.filter(p=>!all.includes(p)&&toks.every(t=>p.mn.includes(t)));
-    const key=toks[0];
-    all.sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
-    body.sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
-    last=all.concat(body);
-    let h=`<div class="sf-info">‘${esc(raw)}’ 속담 ${all.length}개${body.length?` · 뜻풀이에서 ${body.length}개 더`:''}</div>`;
-    if(!last.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>낱말을 줄이거나 다른 낱말로 찾아보세요.</div></div>`;
-    const vis=last.slice(0,shown);
-    let i=0; const na=all.length;
-    vis.forEach(p=>{ if(i===na && na>0) h+=`<div class="sf-h">뜻풀이에서 찾은 속담</div>`; h+=card(p,i<na?toks:[]); i++; });
-    if(last.length>shown) h+=`<button class="more" id="sfmore">더 보기 (${last.length-shown}개 남음)</button>`;
-    out.innerHTML=h;
-  }
-  loadProverbs().then(a=>{ data=a; draw(); }).catch(()=>{ out.innerHTML='<div class="soon"><span class="em">📡</span><div><b>속담 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>'; });
-  q.addEventListener('input',()=>{ shown=30; draw(); });
-  document.getElementById('sfx').addEventListener('click',()=>{ q.value=''; shown=30; draw(); q.focus(); });
-  document.getElementById('sf').addEventListener('click',e=>{
-    const c=e.target.closest('.chip'); if(c){ lv=c.dataset.lv; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c)); shown=30; draw(); return; }
-    if(e.target.closest('#sfmore')){ shown+=30; draw(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
-
-
 /* ---------- 우리말 찾기: 글자로 찾기 ---------- */
 function loadWords(){
   if(!DB.wd) DB.wd = fetch('data/words.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
@@ -840,215 +887,202 @@ function loadWords(){
     .catch(e=>{ DB.wd=null; throw e; });
   return DB.wd;
 }
-function renderWfind(){
-  const J='ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ';
-  return `<div id="wf" class="wdscr">
-    <div class="sf-box"><div class="sf-in"><input id="wfq" type="search" enterkeyhint="search" autocomplete="off" placeholder="첫 글자 자음을 넣어 보세요" aria-label="찾을 글자"><button class="sf-clear" id="wfx" aria-label="지우기">✕</button></div>
-    <div class="sf-opt" id="wfl"><button class="chip" data-l="2">2글자</button><button class="chip" data-l="3">3글자</button><button class="chip" data-l="4">4글자</button><button class="chip" data-l="5">5글자 이상</button></div></div>
-    <div class="jamo" id="wfj">${[...J].map(c=>`<button data-j="${c}">${c}</button>`).join('')}</div>
-    <div id="wfr"><div class="sf-info">우리말 자료를 불러오는 중…</div></div>${CREDIT}</div>`;
-}
-function initWfind(){
-  const q=document.getElementById('wfq'), out=document.getElementById('wfr');
-  let data=[], mode='st', shown=30, len=0;
-  const isJamo=t=>/^[ㄱ-ㅎ]+$/.test(t);
-  const hl=(w,t)=>{ if(!t||isJamo(t)) return esc(w); const i=w.indexOf(t); return i<0?esc(w):esc(w.slice(0,i))+'<mark>'+esc(t)+'</mark>'+esc(w.slice(i+t.length)); };
-  const card=(x,t)=>`<button class="pcard" data-i="1"><span class="pt">${hl(x.w,t)}<small>${esc(x.p)}</small><span class="pq">${esc(x.m[0])}</span></span>
-    <div class="pm">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:''}${x.e?`<div class="ex">예) ${esc(x.e)}</div>`:''}</div></button>`;
-  function draw(){
-    const t=q.value.trim().replace(/\s+/g,'');
-    if(!t&&!len){
-      const c=data.filter(x=>x.w.length>=2), x=c[Math.floor(Math.random()*c.length)];
-      out.innerHTML=`<div class="today"><small>오늘의 우리말</small><div class="pt">${esc(x.w)} <span style="font-size:16.1px;opacity:.85">${esc(x.p)}</span></div><div class="pm">${esc(x.m[0])}</div></div>
-        <div class="sf-info">글자를 입력하면 그 글자가 들어간 우리말을 찾아 줘요. 찾은 낱말을 누르면 뜻과 예문이 나와요.</div>`; return;
-    }
-    const j=isJamo(t);
-    const lenOk=x=>{ const n=[...x.w].length; return !len||(len===5?n>=5:n===len); };
-    const r=data.filter(x=>{
-      if(!lenOk(x)) return false;
-      if(!t) return true;
-      if(j) return mode==='en'?x.ini.endsWith(t):mode==='in'?x.ini.includes(t):x.ini.startsWith(t);
-      return mode==='st'?x.w.startsWith(t):mode==='en'?x.w.endsWith(t):x.w.includes(t);
-    });
-    const lt=len?(len===5?'5글자 이상':len+'글자'):'';
-    let h=`<div class="sf-info">${t?'‘'+esc(t)+'’ ':''}${lt} 우리말 ${r.length}개</div>`;
-    if(!r.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 낱말이 없어요</b>글자를 줄이거나 다른 글자로 찾아보세요.</div></div>`;
-    h+=r.slice(0,shown).map(x=>card(x,t)).join('');
-    if(r.length>shown) h+=`<button class="more" id="wfmore">더 보기 (${r.length-shown}개 남음)</button>`;
-    out.innerHTML=h;
-  }
-  const setJ=c=>document.querySelectorAll('#wfj button').forEach(b=>b.classList.toggle('on',b.dataset.j===c));
-  loadWords().then(a=>{ data=a; draw(); }).catch(()=>{ out.innerHTML='<div class="soon"><span class="em">📡</span><div><b>우리말 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>'; });
-  q.addEventListener('input',()=>{ shown=30; setJ(q.value.trim()); draw(); });
-  document.getElementById('wf').addEventListener('click',e=>{
-    const lc=e.target.closest('#wfl .chip'); if(lc){ len=(len===+lc.dataset.l)?0:+lc.dataset.l; document.querySelectorAll('#wfl .chip').forEach(x=>x.classList.toggle('on',+x.dataset.l===len)); shown=30; draw(); return; }
-    const m=e.target.closest('#wfm .chip'); if(m){ mode=m.dataset.m; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x===m)); shown=30; draw(); return; }
-    const b=e.target.closest('#wfj button'); if(b){ q.value=b.dataset.j; mode='st'; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x.dataset.m==='st')); setJ(b.dataset.j); shown=30; draw(); return; }
-    if(e.target.closest('#wfx')){ q.value=''; setJ(''); len=0; document.querySelectorAll('#wfl .chip').forEach(x=>x.classList.remove('on')); shown=30; draw(); q.focus(); return; }
-    if(e.target.closest('#wfmore')){ shown+=30; draw(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
-
-
 /* ---------- 주제별 속담 찾기: 동식물 · 교훈 · 띠 ---------- */
 DB.tg=null;
 function loadTags(){
   if(!DB.tg) DB.tg=fetch('data/tags.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ DB.tg=null; throw e; });
   return DB.tg;
 }
-const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>속담 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>';
-function tcard(p){
-  return `<button class="pcard" data-id="${p.id}"><span class="pt">${esc(p.t)}${p.lv==='B'?'<span class="lvb">조금 어려움</span>':''}</span>
-    <div class="pm">${esc(p.m)}${p.s.length?`<div class="ps"><b>비슷한 속담</b> ${p.s.map(esc).join(' · ')}</div>`:''}</div></button>`;
-}
-/* 결과 상자: 머리띠 + 속담 카드 목록 + 더 보기 */
-function mountResult(box, head, ids, byid, cardFn){
-  cardFn=cardFn||tcard;
-  let shown=20;
-  const draw=()=>{
-    const list=ids.map(i=>byid[i]).filter(Boolean).sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
-    box.innerHTML=`<div class="rhead"><span class="re">${head.e}</span><div><b>${esc(head.t)}</b><small>${esc(head.d)}</small></div></div>`
-      +list.slice(0,shown).map(cardFn).join('')
-      +(list.length>shown?`<button class="more" data-more="1">더 보기 (${list.length-shown}개 남음)</button>`:'');
-  };
-  box._draw=draw; box._more=()=>{ shown+=20; draw(); };
-  draw();
-}
-function wireResult(root){
-  root.addEventListener('click',e=>{
-    if(e.target.closest('[data-more]')){ const b=e.target.closest('[id$=res]')||root.querySelector('.resbox'); if(b&&b._more) b._more(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
 const byIdMap=a=>{ const m={}; a.forEach(p=>m[p.id]=p); return m; };
 const PALT=[['#FFE9C6','#F7C98B'],['#D5EBE7','#9ED3CB'],['#F6DDD3','#EDAF9B'],['#E4E0F7','#BDB4EC'],['#FFF3B8','#F2D95F'],['#DDF0D6','#A9D79A']];
-
-/* 동식물로 찾기 */
-function renderNature(){
-  return `<div class="nat" id="nat"><div class="tbanner"><span class="fl a">🐯</span><span class="fl b">🌸</span><span class="fl c">🌳</span><h2>🌿 속담 숲속 도감</h2><p>동물과 식물 친구를 눌러, 그 친구가 나오는 속담을 찾아보세요.</p></div>
-    <div class="seg" id="natseg"><button class="on" data-k="an">🐾 동물</button><button data-k="pl">🌱 식물</button></div>
-    <div class="tgrid c3" id="natgrid"></div>
-    <div id="natres" class="resbox"><div class="tpick">👆 궁금한 친구를 눌러 보세요</div></div>${CREDIT}</div>`;
-}
-function initNature(){
-  const root=document.getElementById('nat'), grid=document.getElementById('natgrid'), res=document.getElementById('natres');
-  let T=null, by=null, kind='an';
-  const draw=()=>{
-    grid.innerHTML=T[kind].map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--bg:${c[0]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>속담 ${x.ids.length}개</small></button>`; }).join('');
-    res.innerHTML='<div class="tpick">👆 궁금한 친구를 눌러 보세요</div>';
-  };
-  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); draw(); }).catch(()=>{ res.innerHTML=LOADFAIL; });
-  root.addEventListener('click',e=>{
-    const sg=e.target.closest('#natseg button'); if(sg&&T){ kind=sg.dataset.k; document.querySelectorAll('#natseg button').forEach(b=>b.classList.toggle('on',b===sg)); draw(); return; }
-    const t=e.target.closest('.tile'); if(t&&T){
-      document.querySelectorAll('#natgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
-      const x=T[kind][+t.dataset.i];
-      mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:'속담을 누르면 뜻이 나와요'},x.ids,by);
-      document.getElementById('natseg').scrollIntoView({behavior:'smooth',block:'start'}); return;
-    }
-    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
-
-/* 교훈으로 찾기 */
-function renderMoral(){
-  return `<div class="mor" id="mor"><div class="tbanner"><span class="fl a">🎁</span><span class="fl b">✨</span><span class="fl c">💎</span><h2>🧭 마음 보물상자</h2><p>마음에 새기고 싶은 교훈을 골라 보세요. 그 가르침이 담긴 속담이 나와요.</p></div>
-    <div class="tsearch"><input id="morq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔍 낱말로 찾기 (예: 약속, 친구, 정성)"></div>
-    <div class="tgrid c2" id="morgrid"></div>
-    <div id="morres" class="resbox"><div class="tpick">👆 마음에 드는 보물상자를 열어 보세요</div></div>${CREDIT}</div>`;
-}
-function initMoral(){
-  const root=document.getElementById('mor'), grid=document.getElementById('morgrid'), res=document.getElementById('morres'), q=document.getElementById('morq');
-  let T=null, by=null, all=[];
-  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; all=a; by=byIdMap(a);
-    grid.innerHTML=T.mo.map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>${esc(x.d)}</small><em>속담 ${x.ids.length}개</em></button>`; }).join('');
-  }).catch(()=>{ res.innerHTML=LOADFAIL; });
-  q.addEventListener('input',()=>{
-    const t=q.value.trim().replace(/\s+/g,'');
-    document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.remove('on'));
-    if(!t){ res.innerHTML='<div class="tpick">👆 마음에 드는 보물상자를 열어 보세요</div>'; return; }
-    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko')).map(p=>p.id);
-    if(!r.length){ res.innerHTML='<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>다른 낱말로 찾아보세요.</div></div>'; return; }
-    mountResult(res,{e:'🔍',t:`‘${q.value.trim()}’ 속담 ${r.length}개`,d:'속담 또는 뜻풀이에서 찾았어요'},r,by);
-  });
-  root.addEventListener('click',e=>{
-    const t=e.target.closest('.tile'); if(t&&T){
-      q.value=''; document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
-      const x=T.mo[+t.dataset.i];
-      mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:x.d},x.ids,by);
-      document.getElementById('morgrid').scrollIntoView({behavior:'smooth',block:'start'}); return;
-    }
-    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
-
-/* 나의 띠로 속담 찾기 */
-function renderZodiac(){
-  return `<div class="zod" id="zod"><div class="tbanner"><span class="fl a">🐯</span><span class="fl b">🐭</span><span class="fl c">🐲</span><h2>🐯 띠 친구 찾기</h2><p>태어난 해를 넣으면 내 띠가 나와요. 띠 친구가 나오는 속담도 찾아보세요.</p></div>
-    <div class="zbox"><input id="zy" type="number" inputmode="numeric" min="1950" max="2035" placeholder="태어난 해 (예: 2014)" aria-label="태어난 해"><button id="zgo">내 띠 찾기</button></div>
-    <div class="znote">※ 띠는 음력 설을 기준으로 해서, 1~2월에 태어났다면 앞 해의 띠일 수 있어요.</div>
-    <div class="tgrid c4" id="zgrid"></div>
-    <div id="zres" class="resbox"><div class="tpick">👆 띠를 눌러 보세요</div></div>${CREDIT}</div>`;
-}
-function initZodiac(){
-  const root=document.getElementById('zod'), grid=document.getElementById('zgrid'), res=document.getElementById('zres'), yi=document.getElementById('zy');
-  let T=null, by=null;
-  const pick=i=>{
-    document.querySelectorAll('#zgrid .tile').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
-    const x=T.zo[i];
-    mountResult(res,{e:x.e,t:`${x.k}띠 · 속담 ${x.ids.length}개`,d:x.d+(x.ids.length<10?' · 이 친구가 나오는 속담은 많지 않아요':'')},x.ids,by);
-    document.getElementById('zgrid').scrollIntoView({behavior:'smooth',block:'start'});
-  };
-  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a);
-    grid.innerHTML=T.zo.map((x,i)=>`<button class="tile" data-i="${i}"><span class="te">${x.e}</span><b>${esc(x.k)}띠</b></button>`).join('');
-  }).catch(()=>{ res.innerHTML=LOADFAIL; });
-  const go=()=>{ const y=parseInt(yi.value,10); if(!T) return;
-    if(!(y>=1900&&y<=2100)){ res.innerHTML='<div class="soon"><span class="em">🔢</span><div><b>태어난 해를 숫자 네 자리로 넣어 주세요</b>예) 2014</div></div>'; return; }
-    pick(((y-4)%12+12)%12); };
-  document.getElementById('zgo').addEventListener('click',go);
-  yi.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
-  root.addEventListener('click',e=>{
-    const t=e.target.closest('.tile'); if(t&&T){ pick(+t.dataset.i); return; }
-    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
-  });
-}
-
-
 /* ---------- 우리말 찾기: 분류하여 찾기 ---------- */
 let WTAG=null;
 function loadWtags(){
   if(!WTAG) WTAG=fetch('data/wtags.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ WTAG=null; throw e; });
   return WTAG;
 }
-function wcardFn(x){
-  return `<button class="pcard"><span class="pt">${esc(x.w)}<small>${esc(x.p)}</small><span class="pq">${esc(x.m[0])}</span></span>
-    <div class="pm">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:''}${x.e?`<div class="ex">예) ${esc(x.e)}</div>`:''}</div></button>`;
+/* ===== 검색 화면 공통: 한 화면 맞춤 · 가로 넘기기 · 다른 검색 메뉴 ===== */
+const FIT_OTHERS={
+  'p-find':[['p-f-word','🔤','낱말'],['p-f-nature','🌿','동식물'],['p-f-moral','🧭','교훈'],['p-f-zodiac','🐯','띠']],
+  'w-find':[['w-f-char','🔡','글자'],['w-f-cat','🗂️','분류']]
+};
+const fq=s=>document.querySelector(s);
+const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>';
+function fitShell(id,ic,title,desc,ctl){
+  const gid=leafIndex[id].gid, others=FIT_OTHERS[gid].filter(o=>o[0]!==id);
+  return `<div class="leaf fitwrap ${curCls}" id="fx">
+    <div class="fhead ${curCls}"><span class="fhe">${ic}</span><div><b>${title}</b><small>${desc}</small></div></div>
+    ${ctl?`<div class="fctl">${ctl}</div>`:''}
+    <div class="fstage" id="fst"><div class="fmsg">불러오는 중…</div></div>
+    <div class="fpg" id="fpg"></div>
+    <div class="fother"><small>다른 검색</small>${others.map(o=>`<button data-go="${o[0]}"><i>${o[1]}</i>${o[2]}</button>`).join('')}<button data-go="${gid}"><i>🏠</i>메뉴</button></div></div>`;
 }
+function fitMsg(h){ fq('#fst').innerHTML=`<div class="fmsg">${h}</div>`; fq('#fpg').innerHTML=''; }
+function fitOne(label,html){ fq('#fst').innerHTML=`<div class="rhd"><span>${label}</span></div><div class="rpv"><div class="rcard">${html}</div></div>`; fq('#fpg').innerHTML=''; }
+/* 선택지: 한 화면에 맞는 만큼 타일을 놓고 가로로 넘김 */
+function fitChoices(items,tileFn,cols,pick){
+  const st=fq('#fst'), pg=fq('#fpg'); st.innerHTML='<div class="cp" id="cp"></div>';
+  const H=st.clientHeight||320, minH=cols>=4?84:92;
+  let rows=Math.max(2,Math.floor((H+8)/(minH+8))), per=cols*rows;
+  if(items.length<=per){ rows=Math.ceil(items.length/cols); per=cols*rows; }
+  const rowH=Math.min(124,Math.floor((H-(rows-1)*8)/rows)), np=Math.ceil(items.length/per);
+  let h='';
+  for(let p=0;p<np;p++) h+=`<div class="cpage" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},${rowH}px)">${items.slice(p*per,(p+1)*per).map((x,k)=>tileFn(x,p*per+k)).join('')}</div>`;
+  const cp=fq('#cp'); cp.innerHTML=h;
+  if(np>1){
+    pg.innerHTML=`<button class="pgb" id="cprev" aria-label="이전 쪽">‹</button><div class="pgm"><b id="ccnt">1 / ${np} 쪽</b><div class="dots">${Array.from({length:np},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div><button class="pgb" id="cnext" aria-label="다음 쪽">›</button>`;
+    const dots=[...pg.querySelectorAll('.dots i')], pv=fq('#cprev'), nx=fq('#cnext'), cn=fq('#ccnt');
+    const idx=()=>Math.max(0,Math.min(np-1,Math.round(cp.scrollLeft/cp.clientWidth)));
+    const upd=()=>{ const i=idx(); cn.textContent=(i+1)+' / '+np+' 쪽'; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); pv.disabled=i===0; nx.disabled=i===np-1; };
+    pv.onclick=()=>cp.scrollTo({left:(idx()-1)*cp.clientWidth,behavior:'smooth'}); nx.onclick=()=>cp.scrollTo({left:(idx()+1)*cp.clientWidth,behavior:'smooth'});
+    cp.addEventListener('scroll',upd,{passive:true}); upd();
+  } else pg.innerHTML='';
+  cp.onclick=e=>{ const t=e.target.closest('[data-i]'); if(t) pick(+t.dataset.i); };
+}
+/* 결과: 카드 한 장씩 좌우로 넘김 (밀기 · 버튼 · 막대) */
+function fitResults(cardFn,list,o){
+  const st=fq('#fst'), pg=fq('#fpg'), n=list.length;
+  const head=`<div class="rhd"><span>${o.e||''} <b>${esc(o.title||'')}</b></span>${o.onBack?`<button id="rback">↩ ${o.back||'다시 고르기'}</button>`:''}</div>`;
+  if(!n){ st.innerHTML=head+`<div class="fmsg"><span class="em">🔍</span><b>찾는 것이 없어요</b>다른 말로 찾아보세요.</div>`; pg.innerHTML=''; if(o.onBack) fq('#rback').onclick=o.onBack; return; }
+  st.innerHTML=head+'<div class="rpv" id="rpv"></div>';
+  pg.innerHTML=`<button class="pgb" id="rprev" aria-label="이전 카드">‹</button><div class="pgm"><b id="rcnt"></b>${n>1?`<input id="rrng" type="range" min="1" max="${n}" value="1" aria-label="카드 위치">`:''}</div><button class="pgb" id="rnext" aria-label="다음 카드">›</button>`;
+  const v=fq('#rpv'), cn=fq('#rcnt'), rg=fq('#rrng'), pv=fq('#rprev'), nx=fq('#rnext'); let i=0;
+  const show=(k,dir)=>{ i=Math.max(0,Math.min(n-1,k)); v.innerHTML=`<div class="rcard${dir?' sl'+(dir>0?'R':'L'):''}">${cardFn(list[i],i)}</div>`; cn.textContent=(i+1)+' / '+n; if(rg) rg.value=i+1; pv.disabled=i===0; nx.disabled=i===n-1; };
+  const go=d=>{ const k=i+d; if(k>=0&&k<n) show(k,d); };
+  pv.onclick=()=>go(-1); nx.onclick=()=>go(1);
+  if(rg) rg.oninput=()=>show(+rg.value-1,0);
+  let sx=0,sy=0,t0=0;
+  v.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; t0=Date.now(); },{passive:true});
+  v.addEventListener('touchend',e=>{ const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; if(Math.abs(dx)>46&&Math.abs(dx)>Math.abs(dy)*1.4) go(dx<0?1:-1); },{passive:true});
+  show(0,0); if(o.onBack) fq('#rback').onclick=o.onBack;
+}
+const hlP=(text,toks)=>{
+  const e=esc(text); if(!toks||!toks.length) return e;
+  const re=new RegExp('('+toks.map(t=>[...t].map(c=>c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s*')).join('|')+')','g');
+  return text.split(re).map((x,i)=>i%2?`<mark>${esc(x)}</mark>`:esc(x)).join('');
+};
+function bcP(p,toks){
+  return `<div class="bc pv"><div class="bt">${hlP(p.t,toks)}</div><div class="bb">${p.lv==='B'?'<span class="lvb">조금 어려움</span>':''}<div class="bm"><b>뜻</b>${esc(p.m)}</div>${p.s&&p.s.length?`<div class="bs"><b>비슷한 속담</b>${p.s.map(esc).join(' · ')}</div>`:''}</div></div>`;
+}
+function bcW(x,toks){
+  return `<div class="bc wd"><div class="bt">${toks&&toks.length&&!/^[ㄱ-ㅎ]+$/.test(toks[0])?hlP(x.w,toks):esc(x.w)}<small>${esc(x.p)}</small></div><div class="bb">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:`<div class="bm"><b>뜻</b>${esc(x.m[0])}</div>`}${x.e?`<div class="bx"><b>예문</b>${esc(x.e)}</div>`:''}</div></div>`;
+}
+const ftile=(e,k,s,c)=>`<button class="ftile" data-i="@I@" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${e}</span><b>${esc(k)}</b><small>${esc(s)}</small></button>`;
+const tileHtml=(x,i,c,e,k,s)=>ftile(e,k,s,c).replace('@I@',i);
+const byKo=(a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko');
+
+/* 낱말로 찾기 */
+function renderFind(){
+  return fitShell('p-f-word','🔤','낱말로 찾기','속담 속 낱말만 넣어도 찾아져요',
+   `<div class="fin"><input id="sfq" type="search" enterkeyhint="search" autocomplete="off" placeholder="낱말을 넣어 보세요 (예: 호랑이)" aria-label="속담 속 낱말"><button class="fclr" id="sfx" aria-label="지우기">✕</button></div>
+    <div class="fchips" id="sfl"><button class="chip on" data-lv="all">모든 속담</button><button class="chip" data-lv="A">쉬운 속담만</button></div>`);
+}
+function initFind(){
+  const q=fq('#sfq'); let data=[], lv='all';
+  const draw=()=>{
+    const raw=q.value.trim(), toks=raw.split(/\s+/).filter(Boolean).map(t=>t.replace(/\s+/g,''));
+    const pool=lv==='A'?data.filter(p=>p.lv==='A'):data;
+    if(!toks.length){ const c=data.filter(p=>p.lv==='A'&&p.t.length<=16), t=c[Math.floor(Math.random()*c.length)]; fitOne('⭐ <b>오늘의 속담</b> · 위 칸에 낱말을 넣으면 찾아 줘요',bcP(t)); return; }
+    const all=pool.filter(p=>toks.every(t=>p.n.includes(t))), body=pool.filter(p=>!all.includes(p)&&toks.every(t=>p.mn.includes(t)));
+    all.sort(byKo); body.sort(byKo);
+    fitResults((p,i)=>bcP(p,i<all.length?toks:[]),all.concat(body),{e:'🔍',title:`‘${raw}’ 속담 ${all.length}개${body.length?` · 뜻풀이 ${body.length}개`:''}`});
+  };
+  loadProverbs().then(a=>{ data=a; draw(); }).catch(()=>fitMsg(LOADFAIL));
+  q.addEventListener('input',()=>data.length&&draw());
+  fq('#sfx').onclick=()=>{ q.value=''; data.length&&draw(); q.focus(); };
+  fq('#sfl').onclick=e=>{ const c=e.target.closest('.chip'); if(!c) return; lv=c.dataset.lv; fq('#sfl').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c)); data.length&&draw(); };
+}
+
+/* 동식물로 찾기 */
+function renderNature(){
+  return fitShell('p-f-nature','🌿','동식물로 찾기','친구를 눌러 그 친구가 나오는 속담을 찾아요',
+   `<div class="fseg" id="natseg"><button class="on" data-k="an">🐾 동물</button><button data-k="pl">🌱 식물</button></div>`);
+}
+function initNature(){
+  let T=null, by=null, kind='an';
+  const choose=()=>fitChoices(T[kind],(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
+    const x=T[kind][i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
+    fitResults(p=>bcP(p),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,onBack:choose});
+  });
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
+  fq('#natseg').onclick=e=>{ const b=e.target.closest('button'); if(!b||!T) return; kind=b.dataset.k; fq('#natseg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); choose(); };
+}
+
+/* 교훈으로 찾기 */
+function renderMoral(){
+  return fitShell('p-f-moral','🧭','교훈으로 찾기','마음에 새기고 싶은 교훈을 골라 보세요',
+   `<div class="fin"><input id="morq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔍 낱말로 찾기 (예: 약속, 친구, 정성)" aria-label="낱말"></div>`);
+}
+function initMoral(){
+  let T=null, by=null, all=[];
+  const q=fq('#morq');
+  const choose=()=>fitChoices(T.mo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
+    const x=T.mo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
+    q.value=''; fitResults(p=>bcP(p),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,onBack:choose});
+  });
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; all=a; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
+  q.addEventListener('input',()=>{
+    if(!T) return; const t=q.value.trim().replace(/\s+/g,''); if(!t){ choose(); return; }
+    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort(byKo);
+    fitResults(p=>bcP(p,[t]),r,{e:'🔍',title:`‘${q.value.trim()}’ 속담 ${r.length}개`,onBack:()=>{ q.value=''; choose(); }});
+  });
+}
+
+/* 나의 띠로 속담 찾기 */
+function renderZodiac(){
+  return fitShell('p-f-zodiac','🐯','나의 띠로 찾기','태어난 해를 넣거나 띠를 눌러요 (음력 설 기준)',
+   `<div class="fin"><input id="zy" type="number" inputmode="numeric" min="1950" max="2035" placeholder="태어난 해 (예: 2014)" aria-label="태어난 해"><button class="fgo" id="zgo">내 띠 찾기</button></div>`);
+}
+function initZodiac(){
+  let T=null, by=null;
+  const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),4,pick);
+  const pick=i=>{ const x=T.zo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
+    fitResults(p=>bcP(p),list,{e:x.e,title:`${x.k}띠 · 속담 ${list.length}개`,onBack:choose}); };
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
+  const go=()=>{ const y=parseInt(fq('#zy').value,10); if(!T) return;
+    if(!(y>=1900&&y<=2100)){ fitMsg('<span class="em">🔢</span><b>태어난 해를 숫자 네 자리로 넣어 주세요</b>예) 2014'); return; }
+    pick(((y-4)%12+12)%12); };
+  fq('#zgo').onclick=go; fq('#zy').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+}
+
+/* 글자로 찾기 (우리말) */
+function renderWfind(){
+  const J='ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ';
+  return fitShell('w-f-char','🔡','글자로 찾기','첫 글자 자음이나 글자로 우리말을 찾아요',
+   `<div class="fin"><input id="wfq" type="search" enterkeyhint="search" autocomplete="off" placeholder="첫 글자 자음을 넣어 보세요" aria-label="찾을 글자"><button class="fclr" id="wfx" aria-label="지우기">✕</button></div>
+    <div class="jamo" id="wfj">${[...J].map(c=>`<button data-j="${c}">${c}</button>`).join('')}</div>
+    <div class="fchips" id="wfl"><button class="chip" data-l="2">2글자</button><button class="chip" data-l="3">3글자</button><button class="chip" data-l="4">4글자</button><button class="chip" data-l="5">5글자 이상</button></div>`);
+}
+function initWfind(){
+  const q=fq('#wfq'); let data=[], len=0;
+  const isJamo=t=>/^[ㄱ-ㅎ]+$/.test(t);
+  const draw=()=>{
+    const t=q.value.trim().replace(/\s+/g,'');
+    if(!t&&!len){ const c=data.filter(x=>x.w.length>=2), x=c[Math.floor(Math.random()*c.length)]; fitOne('⭐ <b>오늘의 우리말</b> · 자음이나 글자를 고르면 찾아 줘요',bcW(x)); return; }
+    const j=isJamo(t), lenOk=x=>{ const n=[...x.w].length; return !len||(len===5?n>=5:n===len); };
+    const r=data.filter(x=>lenOk(x)&&(!t||(j?x.ini.startsWith(t):x.w.startsWith(t))));
+    const lt=len?(len===5?'5글자 이상':len+'글자'):'';
+    fitResults(x=>bcW(x,t?[t]:[]),r,{e:'🔍',title:`${t?'‘'+t+'’ ':''}${lt} 우리말 ${r.length}개`});
+  };
+  const setJ=c=>fq('#wfj').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.j===c));
+  loadWords().then(a=>{ data=a; draw(); }).catch(()=>fitMsg(LOADFAIL));
+  q.addEventListener('input',()=>{ setJ(q.value.trim()); data.length&&draw(); });
+  fq('#wfj').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; q.value=b.dataset.j; setJ(b.dataset.j); data.length&&draw(); };
+  fq('#wfl').onclick=e=>{ const c=e.target.closest('.chip'); if(!c) return; len=(len===+c.dataset.l)?0:+c.dataset.l; fq('#wfl').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',+x.dataset.l===len)); data.length&&draw(); };
+  fq('#wfx').onclick=()=>{ q.value=''; setJ(''); len=0; fq('#wfl').querySelectorAll('.chip').forEach(x=>x.classList.remove('on')); data.length&&draw(); q.focus(); };
+}
+
+/* 분류하여 찾기 (우리말) */
 function renderWcat(){
-  return `<div class="mor wcat wdscr" id="wcat"><div class="tbanner"><span class="fl a">🌸</span><span class="fl b">✨</span><h2>🗂️ 우리말 꾸러미</h2><p>궁금한 꾸러미를 열어 보세요. 같은 종류의 우리말이 모여 있어요.</p></div>
-    <div class="tgrid c2" id="wcgrid"><div class="sf-info">불러오는 중…</div></div>
-    <div id="wcres" class="resbox"><div class="tpick">👆 열어 보고 싶은 꾸러미를 눌러 보세요</div></div>${CREDIT}</div>`;
+  return fitShell('w-f-cat','🗂️','분류하여 찾기','궁금한 꾸러미를 열어 같은 종류의 우리말을 모아 봐요','');
 }
 function initWcat(){
-  const root=document.getElementById('wcat'), grid=document.getElementById('wcgrid'), res=document.getElementById('wcres');
   let T=null, by=null;
-  Promise.all([loadWtags(),loadWords()]).then(([t,a])=>{ T=t; by=byIdMap(a);
-    grid.innerHTML=T.map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>${esc(x.d)}</small><span class="sw">${x.s.map(esc).join(' · ')}</span><em>우리말 ${x.ids.length}개</em></button>`; }).join('');
-  }).catch(()=>{ grid.innerHTML=''; res.innerHTML=LOADFAIL; });
-  root.addEventListener('click',e=>{
-    const t=e.target.closest('.tile'); if(t&&T){
-      document.querySelectorAll('#wcgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
-      const x=T[+t.dataset.i];
-      mountResult(res,{e:x.e,t:`${x.k} ${x.ids.length}개`,d:'낱말을 누르면 뜻과 예문이 나와요'},x.ids,by,wcardFn);
-      document.getElementById('wcgrid').scrollIntoView({behavior:'smooth',block:'start'}); return;
-    }
-    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
-    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  const choose=()=>fitChoices(T,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`우리말 ${x.ids.length}개`),3,i=>{
+    const x=T[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
+    fitResults(w=>bcW(w),list,{e:x.e,title:`${x.k} ${list.length}개`,onBack:choose});
   });
+  Promise.all([loadWtags(),loadWords()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
 
 /* ---------- 라우팅 (#이름) ---------- */
