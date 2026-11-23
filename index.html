@@ -661,31 +661,36 @@ function renderWfind(){
   const J='ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ';
   return `<div id="wf" class="wdscr">
     <div class="sf-box"><div class="sf-in"><input id="wfq" type="search" enterkeyhint="search" autocomplete="off" placeholder="글자를 입력해 보세요 (예: 나, 바람)" aria-label="찾을 글자"><button class="sf-clear" id="wfx" aria-label="지우기">✕</button></div>
-    <div class="sf-opt" id="wfm"><button class="chip on" data-m="in">들어간 말</button><button class="chip" data-m="st">시작하는 말</button><button class="chip" data-m="en">끝나는 말</button></div></div>
+    <div class="sf-opt" id="wfm"><button class="chip on" data-m="in">들어간 말</button><button class="chip" data-m="st">시작하는 말</button><button class="chip" data-m="en">끝나는 말</button></div>
+    <div class="sf-opt" id="wfl"><button class="chip on" data-l="0">전체 글자 수</button><button class="chip" data-l="2">2글자</button><button class="chip" data-l="3">3글자</button><button class="chip" data-l="4">4글자</button><button class="chip" data-l="5">5글자 이상</button></div></div>
     <div class="sf-info">첫 글자의 자음(ㄱ ㄴ ㄷ…)을 눌러도 찾을 수 있어요.</div>
     <div class="jamo" id="wfj">${[...J].map(c=>`<button data-j="${c}">${c}</button>`).join('')}</div>
     <div id="wfr"><div class="sf-info">우리말 자료를 불러오는 중…</div></div>${CREDIT}</div>`;
 }
 function initWfind(){
   const q=document.getElementById('wfq'), out=document.getElementById('wfr');
-  let data=[], mode='in', shown=30;
+  let data=[], mode='in', shown=30, len=0;
   const isJamo=t=>/^[ㄱ-ㅎ]+$/.test(t);
   const hl=(w,t)=>{ if(!t||isJamo(t)) return esc(w); const i=w.indexOf(t); return i<0?esc(w):esc(w.slice(0,i))+'<mark>'+esc(t)+'</mark>'+esc(w.slice(i+t.length)); };
   const card=(x,t)=>`<button class="pcard" data-i="1"><span class="pt">${hl(x.w,t)}<small>${esc(x.p)}</small><span class="pq">${esc(x.m[0])}</span></span>
     <div class="pm">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:''}${x.e?`<div class="ex">예) ${esc(x.e)}</div>`:''}</div></button>`;
   function draw(){
     const t=q.value.trim().replace(/\s+/g,'');
-    if(!t){
+    if(!t&&!len){
       const c=data.filter(x=>x.f>=300&&x.e&&x.w.length>=2), x=c[Math.floor(Math.random()*c.length)];
       out.innerHTML=`<div class="today"><small>오늘의 우리말</small><div class="pt">${esc(x.w)} <span style="font-size:16.1px;opacity:.85">${esc(x.p)}</span></div><div class="pm">${esc(x.m[0])}</div></div>
         <div class="sf-info">글자를 입력하면 그 글자가 들어간 우리말을 찾아 줘요. 찾은 낱말을 누르면 뜻과 예문이 나와요.</div>`; return;
     }
     const j=isJamo(t);
+    const lenOk=x=>{ const n=[...x.w].length; return !len||(len===5?n>=5:n===len); };
     const r=data.filter(x=>{
+      if(!lenOk(x)) return false;
+      if(!t) return true;
       if(j) return mode==='en'?x.ini.endsWith(t):mode==='in'?x.ini.includes(t):x.ini.startsWith(t);
       return mode==='st'?x.w.startsWith(t):mode==='en'?x.w.endsWith(t):x.w.includes(t);
     });
-    let h=`<div class="sf-info">‘${esc(t)}’ 우리말 ${r.length}개</div>`;
+    const lt=len?(len===5?'5글자 이상':len+'글자'):'';
+    let h=`<div class="sf-info">${t?'‘'+esc(t)+'’ ':''}${lt} 우리말 ${r.length}개</div>`;
     if(!r.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 낱말이 없어요</b>글자를 줄이거나 다른 글자로 찾아보세요.</div></div>`;
     h+=r.slice(0,shown).map(x=>card(x,t)).join('');
     if(r.length>shown) h+=`<button class="more" id="wfmore">더 보기 (${r.length-shown}개 남음)</button>`;
@@ -695,9 +700,10 @@ function initWfind(){
   loadWords().then(a=>{ data=a; draw(); }).catch(()=>{ out.innerHTML='<div class="soon"><span class="em">📡</span><div><b>우리말 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>'; });
   q.addEventListener('input',()=>{ shown=30; setJ(q.value.trim()); draw(); });
   document.getElementById('wf').addEventListener('click',e=>{
+    const lc=e.target.closest('#wfl .chip'); if(lc){ len=+lc.dataset.l; document.querySelectorAll('#wfl .chip').forEach(x=>x.classList.toggle('on',x===lc)); shown=30; draw(); return; }
     const m=e.target.closest('#wfm .chip'); if(m){ mode=m.dataset.m; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x===m)); shown=30; draw(); return; }
     const b=e.target.closest('#wfj button'); if(b){ q.value=b.dataset.j; mode='st'; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x.dataset.m==='st')); setJ(b.dataset.j); shown=30; draw(); return; }
-    if(e.target.closest('#wfx')){ q.value=''; setJ(''); shown=30; draw(); q.focus(); return; }
+    if(e.target.closest('#wfx')){ q.value=''; setJ(''); len=0; document.querySelectorAll('#wfl .chip').forEach(x=>x.classList.toggle('on',x.dataset.l==='0')); shown=30; draw(); q.focus(); return; }
     if(e.target.closest('#wfmore')){ shown+=30; draw(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
   });
