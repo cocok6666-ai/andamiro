@@ -201,8 +201,17 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .feat p,.cmp .ch p{font-size:16.1px;color:#4a463e;margin-top:2px}
 .eg{margin-top:8px;padding:9px 12px;border-radius:12px;background:var(--paper2);font-size:15.5px;color:#4a463e;word-break:keep-all}
 .eg b{color:var(--pv-deep)}
-.slider{display:flex;flex-direction:column;gap:12px;padding:2px 0 12px}
-.slider .story{margin:0}
+.slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.slider::-webkit-scrollbar{display:none}
+.slider .story{flex:0 0 100%;scroll-snap-align:center;margin:0}
+.pg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 18px}
+.pgb{width:52px;height:46px;border-radius:99px;background:var(--pv);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center;flex:none}
+.pgb:disabled{background:var(--paper2);color:#b9b2a2}
+.pgm{flex:1;text-align:center;min-width:0}
+.pgm b{font-size:16px;color:var(--pv-deep)}
+.dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--pv);width:18px;border-radius:9px}
 .story{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:12px}
 .story .sb{padding:12px 14px 14px}
 .story h4{font-family:var(--display);font-weight:400;font-size:21.8px;line-height:1.4;color:var(--pv-deep);word-break:keep-all}
@@ -325,7 +334,7 @@ const MENU = {
     sub:'삶의 지혜가 담긴 속담을 읽고, 찾고, 만들어 보아요',
     groups:[
       {id:'p-intro', title:'속담이란', note:'속담 알아보기', items:[
-        {id:'p-meaning', status:'done', render:()=>renderMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
+        {id:'p-meaning', status:'done', render:()=>renderMeaning(), init:()=>initMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
         {id:'p-origin', status:'done', render:()=>renderOrigin(), init:()=>initOrigin(), ic:'🏺', title:'속담의 유래', desc:'속담이 만들어진 다양한 이야기를 공부해요.', plan:['유래가 재미있는 속담 이야기','유래 이야기 읽고 뜻 맞혀 보기']},
         {id:'p-good', status:'done', render:()=>renderGood(), init:()=>initGood(), ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']}
       ]},
@@ -630,11 +639,21 @@ function renderMeaning(){
     ${L.feats.map((f,i)=>`<div class="feat"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p>${f[3]?`<div class="eg">예) <b>${esc(f[3])}</b><br>→ ${esc(f[4])}</div>`:''}</div></div>`).join('')}
     <h3 class="sec">속담이 좋은 까닭</h3>
     ${L.values.map(v=>`<div class="feat"><span class="fi">${v[0]}</span><div><b>${esc(v[1])}</b><p>${esc(v[2])}</p></div></div>`).join('')}
-    <h3 class="sec">예화 카드 넘겨 보기 <small>옆으로 밀어 보세요 ›</small></h3>
+    <h3 class="sec">예화 카드 넘겨 보기 <small>밀거나 버튼으로 넘겨요</small></h3>
     <div class="slider">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
+    <div class="pg"><button class="pgb" id="mprev" aria-label="이전 카드">‹</button><div class="pgm"><b id="mcnt">1 / ${L.cards.length}</b><div class="dots" id="mdots">${L.cards.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div><button class="pgb" id="mnext" aria-label="다음 카드">›</button></div>
     <button class="cta pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
 }
 
+function initMeaning(){
+  const sl=document.querySelector('.slider'); if(!sl) return;
+  const n=sl.children.length, pv=document.getElementById('mprev'), nx=document.getElementById('mnext'), cnt=document.getElementById('mcnt'), dots=[...document.querySelectorAll('#mdots i')];
+  const idx=()=>Math.max(0,Math.min(n-1,Math.round(sl.scrollLeft/(sl.clientWidth+12))));
+  const upd=()=>{ const i=idx(); cnt.textContent=(i+1)+' / '+n; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); pv.disabled=i===0; nx.disabled=i===n-1; };
+  const go=i=>sl.scrollTo({left:i*(sl.clientWidth+12),behavior:'smooth'});
+  pv.onclick=()=>go(idx()-1); nx.onclick=()=>go(idx()+1);
+  sl.addEventListener('scroll',upd,{passive:true}); upd();
+}
 /* 속담의 유래 */
 function renderOrigin(){
   return `<div class="leaf les">${head('🏺','속담의 유래','속담이 어떻게 만들어졌는지 이야기로 알아봐요.')}
