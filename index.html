@@ -130,6 +130,60 @@ th{color:var(--mute);font-weight:500;font-size:12px}
 .today .pm{font-size:14px;opacity:.96;word-break:keep-all}
 .credit{margin-top:26px;font-size:11.5px;color:var(--mute);text-align:center;line-height:1.5}
 .credit a{color:inherit}
+
+/* 속담이란 */
+.les h2{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.3;margin-bottom:6px}
+.les .lead{color:#4a463e;margin-bottom:14px}
+.les .sec{font-family:var(--display);font-weight:400;font-size:21px;margin:22px 2px 10px}
+.les .sec small{font-family:var(--sans);font-size:12px;color:var(--mute)}
+.les p{word-break:keep-all}
+.note2{font-size:14px;color:var(--mute);margin-bottom:10px}
+.nm .split{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px 0 12px}
+.nm .split div{white-space:nowrap;text-align:center;background:var(--pv-soft);border-radius:14px;padding:10px 12px;min-width:84px}
+.nm .split b{display:block;font-family:var(--display);font-weight:400;font-size:34px;line-height:1.1;color:var(--pv-deep)}
+.nm .split small{font-size:12px;color:#5b5548;line-height:1.3;display:block}
+.nm .split .res{background:var(--pv);} .nm .split .res b,.nm .split .res small{color:#fff}
+.nm .plus{font-family:var(--display);font-size:24px;color:var(--mute)}
+.nm p{font-size:15px}
+.feat{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.fi{width:46px;height:46px;border-radius:14px;background:var(--pv-soft);display:grid;place-items:center;font-size:24px;flex:none}
+.feat b,.cmp b{font-size:15.5px}
+.feat p,.cmp .ch p{font-size:14px;color:#4a463e;margin-top:2px}
+.eg{margin-top:8px;padding:9px 12px;border-radius:12px;background:var(--paper2);font-size:13.5px;color:#4a463e;word-break:keep-all}
+.eg b{color:var(--pv-deep)}
+.slider{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -18px;padding:2px 18px 12px;-webkit-overflow-scrolling:touch}
+.slider .story{flex:0 0 84%;scroll-snap-align:center;margin:0}
+.story{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:12px}
+.story .sb{padding:12px 14px 14px}
+.story h4{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.4;color:var(--pv-deep);word-break:keep-all}
+.story p,.story .ob{font-size:14.5px;margin-top:6px;word-break:keep-all}
+.story .sn{font-size:11.5px;color:var(--mute)}
+.story .sm{margin-top:9px;padding:9px 12px;border-radius:12px;background:var(--pv-soft);font-size:14px;color:#4a2a20;word-break:keep-all}
+.story .sm b,.story .ob b{display:inline-block;font-size:11.5px;background:var(--pv);color:#fff;border-radius:99px;padding:0 8px;margin-right:4px}
+.story .ob{line-height:1.65}
+.hint{font-size:12px;color:var(--mute);margin-top:6px}
+.story.sm1 .sb{padding:10px 14px 12px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;margin-bottom:2px}
+.tabs .chip{flex:none;white-space:nowrap;padding:9px 14px}
+.gdesc{margin:2px 2px 10px}
+.gdesc b{font-family:var(--display);font-weight:400;font-size:20px}
+.gdesc small{font-family:var(--sans);font-size:12px;color:var(--mute)}
+.gdesc p{font-size:14px;color:#5b5548}
+.cmp{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.cmp .ch{display:flex;gap:12px}
+.vs{display:grid;gap:6px;margin-top:10px}
+.vs>div{border-radius:12px;padding:9px 12px;font-size:14px;word-break:keep-all}
+.vs small{display:block;font-size:11.5px;color:var(--mute);margin-bottom:1px}
+.vs .v1{background:var(--paper2);color:#4a463e}
+.vs .v2{background:var(--pv-soft)} .vs .v2 b{color:var(--pv-deep);font-family:var(--display);font-weight:400;font-size:18px}
+.scene{position:relative;height:96px;display:flex;align-items:center;justify-content:center;gap:10px;overflow:hidden}
+.scene.big{height:132px}
+.scene .se{font-size:46px;line-height:1;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18))}
+.scene.big .se{font-size:60px}
+.scene .se1{transform:translateY(6px) rotate(6deg)}
+.scene .se0{transform:rotate(-6deg)}
+.scene .sp{position:absolute;font-style:normal;color:rgba(255,255,255,.85);font-size:16px}
+.scene .s1{left:14%;top:14%} .scene .s2{right:12%;bottom:16%;font-size:22px}
 .foot{margin-top:28px;text-align:center;font-size:12px;color:var(--mute)}
 </style>
 </head>
@@ -153,9 +207,9 @@ const MENU = {
     ],
     groups:[
       {id:'p-intro', title:'속담이란', note:'속담 알아보기', items:[
-        {id:'p-meaning', ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
-        {id:'p-origin', ic:'🏺', title:'속담의 유래', desc:'속담이 만들어진 다양한 이야기를 공부해요.', plan:['유래가 재미있는 속담 이야기','유래 이야기 읽고 뜻 맞혀 보기']},
-        {id:'p-good', ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']},
+        {id:'p-meaning', status:'done', render:()=>renderMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
+        {id:'p-origin', status:'done', render:()=>renderOrigin(), init:()=>initOrigin(), ic:'🏺', title:'속담의 유래', desc:'속담이 만들어진 다양한 이야기를 공부해요.', plan:['유래가 재미있는 속담 이야기','유래 이야기 읽고 뜻 맞혀 보기']},
+        {id:'p-good', status:'done', render:()=>renderGood(), init:()=>initGood(), ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']},
         {id:'p-books', ic:'📚', title:'속담을 전하는 책들', desc:'조선시대부터 속담을 전해 온 책을 소개해요.', plan:['속담을 기록한 옛 책 소개','책 표지·시대·특징 카드']}
       ]},
       {id:'p-school', title:'속담 배움터', note:'초등 3~6학년 교과 속담', items:[
@@ -308,6 +362,186 @@ function viewStatus(){
     <h2>🛠 제작 현황</h2><p>전체 ${doneCount(allLeaves)} / ${allLeaves.length} 메뉴 완성. 선생님·제작자용 화면이에요.</p>${rows}</div>`;
 }
 
+
+
+/* ---------- 속담이란: 뜻 · 유래 · 좋은 점 ---------- */
+const PAL = [
+  ['#FFE9C6','#F7C98B'], ['#D5EBE7','#9ED3CB'], ['#F6DDD3','#EDAF9B'],
+  ['#E4E0F7','#BDB4EC'], ['#FFF3B8','#F2D95F'], ['#DDF0D6','#A9D79A']
+];
+function scene(emo, i, big){
+  const c = PAL[(i||0) % PAL.length];
+  return `<div class="scene${big?' big':''}" style="background:linear-gradient(160deg,${c[0]},${c[1]})" aria-hidden="true">
+    <i class="sp s1">✦</i><i class="sp s2">✦</i>
+    ${emo.map((e,k)=>`<span class="se se${k}">${e}</span>`).join('')}</div>`;
+}
+const LES = {
+  mean:{
+    name:[['속','세상'],['담','이야기']],
+    one:'세상 사람들 사이에 전해 오는 이야기라는 뜻이에요. 옛날부터 사람들이 살면서 얻은 지혜와 교훈을 짧고 재미있는 말에 담아 입에서 입으로 전해 온 말이에요.',
+    feats:[
+      ['🎨','비유로 말해요','하고 싶은 말을 콩, 떡, 소, 등잔처럼 생활 속 물건에 빗대어 짧고 강하게 전해요.','콩 심은 데 콩 나고 팥 심은 데 팥 난다','원인대로 결과가 나온다는 뜻이에요.'],
+      ['👥','만든 사람을 몰라요','한 사람이 지은 명언과 달리, 누가 처음 만들었는지 몰라요. 많은 사람의 입을 거치며 가장 매끄러운 모양으로 다듬어졌어요.','',''],
+      ['😄','교훈과 웃음이 있어요','살아가는 지혜를 알려 주기도 하고, 잘난 척하는 모습이나 어리석은 행동을 웃음으로 꼬집기도 해요.','',''],
+      ['🔒','말의 모양이 굳어 있어요','낱말의 차례와 모양이 오랫동안 굳어 왔어요. 그래서 속담은 원래 모양 그대로 말해야 뜻과 맛이 잘 전해져요.','','']
+    ],
+    values:[['🗨️','말이 멋있어지고 설득력이 생겨요','긴 설명 대신 알맞은 속담 한마디면 듣는 사람이 금방 공감해요.'],['📜','옛사람의 생활을 엿볼 수 있어요','무엇을 먹고, 어떻게 농사를 지었고, 어떤 마음을 소중히 여겼는지 알 수 있는 살아 있는 역사예요.']],
+    cards:[
+      {p:'콩 심은 데 콩 나고 팥 심은 데 팥 난다',e:['🌱','🌿'],s:'민이가 텃밭에 콩을 심었어요. 며칠 뒤 땅을 뚫고 올라온 싹은 모두 콩 싹이었어요. 팥 싹은 하나도 없었지요. 심은 대로 거두는 거예요.',m:'원인에 맞는 결과가 나온다는 뜻이에요. 열심히 하면 좋은 결과가, 나쁜 일을 하면 나쁜 결과가 생겨요.'},
+      {p:'등잔 밑이 어둡다',e:['🪔','🔍'],s:'하은이는 안경을 찾느라 온 집 안을 뒤졌어요. 한참 뒤 거울을 보니 안경은 머리 위에 걸려 있었어요! 가까이 있는 것은 오히려 못 보기 쉬워요.',m:'가까이에 있는 것을 오히려 잘 알아차리지 못한다는 뜻이에요.'},
+      {p:'소 잃고 외양간 고친다',e:['🐄','🔨'],s:'농부가 외양간 문을 고치지 않고 두었다가 소를 잃어버렸어요. 그제야 부서진 문을 고쳤지만 소는 이미 돌아오지 않았어요. 미리 살폈어야 했지요.',m:'일이 잘못된 뒤에야 뒤늦게 손을 써 봐야 소용없다는 뜻이에요.'},
+      {p:'티끌 모아 태산',e:['💰','⛰️'],s:'서준이는 날마다 100원씩 저금통에 넣었어요. 처음에는 너무 적어 보였지만 1년이 지나자 저금통이 묵직해졌어요. 작은 것도 모이면 커져요.',m:'아무리 작은 것이라도 꾸준히 모으면 큰 것이 된다는 뜻이에요.'},
+      {p:'가는 말이 고와야 오는 말이 곱다',e:['💬','😊'],s:'지아가 먼저 "안녕, 같이 놀래?" 하고 상냥하게 말을 걸었어요. 친구도 웃으며 "좋아!" 하고 대답했어요. 고운 말은 고운 말로 돌아와요.',m:'내가 남에게 말과 행동을 곱게 해야 남도 나에게 곱게 대한다는 뜻이에요.'},
+      {p:'백지장도 맞들면 낫다',e:['📄','🤝'],s:'혼자서는 큰 종이를 옮기기 힘들었어요. 친구와 양쪽을 맞잡고 들었더니 훨씬 가벼워졌어요. 함께하면 쉬워요.',m:'쉬운 일도 힘을 합하면 더 쉬워진다는 뜻이에요.'}
+    ]
+  },
+  origin:[
+    {k:'history',ic:'🏛️',t:'역사와 인물 이야기',d:'옛 역사나 이야기 속 인물의 행동이 사람들 입에 오르내리다 속담이 되었어요.',items:[
+      {p:'사촌이 땅을 사면 배가 아프다',e:['🏡','😣'],o:'옛날에는 땅이 살아가는 데 가장 중요한 재산이었어요. 사촌이 논밭을 샀다니 거름을 보태 주려고 일부러 화장실에 가고 싶어졌다는, 우스운 이야기가 전해 와요. 지금은 남이 잘되는 것을 보고 샘이 나는 마음을 말해요.',m:'가까운 사람이 잘되는 것을 보면 샘이 나고 시기하게 된다는 뜻이에요.',n:'유래에 대해 전해 오는 여러 이야기 중 하나예요.'},
+      {p:'조자룡 헌 칼 쓰듯 한다',e:['⚔️','🐎'],o:'중국의 옛 소설 「삼국지연의」에는 조자룡이라는 용감한 장수가 나와요. 낡은 칼을 들고도 적진을 거침없이 누볐다는 이야기에서 나온 말이에요. 원래는 칭찬이었는데, 우리나라에서는 물건을 아끼지 않고 마구 쓴다는 뜻으로 바뀌어 쓰여요.',m:'물건을 아끼지 않고 함부로 마구 쓴다는 뜻이에요.',n:'유래에 대해 전해 오는 여러 이야기 중 하나예요.'}
+    ]},
+    {k:'tale',ic:'📖',t:'옛이야기와 우화',d:'옛이야기나 동물 이야기의 핵심 줄거리가 한 문장으로 줄어든 속담이에요.',items:[
+      {p:'혹 떼러 갔다가 혹 붙이고 온다',e:['👴','👹'],o:'목에 혹이 달린 착한 영감이 도깨비들에게 멋진 노래를 들려주고 혹을 뗐어요. 이 이야기를 들은 욕심쟁이 영감이 따라 했다가, 노래가 마음에 안 든 도깨비들에게 다른 쪽 볼에 혹을 하나 더 붙여 돌아왔어요. 「혹부리 영감」이라는 옛이야기에서 나온 말이에요.',m:'이득을 보려다가 오히려 손해만 입게 된다는 뜻이에요.'},
+      {p:'소 잃고 외양간 고친다',e:['🐄','🛖'],o:'옛 농가에서는 밤사이 도둑이나 맹수가 들어 귀한 소를 잃는 일이 있었어요. 소를 잃은 뒤에야 부서진 외양간을 부랴부랴 고치던 농부의 어리석은 모습이 이야기로 전해졌어요.',m:'일이 잘못된 뒤에야 뒤늦게 대비한다는 뜻이에요.'},
+      {p:'믿는 도끼에 발등 찍힌다',e:['🪓','🦶'],o:'나무꾼이 믿고 쓰던 도끼를 내려치다 그만 자기 발등을 찍었다는 모습에서 나왔다고 해요. 믿었던 것에 뜻밖의 피해를 입는 일을 빗대어 말해요.',m:'굳게 믿던 사람에게 배신을 당하거나 해를 입는다는 뜻이에요.',n:'유래에 대해 전해 오는 여러 이야기 중 하나예요.'}
+    ]},
+    {k:'life',ic:'🍚',t:'옛 생활과 풍속 이야기',d:'옛사람들의 밥상, 농사, 살림살이 같은 생활 모습에서 나온 속담이에요.',items:[
+      {p:'떡 줄 사람은 생각도 않는데 김칫국부터 마신다',e:['🍡','🥣'],o:'옛날에는 떡을 먹다 목이 메지 않도록 시원한 김칫국(동치미 국물)을 함께 마셨어요. 상대가 떡을 줄지 안 줄지도 모르는데 미리 김칫국부터 들이켜는 성급한 모습을 꼬집은 말이에요.',m:'남은 줄 생각도 않는데 미리 기대하고 서두른다는 뜻이에요.'},
+      {p:'가재는 게 편이다',e:['🦞','🦀'],o:'개울과 바닷가에서 살던 옛사람들이 가재와 게를 보고 만든 말이에요. 둘은 다른 동물이지만 딱딱한 껍데기와 집게발이 있고 닮은 데가 많아서 서로 어울린다고 보았어요.',m:'처지나 모습이 비슷한 사람끼리 서로 감싸 주고 편든다는 뜻이에요.'},
+      {p:'등잔 밑이 어둡다',e:['🪔','🌑'],o:'전등이 없던 시절 밤에는 등잔불로 방을 밝혔어요. 등잔은 사방을 환하게 비추는데 기름 그릇 바로 아래에는 그림자가 져서 오히려 어두웠지요. 이 모습에서 나온 말이에요.',m:'가까이에 있는 일을 오히려 잘 모른다는 뜻이에요.'}
+    ]},
+    {k:'faith',ic:'🛕',t:'종교와 믿음 이야기',d:'옛사람들의 믿음과 풍습 속에서 나온 속담이에요.',items:[
+      {p:'염불에는 맘이 없고 잿밥에만 맘이 있다',e:['🛕','🍚'],o:'절에서 스님이 정성껏 불공을 드릴 때 마음은 딴 데 두고, 불공이 끝난 뒤 나누어 먹는 음식(잿밥)에만 눈독을 들이는 모습을 빗댄 말이에요.',m:'해야 할 일에는 마음이 없고 다른 이익에만 관심을 둔다는 뜻이에요.'},
+      {p:'굿이나 보고 떡이나 먹지',e:['🥁','🍡'],o:'마을에서 큰 굿판이 벌어지면 구경꾼이 모이고, 굿이 끝나면 떡을 나누어 먹었어요. 남의 일에 괜히 끼어들지 말고 구경하며 떡이나 먹으라는 풍습에서 나왔어요.',m:'남의 일에 참견하지 말고 잠자코 있다가 이로운 것이나 챙기라는 뜻이에요.'},
+      {p:'공자 앞에서 문자 쓴다',e:['🎓','📚'],o:'공자는 유교를 연 위대한 스승이에요. 학문을 중요하게 여기던 옛날에, 공자 앞에서 한문 실력을 뽐내는 일은 얼마나 어리석겠어요? 그 모습을 빗댄 말이에요.',m:'그 분야를 잘 아는 사람 앞에서 어설프게 아는 체한다는 뜻이에요.'}
+    ]},
+    {k:'hanja',ic:'📜',t:'한자 성어에서 온 이야기',d:'한문으로 전해지던 말이 우리말 속담으로 자리 잡은 경우예요.',items:[
+      {p:'열 번 찍어 안 넘어가는 나무 없다',e:['🪓','🌳'],o:'한자 성어 십벌지목(十伐之木)에서 왔어요. 열 번 도끼질하면 큰 나무도 넘어간다는 뜻이에요.',m:'아무리 어려운 일도 끈기 있게 계속하면 이룰 수 있다는 뜻이에요.'},
+      {p:'세 살 버릇 여든까지 간다',e:['👶','🧓'],o:'한자 성어 삼세지습 지우팔십(三歲之習 至于八十)에서 왔어요. 세 살 때 몸에 밴 버릇이 여든 살까지 간다는 말이에요.',m:'어릴 때 든 버릇은 늙어서도 고치기 어렵다는 뜻이에요.'},
+      {p:'까마귀 날자 배 떨어진다',e:['🐦','🍐'],o:'한자 성어 오비이락(烏飛梨落)과 같은 말이에요. 까마귀가 날아오르는 순간 배가 떨어지면, 까마귀가 떨어뜨렸다는 오해를 받기 쉬워요.',m:'아무 관계 없는 일이 우연히 겹쳐서 의심을 받는다는 뜻이에요.'}
+    ]},
+    {k:'play',ic:'🎵',t:'말놀이 이야기',d:'뜻보다 소리의 재미와 재치 덕분에 널리 퍼진 속담이에요.',items:[
+      {p:'배 먹고 이 닦기',e:['🍐','🦷'],o:'배를 먹으면 이까지 깨끗해진다고 하여 한 번에 두 가지 이득을 보는 일을 재미있게 빗댄 말이에요. 「배」와 「이」가 짧게 이어져 입에 착 붙어요. 「꿩 먹고 알 먹기」와 같은 뜻이에요.',m:'한 가지 일로 두 가지 이익을 얻는다는 뜻이에요.'},
+      {p:'갈수록 태산',e:['⛰️','🚶'],o:'산을 하나 넘으면 더 큰 산이 나타나는 모습을 그린 말이에요. 「갈수록」과 「태산」이 리듬 있게 이어져 입에 잘 붙어요.',m:'일이 갈수록 점점 더 어려워진다는 뜻이에요.'},
+      {p:'가는 말이 고와야 오는 말이 곱다',e:['💬','😊'],o:'「가는 말」과 「오는 말」, 「고와야」와 「곱다」가 짝을 이루어 리듬이 살아나요. 소리의 재미 덕분에 오래도록 널리 전해졌어요.',m:'내가 남에게 곱게 말해야 남도 나에게 곱게 말한다는 뜻이에요.'}
+    ]}
+  ],
+  good:{
+    five:[
+      ['✂️','간결해요','보통 말로는 길어지는 이야기를 짧게 말할 수 있어요.','쉬운 일도 여럿이 마음을 합쳐 함께 하면 훨씬 쉽게 할 수 있어요.','백지장도 맞들면 낫다'],
+      ['🎭','비유가 쏙쏙 들어와요','눈앞에 그려지는 그림에 빗대어서 뜻이 오래 기억에 남아요.','작은 것도 꾸준히 모으면 나중에 큰 것이 돼요.','티끌 모아 태산'],
+      ['🌈','표현이 다채로워요','같은 뜻도 속담이 여러 가지라서 상황에 맞게 골라 쓸 수 있어요.','끈기 있게 계속하면 이룰 수 있다는 뜻의 속담: 열 번 찍어 안 넘어가는 나무 없다 / 공든 탑이 무너지랴 / 천 리 길도 한 걸음부터',''],
+      ['💡','교훈이 담겨 있어요','듣는 사람이 스스로 생각하게 하고, 잔소리 없이 가르침을 전해요.','작은 잘못이라도 자꾸 하면 큰 잘못이 되니 조심해야 해요.','바늘 도둑이 소 도둑 된다'],
+      ['🏘️','누구나 알아듣기 쉬워요','콩, 떡, 소, 바늘처럼 생활 속에서 늘 보는 것으로 말해서 어렵지 않아요.','아는 것이 별로 없는 사람이 더 시끄럽게 아는 체를 해요.','빈 수레가 요란하다']
+    ],
+    cats:[
+      {t:'삶의 지혜와 통찰',ic:'🦉',d:'사물의 이치를 꿰뚫어 보거나 슬기로운 판단이 필요할 때 써요.',items:[
+        ['구슬이 서 말이라도 꿰어야 보배',['🔮','🧵'],'아무리 좋은 것이 많아도 잘 엮어서 쓸모 있게 만들어야 값어치가 있다는 뜻이에요.'],
+        ['빈 수레가 요란하다',['🛒','🔊'],'아는 것이 적고 실속 없는 사람일수록 더 떠들고 아는 체한다는 뜻이에요.'],
+        ['바늘 도둑이 소 도둑 된다',['🧵','🐄'],'작은 잘못도 자꾸 하다 보면 나중에 큰 잘못이 된다는 뜻이에요.'],
+        ['등잔 밑이 어둡다',['🪔','🔍'],'먼 곳의 일은 잘 알면서 가까이에서 일어난 일은 오히려 놓치기 쉽다는 뜻이에요.'],
+        ['돌다리도 두들겨 보고 건너라',['🌉','🔨'],'안전해 보이는 일도 한 번 더 꼼꼼히 확인하고 조심하라는 뜻이에요.'],
+        ['원숭이도 나무에서 떨어질 때가 있다',['🐒','🌴'],'아무리 잘하는 사람도 가끔 실수할 수 있으니 잘난 체하지 말라는 뜻이에요.'],
+        ['벼는 익을수록 고개를 숙인다',['🌾','🙇'],'훌륭하고 아는 것이 많은 사람일수록 잘난 체하지 않고 겸손하다는 뜻이에요.'],
+        ['호랑이에게 물려가도 정신만 차리면 산다',['🐯','💪'],'위험한 때일수록 당황하지 않고 침착하게 생각하면 길이 열린다는 뜻이에요.']
+      ]},
+      {t:'말조심과 고운 말',ic:'💬',d:'말하는 태도를 돌아보거나 말조심을 권할 때 써요.',items:[
+        ['가는 말이 고와야 오는 말이 곱다',['💬','😊'],'내가 먼저 곱고 예의 바르게 말해야 남도 나에게 곱게 대한다는 뜻이에요.'],
+        ['발 없는 말이 천 리 간다',['👣','💬'],'말은 발이 없어도 순식간에 멀리 퍼지니 늘 말조심하라는 뜻이에요.'],
+        ['낮말은 새가 듣고 밤말은 쥐가 듣는다',['🐦','🐭'],'아무도 없는 곳에서 한 말도 누군가는 듣게 되니 언제나 조심하라는 뜻이에요.'],
+        ['말 한마디에 천 냥 빚도 갚는다',['💬','💰'],'정성스럽고 따뜻한 말 한마디가 어려운 문제도 풀 수 있다는 뜻이에요.'],
+        ['가루는 칠수록 고와지고 말은 할수록 거칠어진다',['🥣','🗯️'],'말이 많아지면 실수하거나 오해가 생기기 쉬우니 말을 아끼라는 뜻이에요.'],
+        ['아 해 다르고 어 해 다르다',['😮','🙂'],'같은 내용도 어떻게 말하느냐에 따라 듣는 사람의 기분이 달라진다는 뜻이에요.'],
+        ['입은 비뚤어져도 말은 바로 해라',['👄','✅'],'어떤 일이 있어도 사실을 바르고 정직하게 말해야 한다는 뜻이에요.']
+      ]},
+      {t:'사이좋게 지내기',ic:'🤝',d:'친구 사이의 정, 믿음, 협력의 소중함을 말할 때 써요.',items:[
+        ['백지장도 맞들면 낫다',['📄','🤝'],'쉬운 일도 혼자 하는 것보다 여럿이 힘을 합하면 훨씬 수월하다는 뜻이에요.'],
+        ['웃는 얼굴에 침 못 뱉는다',['😊','🚫'],'다정하게 대하는 사람에게는 화난 사람도 모질게 하기 어렵다는 뜻이에요.'],
+        ['사촌이 땅을 사면 배가 아프다',['🏡','😣'],'가까운 사람이 잘되는 것을 보고 진심으로 기뻐하지 못하고 샘을 낸다는 뜻이에요.'],
+        ['가재는 게 편이다',['🦞','🦀'],'처지나 모습이 비슷한 사람끼리 서로 감싸 주고 편든다는 뜻이에요.'],
+        ['열 길 물속은 알아도 한 길 사람 속은 모른다',['🌊','🧍'],'물속 깊이는 잴 수 있어도 사람의 속마음은 알아내기 어렵다는 뜻이에요.'],
+        ['세 살 버릇 여든까지 간다',['👶','🧓'],'어릴 때 몸에 밴 버릇은 나이 들어도 고치기 어려우니 바른 습관을 들이라는 뜻이에요.'],
+        ['믿는 도끼에 발등 찍힌다',['🪓','🦶'],'굳게 믿던 사람에게 뜻밖에 배신을 당하거나 해를 입는다는 뜻이에요.'],
+        ['오는 정이 있어야 가는 정이 있다',['💝','🔁'],'상대가 먼저 마음을 열고 베풀어야 나도 정을 주게 된다는 뜻이에요.']
+      ]},
+      {t:'노력과 끈기',ic:'🏆',d:'꾸준함의 소중함을 말하거나 도전을 응원할 때 써요.',items:[
+        ['티끌 모아 태산',['✨','⛰️'],'아무리 작은 것도 꾸준히 모으고 쌓으면 큰 것을 이룬다는 뜻이에요.'],
+        ['천 리 길도 한 걸음부터',['🛣️','👣'],'아무리 큰 목표도 바로 앞의 작은 실천부터 시작된다는 뜻이에요.'],
+        ['열 번 찍어 안 넘어가는 나무 없다',['🪓','🌳'],'아무리 어려운 일도 포기하지 않고 끈기 있게 하면 이룰 수 있다는 뜻이에요.'],
+        ['시작이 반이다',['🏁','🌗'],'무슨 일이든 망설이지 않고 첫발을 내딛으면 이미 절반은 한 셈이라는 뜻이에요.'],
+        ['고생 끝에 낙이 온다',['💦','🌈'],'지금의 어려움을 꾹 참고 견디면 반드시 기쁜 일이 찾아온다는 뜻이에요.'],
+        ['공든 탑이 무너지랴',['🗼','🧱'],'정성을 다해 쌓은 노력은 헛되지 않고 반드시 보람이 있다는 뜻이에요.'],
+        ['가랑비에 옷 젖는 줄 모른다',['🌦️','👕'],'조금씩 쌓이는 것은 알아채지 못하는 사이에 어느새 커진다는 뜻이에요.']
+      ]}
+    ]
+  }
+};
+
+function head(ic,t,d){ return `<h2>${ic} ${esc(t)}</h2><p class="lead">${esc(d)}</p>`; }
+
+/* 속담의 뜻 */
+function renderMeaning(){
+  const L=LES.mean;
+  return `<div class="leaf les">${head('💬','속담의 뜻','속담이 무엇인지, 어떤 특징이 있는지 알아봐요.')}
+    <div class="panel nm"><h3>‘속담’이라는 낱말 풀이</h3>
+      <div class="split">${L.name.map(([c,d])=>`<div><b>${c}</b><small>${esc(d)}</small></div>`).join('<span class="plus">+</span>')}<span class="plus">=</span><div class="res"><b>속담</b><small>세상 이야기</small></div></div>
+      <p>${esc(L.one)}</p></div>
+    <h3 class="sec">속담의 4가지 특징</h3>
+    ${L.feats.map((f,i)=>`<div class="feat"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p>${f[3]?`<div class="eg">예) <b>${esc(f[3])}</b><br>→ ${esc(f[4])}</div>`:''}</div></div>`).join('')}
+    <h3 class="sec">속담이 좋은 까닭</h3>
+    ${L.values.map(v=>`<div class="feat"><span class="fi">${v[0]}</span><div><b>${esc(v[1])}</b><p>${esc(v[2])}</p></div></div>`).join('')}
+    <h3 class="sec">예화 카드 넘겨 보기 <small>옆으로 밀어 보세요 ›</small></h3>
+    <div class="slider">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
+    <button class="cta pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
+}
+
+/* 속담의 유래 */
+function renderOrigin(){
+  return `<div class="leaf les">${head('🏺','속담의 유래','속담이 어떻게 만들어졌는지 이야기로 알아봐요.')}
+    <p class="note2">속담이 생긴 이야기는 유형이 여섯 가지예요. 궁금한 유형을 눌러 보세요.</p>
+    <div class="tabs" id="otabs">${LES.origin.map((g,i)=>`<button class="chip${i?'':' on'}" data-t="${i}">${g.ic} ${esc(g.t)}</button>`).join('')}</div>
+    <div id="obody"></div>
+    <button class="cta pv" data-go="p-good">속담의 좋은 점 보러 가기 ›</button></div>`;
+}
+function initOrigin(){
+  const body=document.getElementById('obody');
+  const draw=t=>{
+    const g=LES.origin[t];
+    body.innerHTML=`<div class="gdesc"><b>${g.ic} ${esc(g.t)}</b><p>${esc(g.d)}</p></div>`+g.items.map((x,i)=>`<article class="story">${scene(x.e,t+i,false)}<div class="sb"><h4>${esc(x.p)}</h4>
+      <div class="ob"><b>유래</b> ${esc(x.o)}</div>${x.n?`<div class="hint">※ ${esc(x.n)}</div>`:''}<div class="sm"><b>뜻</b> ${esc(x.m)}</div></div></article>`).join('');
+  };
+  draw(0);
+  document.getElementById('otabs').addEventListener('click',e=>{
+    const c=e.target.closest('.chip'); if(!c) return;
+    document.querySelectorAll('#otabs .chip').forEach(x=>x.classList.toggle('on',x===c));
+    draw(+c.dataset.t); body.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* 속담의 좋은 점 */
+function renderGood(){
+  const G=LES.good;
+  return `<div class="leaf les">${head('✨','속담의 좋은 점','속담을 쓰면 말이 어떻게 달라지는지 알아봐요.')}
+    <h3 class="sec">속담의 좋은 점 5가지</h3>
+    ${G.five.map((f,i)=>`<div class="cmp"><div class="ch"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p></div></div>
+      ${f[4]?`<div class="vs"><div class="v1"><small>보통 말로 하면</small>${esc(f[3])}</div><div class="v2"><small>속담으로 하면</small><b>${esc(f[4])}</b></div></div>`:`<div class="eg">${esc(f[3])}</div>`}</div>`).join('')}
+    <h3 class="sec">상황별로 쓰기 좋은 속담 30가지</h3>
+    <div class="tabs" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}">${c.ic} ${esc(c.t)}</button>`).join('')}</div>
+    <div id="gbody"></div></div>`;
+}
+function initGood(){
+  const body=document.getElementById('gbody'), C=LES.good.cats;
+  const draw=t=>{
+    const c=C[t];
+    body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} <small>${c.items.length}선</small></b><p>${esc(c.d)}</p></div>`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false)}<div class="sb"><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('');
+  };
+  draw(0);
+  document.getElementById('gtabs').addEventListener('click',e=>{
+    const c=e.target.closest('.chip'); if(!c) return;
+    document.querySelectorAll('#gtabs .chip').forEach(x=>x.classList.toggle('on',x===c));
+    draw(+c.dataset.t); body.scrollIntoView({block:'nearest'});
+  });
+}
 
 /* ---------- 속담 찾기: 낱말로 찾기 ---------- */
 const DB = {pv:null};
