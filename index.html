@@ -62,6 +62,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .tabs.o3.c2{grid-template-columns:1fr 1fr}
 .tabs.o3 .chip{flex-direction:column;gap:2px;min-height:54px;padding:6px 4px;font-size:13px;font-weight:700;border-radius:12px}
 .tabs.o3 .chip .ti{font-size:21px;line-height:1}
+.cta.nx{position:sticky;bottom:8px;z-index:20;display:block;width:auto;margin:14px auto 0;padding:9px 22px;font-size:14.5px;border-radius:99px;box-shadow:0 4px 12px rgba(0,0,0,.22)}
+.o-wrap .cta.nx{margin:0 auto;padding:8px 20px;position:static;box-shadow:none}
 /* 속담의 유래: 한 화면에 딱 맞춤 */
 #app:has(.o-wrap){padding-bottom:10px;min-height:0}
 .screen:has(.o-wrap){display:flex;flex-direction:column;height:calc(100dvh - 30px)}
@@ -83,7 +85,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .o-wrap .story .sm{font-size:clamp(14px,1.95dvh,16px);margin-top:7px;padding:7px 11px}
 .o-wrap .pg{flex:none;margin:6px 0 6px}
 .o-wrap .pgb{height:40px;width:50px}
-.o-wrap .cta{flex:none;margin-top:0;padding:12px}
 @media(max-height:720px){
 .o-wrap .gdesc p{display:none}
 .o-wrap .tabs.o3 .chip{min-height:42px;padding:3px 4px;gap:1px}
@@ -96,7 +97,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .o-wrap .pgb{height:34px}
 .o-wrap .pg{margin:4px 0}
 .o-wrap .dots{margin-top:2px}
-.o-wrap .cta{padding:9px}
 }
 /* 속담이란 주화면: 큰 카드 3장 */
 .screen.intro3{margin-bottom:-40px}
@@ -685,7 +685,7 @@ function renderMeaning(){
     <h3 class="sec">예화 카드 넘겨 보기 <small>밀거나 버튼으로 넘겨요</small></h3>
     <div class="slider" id="msl">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
     ${pagerBar('m',L.cards.length)}
-    <button class="cta pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
+    <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
 }
 
 function setupPager(px){
@@ -704,7 +704,7 @@ function renderOrigin(){
   const OS=['역사·인물','옛이야기·우화','생활·풍속','종교·믿음','한자 성어','말놀이'];
   return `<div class="leaf les o-wrap"><div class="otw"><div class="tabs o3" id="otabs">${LES.origin.map((g,i)=>`<button class="chip${i?'':' on'}" data-t="${i}"><span class="ti">${g.ic}</span><span>${OS[i]||esc(g.t)}</span></button>`).join('')}</div></div>
     <div id="obody"></div>
-    <button class="cta pv" data-go="p-good">속담의 좋은 점 보러 가기 ›</button></div>`;
+    <button class="cta nx pv" data-go="p-good">속담의 좋은 점 보러 가기 ›</button></div>`;
 }
 function initOrigin(){
   const body=document.getElementById('obody');
