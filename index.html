@@ -38,7 +38,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 
 /* home */
 .hero{text-align:center;padding:26px 0 22px}
-.bowl{width:84px;height:84px;margin:0 auto 6px}
+.bowl{display:block;width:168px;height:168px;margin:0 auto 2px;object-fit:contain}
 .hero h1{font-family:var(--serif);font-size:54px;letter-spacing:.04em;font-weight:700;line-height:1.1}
 .hero .hanja-line{font-size:13px;color:var(--mute);margin-top:8px}
 .hero .def{font-family:var(--serif);font-size:16px;margin-top:14px;color:#4a463e}
@@ -193,10 +193,6 @@ const allLeaves = Object.values(leafIndex);
 const doneCount = a => a.filter(i=>i.status==='done').length;
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const BOWL = `<svg class="bowl" viewBox="0 0 100 100" aria-hidden="true">
-  <ellipse cx="50" cy="40" rx="30" ry="9" fill="#E7B75A"/><circle cx="38" cy="34" r="9" fill="#C9553A"/><circle cx="54" cy="31" r="10" fill="#2E8B83"/><circle cx="66" cy="38" r="8" fill="#E7B75A"/><circle cx="48" cy="40" r="8" fill="#B9482F" opacity=".9"/>
-  <path d="M16 44h68c0 22-14 38-34 38S16 66 16 44z" fill="#F3EAD3" stroke="#2B2A28" stroke-width="3"/>
-  <path d="M38 88h24" stroke="#2B2A28" stroke-width="3" stroke-linecap="round"/></svg>`;
 
 function bar(backTo, top, bottom){
   return `<div class="bar"><button class="back" data-go="${backTo}" aria-label="뒤로">‹</button><div class="crumb">${esc(top)}<b>${esc(bottom)}</b></div></div>`;
@@ -205,7 +201,7 @@ function bar(backTo, top, bottom){
 /* ---------- 화면 ---------- */
 function viewHome(){
   return `<div class="screen">
-    <div class="hero">${BOWL}<h1>안다미로</h1>
+    <div class="hero"><img class="bowl" src="icons/hero.png" alt="훈민정음 글자가 머릿속에서 넘쳐 나오는 모습"><h1>안다미로</h1>
       <div class="hanja-line">속담 · 순우리말 배움터</div>
       <div class="def"><b>안다미로</b> : 담은 것이 넘칠 듯이 가득한 모양</div></div>
     <div class="mains">
