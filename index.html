@@ -184,6 +184,21 @@ th{color:var(--mute);font-weight:500;font-size:12px}
 .scene .se0{transform:rotate(-6deg)}
 .scene .sp{position:absolute;font-style:normal;color:rgba(255,255,255,.85);font-size:16px}
 .scene .s1{left:14%;top:14%} .scene .s2{right:12%;bottom:16%;font-size:22px}
+
+/* 우리말 찾기 */
+.wdscr .sf-in input:focus{border-color:var(--wd)}
+.wdscr .chip.on{background:var(--wd)}
+.wdscr .pcard.open{border-color:var(--wd);background:#F6FBFA}
+.wdscr .today{background:linear-gradient(135deg,#2E8B83,#1B625C)}
+.wdscr .pcard .pt small{font-weight:400;font-size:11.5px;color:var(--wd-deep);background:var(--wd-soft);border-radius:99px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+.wdscr .pcard.open .pq{display:none}
+.wdscr .pm ol{margin-left:20px}
+.wdscr .pm li{padding:1px 0}
+.wdscr .pm .ex{margin-top:6px;padding:7px 10px;border-radius:10px;background:var(--wd-soft);color:var(--wd-deep);font-size:13.5px}
+.wdscr .pcard .pq{display:block;font-size:13.5px;color:var(--mute);font-weight:400;margin-top:1px;word-break:keep-all}
+.jamo{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:4px 0 6px}
+.jamo button{text-align:center;padding:9px 0;border-radius:11px;background:#fff;border:1px solid var(--line);font-family:var(--display);font-size:19px}
+.jamo button.on{background:var(--wd);color:#fff;border-color:var(--wd)}
 .foot{margin-top:28px;text-align:center;font-size:12px;color:var(--mute)}
 </style>
 </head>
@@ -209,8 +224,7 @@ const MENU = {
       {id:'p-intro', title:'속담이란', note:'속담 알아보기', items:[
         {id:'p-meaning', status:'done', render:()=>renderMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
         {id:'p-origin', status:'done', render:()=>renderOrigin(), init:()=>initOrigin(), ic:'🏺', title:'속담의 유래', desc:'속담이 만들어진 다양한 이야기를 공부해요.', plan:['유래가 재미있는 속담 이야기','유래 이야기 읽고 뜻 맞혀 보기']},
-        {id:'p-good', status:'done', render:()=>renderGood(), init:()=>initGood(), ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']},
-        {id:'p-books', ic:'📚', title:'속담을 전하는 책들', desc:'조선시대부터 속담을 전해 온 책을 소개해요.', plan:['속담을 기록한 옛 책 소개','책 표지·시대·특징 카드']}
+        {id:'p-good', status:'done', render:()=>renderGood(), init:()=>initGood(), ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']}
       ]},
       {id:'p-school', title:'속담 배움터', note:'초등 3~6학년 교과 속담', items:[
         {id:'p-g3', ic:'3️⃣', title:'3학년 교과 내용', desc:'3학년 교과에 나오는 속담을 단원별로 배워요.', plan:['교과 단원 안내','설명 자료 · 이미지 · 멀티미디어 학습 화면']},
@@ -250,8 +264,8 @@ const MENU = {
       '찾고자 하는 우리말을 검색어로 쉽게 찾을 수 있다.'
     ],
     groups:[
-      {id:'w-find', title:'우리말 찾기', note:'1,550여 개 · 초등 수준', items:[
-        {id:'w-f-char', ic:'🔡', title:'글자로 찾기', desc:'글자 단위로 검색해 자유롭게 찾아봐요. 처음 시작하는 친구에게 알맞아요.', plan:['글자 입력(예: “나”가 들어간 우리말)','검색 결과 목록 → 낱말 뜻풀이']},
+      {id:'w-find', title:'우리말 찾기', note:'5,500여 개', items:[
+        {id:'w-f-char', status:'done', render:()=>renderWfind(), init:()=>initWfind(), ic:'🔡', title:'글자로 찾기', desc:'글자 단위로 검색해 자유롭게 찾아봐요. 처음 시작하는 친구에게 알맞아요.', plan:['글자 입력(예: “나”가 들어간 우리말)','검색 결과 목록 → 낱말 뜻풀이']},
         {id:'w-f-cat', ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
       ]},
       {id:'w-right', title:'우리말 바로 쓰기', note:'', items:[
@@ -544,7 +558,7 @@ function initGood(){
 }
 
 /* ---------- 속담 찾기: 낱말로 찾기 ---------- */
-const DB = {pv:null};
+const DB = {pv:null, wd:null};
 function loadProverbs(){
   if(!DB.pv) DB.pv = fetch('data/proverbs.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
     a.forEach(p=>{ p.n = p.t.replace(/\s+/g,''); p.mn = p.m.replace(/\s+/g,''); }); return a; })
@@ -598,6 +612,61 @@ function initFind(){
   document.getElementById('sf').addEventListener('click',e=>{
     const c=e.target.closest('.chip'); if(c){ lv=c.dataset.lv; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c)); shown=30; draw(); return; }
     if(e.target.closest('#sfmore')){ shown+=30; draw(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
+
+/* ---------- 우리말 찾기: 글자로 찾기 ---------- */
+function loadWords(){
+  if(!DB.wd) DB.wd = fetch('data/words.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
+    a.forEach(x=>{ x.ini=[...x.w].map(c=>{ const k=c.charCodeAt(0)-0xAC00; return k>=0&&k<11172?'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'[Math.floor(k/588)]:c; }).join(''); });
+    a.sort((x,y)=>y.f-x.f); return a; })
+    .catch(e=>{ DB.wd=null; throw e; });
+  return DB.wd;
+}
+function renderWfind(){
+  const J='ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ';
+  return `<div id="wf" class="wdscr">
+    <div class="sf-box"><div class="sf-in"><input id="wfq" type="search" enterkeyhint="search" autocomplete="off" placeholder="글자를 입력해 보세요 (예: 나, 바람)" aria-label="찾을 글자"><button class="sf-clear" id="wfx" aria-label="지우기">✕</button></div>
+    <div class="sf-opt" id="wfm"><button class="chip on" data-m="in">들어간 말</button><button class="chip" data-m="st">시작하는 말</button><button class="chip" data-m="en">끝나는 말</button></div></div>
+    <div class="sf-info">첫 글자의 자음(ㄱ ㄴ ㄷ…)을 눌러도 찾을 수 있어요.</div>
+    <div class="jamo" id="wfj">${[...J].map(c=>`<button data-j="${c}">${c}</button>`).join('')}</div>
+    <div id="wfr"><div class="sf-info">우리말 자료를 불러오는 중…</div></div>${CREDIT}</div>`;
+}
+function initWfind(){
+  const q=document.getElementById('wfq'), out=document.getElementById('wfr');
+  let data=[], mode='in', shown=30;
+  const isJamo=t=>/^[ㄱ-ㅎ]+$/.test(t);
+  const hl=(w,t)=>{ if(!t||isJamo(t)) return esc(w); const i=w.indexOf(t); return i<0?esc(w):esc(w.slice(0,i))+'<mark>'+esc(t)+'</mark>'+esc(w.slice(i+t.length)); };
+  const card=(x,t)=>`<button class="pcard" data-i="1"><span class="pt">${hl(x.w,t)}<small>${esc(x.p)}</small><span class="pq">${esc(x.m[0])}</span></span>
+    <div class="pm">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:''}${x.e?`<div class="ex">예) ${esc(x.e)}</div>`:''}</div></button>`;
+  function draw(){
+    const t=q.value.trim().replace(/\s+/g,'');
+    if(!t){
+      const c=data.filter(x=>x.f>=300&&x.e&&x.w.length>=2), x=c[Math.floor(Math.random()*c.length)];
+      out.innerHTML=`<div class="today"><small>오늘의 우리말</small><div class="pt">${esc(x.w)} <span style="font-size:14px;opacity:.85">${esc(x.p)}</span></div><div class="pm">${esc(x.m[0])}</div></div>
+        <div class="sf-info">글자를 입력하면 그 글자가 들어간 우리말을 찾아 줘요. 찾은 낱말을 누르면 뜻과 예문이 나와요.</div>`; return;
+    }
+    const j=isJamo(t);
+    const r=data.filter(x=>{
+      if(j) return mode==='en'?x.ini.endsWith(t):mode==='in'?x.ini.includes(t):x.ini.startsWith(t);
+      return mode==='st'?x.w.startsWith(t):mode==='en'?x.w.endsWith(t):x.w.includes(t);
+    });
+    let h=`<div class="sf-info">‘${esc(t)}’ 우리말 ${r.length}개</div>`;
+    if(!r.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 낱말이 없어요</b>글자를 줄이거나 다른 글자로 찾아보세요.</div></div>`;
+    h+=r.slice(0,shown).map(x=>card(x,t)).join('');
+    if(r.length>shown) h+=`<button class="more" id="wfmore">더 보기 (${r.length-shown}개 남음)</button>`;
+    out.innerHTML=h;
+  }
+  const setJ=c=>document.querySelectorAll('#wfj button').forEach(b=>b.classList.toggle('on',b.dataset.j===c));
+  loadWords().then(a=>{ data=a; draw(); }).catch(()=>{ out.innerHTML='<div class="soon"><span class="em">📡</span><div><b>우리말 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>'; });
+  q.addEventListener('input',()=>{ shown=30; setJ(q.value.trim()); draw(); });
+  document.getElementById('wf').addEventListener('click',e=>{
+    const m=e.target.closest('#wfm .chip'); if(m){ mode=m.dataset.m; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x===m)); shown=30; draw(); return; }
+    const b=e.target.closest('#wfj button'); if(b){ q.value=b.dataset.j; mode='st'; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x.dataset.m==='st')); setJ(b.dataset.j); shown=30; draw(); return; }
+    if(e.target.closest('#wfx')){ q.value=''; setJ(''); shown=30; draw(); q.focus(); return; }
+    if(e.target.closest('#wfmore')){ shown+=30; draw(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
   });
 }
