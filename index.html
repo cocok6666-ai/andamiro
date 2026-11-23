@@ -46,16 +46,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .hero .ex{word-break:keep-all;text-wrap:balance;font-family:var(--sans);font-size:16.1px;line-height:1.55;margin:10px 4px 0;padding:10px 14px;border-radius:14px;background:var(--paper2);color:#5b5548;text-align:left}
 .hero .ex b{color:var(--pv);font-weight:700}
 .hero .def b{color:var(--pv)}
-.mains{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
-.main{position:relative;border-radius:22px;padding:20px 10px 18px;color:#fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;width:100%;min-height:228px;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .1s, box-shadow .1s}
-.main:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.14)}
+.mains{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 -18px}
+.main{position:relative;border-radius:0;padding:24px 10px 22px;color:#fff;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:clamp(28px,9dvh,90px);text-align:center;gap:14px;width:100%;min-height:max(260px,calc(100vh - min(100vw,560px)*.944 - 24px));min-height:max(260px,calc(100dvh - min(100vw,560px)*.944 - 24px));transition:filter .1s}
+.main:active{filter:brightness(.92)}
 .main.pv{background:linear-gradient(160deg,#C9553A,#A63C26)}
 .main.wd{background:linear-gradient(160deg,#2E8B83,#1B625C)}
-.main .ico{flex:none;width:72px;height:72px;border-radius:22px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-family:var(--display);font-size:44px;line-height:1}
+.main .ico{flex:none;width:92px;height:92px;border-radius:28px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-family:var(--display);font-size:58px;line-height:1}
 .main .mt{min-width:0}
-.main h2{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.25;margin:0 0 6px}
-.main p{font-size:14px;line-height:1.45;opacity:.95;word-break:keep-all}
-.main .go{position:static;margin:auto 0 0;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:19px}
+.main h2{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.25;margin:0 0 8px}
+.main p{font-size:15.5px;line-height:1.5;opacity:.95;word-break:keep-all;padding:0 4px}
+.main .go{position:static;margin:4px 0 0;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:22px}
 .screen.home{margin-top:-18px}
 .screen.home .hero{padding:0 0 8px}
 .screen.home .hero-art{width:calc(100% + 36px);max-width:none;margin:0 -18px;border-radius:0 0 30px 30px}
