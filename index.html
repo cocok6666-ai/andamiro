@@ -604,7 +604,7 @@ function initGood(){
 const DB = {pv:null, wd:null};
 function loadProverbs(){
   if(!DB.pv) DB.pv = fetch('data/proverbs.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
-    a.forEach(p=>{ p.n = p.t.replace(/\s+/g,''); p.mn = p.m.replace(/\s+/g,''); }); return a; })
+    a.forEach(p=>{ p.n = p.t.replace(/\s+/g,''); p.mn = p.m.replace(/\s+/g,''); }); a.sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko')); return a; })
     .catch(e=>{ DB.pv=null; throw e; });
   return DB.pv;
 }
@@ -638,8 +638,8 @@ function initFind(){
     const all=pool.filter(p=>toks.every(t=>p.n.includes(t)));
     const body=pool.filter(p=>!all.includes(p)&&toks.every(t=>p.mn.includes(t)));
     const key=toks[0];
-    all.sort((a,b)=>(b.n.startsWith(key)-a.n.startsWith(key))||(a.n.length-b.n.length));
-    body.sort((a,b)=>a.n.length-b.n.length);
+    all.sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
+    body.sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
     last=all.concat(body);
     let h=`<div class="sf-info">‘${esc(raw)}’ 속담 ${all.length}개${body.length?` · 뜻풀이에서 ${body.length}개 더`:''}</div>`;
     if(!last.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>낱말을 줄이거나 다른 낱말로 찾아보세요.</div></div>`;
@@ -737,7 +737,7 @@ function mountResult(box, head, ids, byid, cardFn){
   cardFn=cardFn||tcard;
   let shown=20;
   const draw=()=>{
-    const list=ids.map(i=>byid[i]).filter(Boolean);
+    const list=ids.map(i=>byid[i]).filter(Boolean).sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko'));
     box.innerHTML=`<div class="rhead"><span class="re">${head.e}</span><div><b>${esc(head.t)}</b><small>${esc(head.d)}</small></div></div>`
       +list.slice(0,shown).map(cardFn).join('')
       +(list.length>shown?`<button class="more" data-more="1">더 보기 (${list.length-shown}개 남음)</button>`:'');
@@ -799,7 +799,7 @@ function initMoral(){
     const t=q.value.trim().replace(/\s+/g,'');
     document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.remove('on'));
     if(!t){ res.innerHTML='<div class="tpick">👆 마음에 드는 보물상자를 열어 보세요</div>'; return; }
-    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort((a,b)=>(a.lv!=='A')-(b.lv!=='A')||a.t.length-b.t.length).map(p=>p.id);
+    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort((a,b)=>(a.t||a.w).localeCompare(b.t||b.w,'ko')).map(p=>p.id);
     if(!r.length){ res.innerHTML='<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>다른 낱말로 찾아보세요.</div></div>'; return; }
     mountResult(res,{e:'🔍',t:`‘${q.value.trim()}’ 속담 ${r.length}개`,d:'속담 또는 뜻풀이에서 찾았어요'},r,by);
   });
