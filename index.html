@@ -450,6 +450,14 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .mscn .pg{flex:none;margin:6px 0 4px}
 .mscn .cta.nx{position:static;margin:0 auto;box-shadow:none;padding:8px 20px;flex:none}
 @media(max-height:720px){.mscn .story .sn{display:none}.mscn .story .scene{min-height:48px}}
+.gscn .otw.gtw{position:static;margin:0 -18px 4px;padding:2px 18px 6px;box-shadow:none;background:none;flex:none}
+.gscn .tabs.o3 .chip{min-height:clamp(40px,6dvh,52px);flex-direction:row;justify-content:center;gap:6px}
+.gscn .tabs.o3 .chip .ti{font-size:clamp(17px,2.4dvh,21px)}
+.gscn #gbody{flex:1;min-height:0;display:flex;flex-direction:column}
+.gscn .gdesc{flex:none;margin:0 2px 6px}
+.gscn .gdesc b{font-size:19px}
+.gscn .gdesc p{font-size:14px;line-height:1.35;margin-top:1px}
+@media(max-height:720px){.gscn .gdesc p{display:none}}
 .pgm{flex:1;text-align:center;min-width:0}
 .eh{position:absolute;z-index:5;transform:translateY(-50%);font-size:34px;font-weight:700;line-height:1;color:#fff;background:rgba(40,30,20,.18);padding:12px 3px;border-radius:10px;pointer-events:none;animation:ehb 1.2s ease-in-out infinite;text-shadow:0 1px 3px rgba(0,0,0,.4)}
 .eh.l{left:2px}.eh.r{right:2px}.eh[hidden]{display:none}
@@ -954,9 +962,9 @@ function renderGood(){
     <h3 class="sec">속담의 좋은 점 5가지</h3>
     ${G.five.map((f,i)=>`<div class="cmp"><div class="ch"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p></div></div>
       ${f[4]?`<div class="vs"><div class="v1"><small>보통 말로 하면</small>${esc(f[3])}</div><div class="v2"><small>속담으로 하면</small><b>${esc(f[4])}</b></div></div>`:`<div class="eg">${esc(f[3])}</div>`}</div>`).join('')}
-    <h3 class="sec">상황별로 쓰기 좋은 속담 30가지</h3>
+    <div class="mscn gscn"><h3 class="sec">상황별로 쓰기 좋은 속담 30가지</h3>
     <div class="otw gtw"><div class="tabs o3 c2" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}"><span class="ti">${c.ic}</span><span>${esc(c.t)}</span></button>`).join('')}</div></div>
-    <div id="gbody"></div></div>`;
+    <div id="gbody"></div></div></div>`;
 }
 function initGood(){
   const body=document.getElementById('gbody'), C=LES.good.cats;
