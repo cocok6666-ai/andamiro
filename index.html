@@ -308,7 +308,7 @@ const MENU = {
     cls:'wd', title:'아름다운 순우리말', short:'우리말', icon:'🌸',
     sub:'곱고 정겨운 우리말을 찾아 익히고 친구에게 소개해요',
     groups:[
-      {id:'w-find', title:'우리말 찾기', note:'5,500여 개', items:[
+      {id:'w-find', title:'우리말 찾기', note:'고운 우리말 630여 개', items:[
         {id:'w-f-char', status:'done', render:()=>renderWfind(), init:()=>initWfind(), ic:'🔡', title:'글자로 찾기', desc:'글자 단위로 검색해 자유롭게 찾아봐요. 처음 시작하는 친구에게 알맞아요.', plan:['글자 입력(예: “나”가 들어간 우리말)','검색 결과 목록 → 낱말 뜻풀이']},
         {id:'w-f-cat', status:'done', render:()=>renderWcat(), init:()=>initWcat(), ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
       ]},
@@ -664,7 +664,7 @@ function initFind(){
 function loadWords(){
   if(!DB.wd) DB.wd = fetch('data/words.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
     a.forEach(x=>{ x.ini=[...x.w].map(c=>{ const k=c.charCodeAt(0)-0xAC00; return k>=0&&k<11172?'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'[Math.floor(k/588)]:c; }).join(''); });
-    a.sort((x,y)=>y.f-x.f); return a; })
+    a.sort((x,y)=>x.w.localeCompare(y.w,'ko')); return a; })
     .catch(e=>{ DB.wd=null; throw e; });
   return DB.wd;
 }
@@ -688,7 +688,7 @@ function initWfind(){
   function draw(){
     const t=q.value.trim().replace(/\s+/g,'');
     if(!t&&!len){
-      const c=data.filter(x=>x.f>=300&&x.e&&x.w.length>=2), x=c[Math.floor(Math.random()*c.length)];
+      const c=data.filter(x=>x.w.length>=2), x=c[Math.floor(Math.random()*c.length)];
       out.innerHTML=`<div class="today"><small>오늘의 우리말</small><div class="pt">${esc(x.w)} <span style="font-size:16.1px;opacity:.85">${esc(x.p)}</span></div><div class="pm">${esc(x.m[0])}</div></div>
         <div class="sf-info">글자를 입력하면 그 글자가 들어간 우리말을 찾아 줘요. 찾은 낱말을 누르면 뜻과 예문이 나와요.</div>`; return;
     }
