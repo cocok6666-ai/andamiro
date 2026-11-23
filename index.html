@@ -1233,7 +1233,11 @@ document.addEventListener('click',e=>{
     deferredPrompt.prompt(); deferredPrompt.userChoice.finally(()=>{deferredPrompt=null;});
   }
 },true);
-if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
+if('serviceWorker' in navigator){
+  let hadSW=!!navigator.serviceWorker.controller, rl=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(hadSW&&!rl){ rl=true; location.reload(); } hadSW=true; });
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{ r.update().catch(()=>{}); document.addEventListener('visibilitychange',()=>{ if(!document.hidden) r.update().catch(()=>{}); }); }).catch(()=>{}); });
+}
 </script>
 </body>
 </html>
