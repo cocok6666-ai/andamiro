@@ -55,6 +55,23 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .ghead .te{font-size:40px;line-height:1}
 .ghead h2{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.2}
 .ghead p{font-size:14px;color:#3f4a47;margin-top:2px}
+/* 속담이란 주화면: 큰 카드 3장 */
+.screen.intro3{margin-bottom:-40px}
+.i3wrap{display:flex;flex-direction:column;gap:6px;margin:0 -18px;min-height:calc(100dvh - 62px)}
+.i3{position:relative;flex:1;min-height:170px;display:flex;align-items:stretch;text-align:left;overflow:hidden;background:linear-gradient(150deg,var(--c1),var(--c2));color:var(--ink3);padding:0 18px;transition:filter .1s}
+.i3:active{filter:brightness(.95)}
+.i3txt{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0;padding-right:118px}
+.i3txt small{font-size:13.5px;font-weight:700;opacity:.75}
+.i3txt b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2}
+.i3txt .q{font-size:15.5px;line-height:1.45;word-break:keep-all;opacity:.92}
+.i3txt .go{align-self:flex-start;margin-top:6px;font-size:14px;font-weight:700;background:rgba(255,255,255,.7);border-radius:99px;padding:6px 14px}
+.i3art{position:absolute;right:0;top:0;bottom:0;width:150px;z-index:1}
+.i3art .blob{position:absolute;right:-40px;top:50%;width:190px;height:190px;margin-top:-95px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.75),rgba(255,255,255,.12) 70%)}
+.ae{position:absolute;font-style:normal;line-height:1;filter:drop-shadow(0 5px 5px rgba(0,0,0,.18));transform:rotate(var(--r));animation:bob 3.4s ease-in-out infinite}
+.ae.a{font-size:62px;right:48px;top:18%}
+.ae.b{font-size:46px;right:10px;top:50%;animation-delay:-1.1s}
+.ae.c{font-size:34px;right:92px;bottom:12%;animation-delay:-2.2s}
+@media(prefers-reduced-motion:reduce){.ae{animation:none}}
 /* home */
 .hero{text-align:center;padding:6px 0 18px}
 .hero-art{display:block;width:100%;height:auto;filter:drop-shadow(0 12px 18px rgba(15,74,69,.26))}
@@ -418,7 +435,21 @@ function viewHub(k){
     <div class="ggrid n${n}">${tiles}</div></div>`;
 }
 
+const INTRO3=[
+  {id:'p-meaning',n:'①',t:'속담의 뜻',q:'“식은 죽 먹기”, 정말 죽을 먹는 이야기일까요?',c:['#FFD9A0','#FFB66B'],ink:'#5a2d0c',art:[['💬',-6,'a'],['🍚',10,'b'],['❓',-12,'c']]},
+  {id:'p-origin',n:'②',t:'속담의 유래',q:'“믿는 도끼에 발등 찍힌다”, 어떤 이야기에서 나왔을까요?',c:['#F7B7A3','#E9826A'],ink:'#521d10',art:[['🏺',-8,'a'],['📜',8,'b'],['🪓',-14,'c']]},
+  {id:'p-good',n:'③',t:'속담의 좋은 점',q:'짧은 한마디로 마음을 콕! 속담을 쓰면 말이 어떻게 달라질까요?',c:['#BFE6DD','#74C3B4'],ink:'#0f403a',art:[['✨',-6,'a'],['💡',8,'b'],['🌈',-12,'c']]}
+];
+function viewIntro(g,m){
+  const cards=INTRO3.map(x=>{const it=leafIndex[x.id];
+    return `<button class="i3" data-go="${x.id}" style="--c1:${x.c[0]};--c2:${x.c[1]};--ink3:${x.ink}">
+      <span class="i3art" aria-hidden="true"><i class="blob"></i>${x.art.map(a=>`<em class="ae ${a[2]}" style="--r:${a[1]}deg">${a[0]}</em>`).join('')}</span>
+      <span class="i3txt"><small>${x.n} ${esc(m.short)}이란</small><b>${esc(x.t)}</b><span class="q">${esc(x.q)}</span><span class="go">${it&&it.status==='done'?'알아보러 가기 ›':'준비 중'}</span></span></button>`;}).join('');
+  return `<div class="screen intro3">${bar([['처음','home'],[m.short,'proverb'],[g.title]],m.cls)}<div class="i3wrap">${cards}</div></div>`;
+}
+
 function viewGroup(id){
+  if(id==='p-intro'){ const {g}=groupIndex[id]; return viewIntro(g,MENU.proverb); }
   const {k,g}=groupIndex[id], m=MENU[k], i=m.groups.indexOf(g), c=PALT[i%6];
   return `<div class="screen hubs">
     ${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
