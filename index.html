@@ -102,6 +102,34 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
 th{color:var(--mute);font-weight:500;font-size:12px}
 .bar2{height:8px;background:var(--paper2);border-radius:9px;overflow:hidden;margin:6px 0 14px}
 .bar2 i{display:block;height:100%;background:var(--wd)}
+
+/* 속담 찾기 */
+.sf-box{position:sticky;top:0;z-index:5;background:var(--paper);padding:2px 0 10px}
+.sf-in{display:flex;gap:8px}
+.sf-in input{flex:1;min-width:0;font:inherit;font-size:17px;padding:13px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);outline:none}
+.sf-in input:focus{border-color:var(--pv)}
+.sf-clear{width:48px;border-radius:14px;background:var(--paper2);text-align:center;font-size:18px}
+.sf-opt{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.chip{padding:7px 13px;border-radius:99px;background:var(--paper2);font-size:13.5px;font-weight:500}
+.chip.on{background:var(--pv);color:#fff}
+.sf-info{font-size:13px;color:var(--mute);margin:6px 2px 8px}
+.sf-h{font-family:var(--display);font-weight:400;font-size:18px;margin:14px 2px 8px}
+.pcard{display:block;width:100%;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:8px}
+.pcard .pt{font-weight:700;font-size:16.5px;line-height:1.45;word-break:keep-all}
+.pcard mark{background:#FFE08A;color:inherit;border-radius:3px;padding:0 1px}
+.pcard .pm{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:14.5px;color:#4a463e;word-break:keep-all}
+.pcard .ps{margin-top:8px;font-size:13.5px;color:var(--pv-deep);word-break:keep-all}
+.pcard .ps b{font-weight:700}
+.pcard.open{border-color:var(--pv);background:#FFFBF3}
+.pcard.open .pm{display:block}
+.pcard .lvb{float:right;font-size:11px;font-weight:500;color:var(--mute);background:var(--paper2);border-radius:99px;padding:1px 8px;margin-left:8px}
+.more{width:100%;padding:13px;border-radius:14px;background:var(--paper2);text-align:center;font-weight:500;margin-top:4px}
+.today{background:linear-gradient(135deg,#C9553A,#A63C26);color:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
+.today small{opacity:.85;font-size:12px;letter-spacing:.06em}
+.today .pt{font-family:var(--display);font-size:22px;line-height:1.4;margin:4px 0 6px;word-break:keep-all}
+.today .pm{font-size:14px;opacity:.96;word-break:keep-all}
+.credit{margin-top:26px;font-size:11.5px;color:var(--mute);text-align:center;line-height:1.5}
+.credit a{color:inherit}
 .foot{margin-top:28px;text-align:center;font-size:12px;color:var(--mute)}
 </style>
 </head>
@@ -145,8 +173,8 @@ const MENU = {
         {id:'p-remix', ic:'🎨', title:'재미있게 속담 고치기', desc:'요즘 상황에 어울리게 속담을 바꿔 봐요.', plan:['속담의 일부를 바꿔 새 속담 만들기','바꾼 속담에 담긴 뜻 설명하기']},
         {id:'p-box', ic:'🧺', title:'내 속담 창고', desc:'내가 고치고 만든 속담이 차곡차곡 쌓이는 곳이에요.', plan:['만든 가훈·좌우명·속담 모아 보기','누적된 학습 결과물 보기']}
       ]},
-      {id:'p-find', title:'속담 찾기', note:'속담사전 · 1만 개 이상', items:[
-        {id:'p-f-word', ic:'🔤', title:'낱말로 찾기', desc:'속담 속 낱말만 입력해도 찾아져요.', plan:['검색어 입력','검색 결과 목록 → 속담 뜻풀이']},
+      {id:'p-find', title:'속담 찾기', note:'중학교 수준 · 6,300여 개', items:[
+        {id:'p-f-word', status:'done', render:()=>renderFind(), init:()=>initFind(), ic:'🔤', title:'낱말로 찾기', desc:'속담 속 낱말만 입력해도 찾아져요.', plan:['검색어 입력','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-nature', ic:'🌿', title:'동식물로 찾기', desc:'동물·식물 이름으로 속담을 찾아요.', plan:['동식물 이름 입력 또는 고르기','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-moral', ic:'🧭', title:'교훈으로 찾기', desc:'교훈·덕목·상징하는 낱말로 찾아요.', plan:['교훈/덕목 고르기','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-zodiac', ic:'🐯', title:'나의 띠로 속담 찾기', desc:'내 띠 동물이 나오는 속담을 찾아요.', plan:['띠 고르기','띠 동물 속담 목록 → 속담 뜻풀이']}
@@ -280,6 +308,66 @@ function viewStatus(){
     <h2>🛠 제작 현황</h2><p>전체 ${doneCount(allLeaves)} / ${allLeaves.length} 메뉴 완성. 선생님·제작자용 화면이에요.</p>${rows}</div>`;
 }
 
+
+/* ---------- 속담 찾기: 낱말로 찾기 ---------- */
+const DB = {pv:null};
+function loadProverbs(){
+  if(!DB.pv) DB.pv = fetch('data/proverbs.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(a=>{
+    a.forEach(p=>{ p.n = p.t.replace(/\s+/g,''); p.mn = p.m.replace(/\s+/g,''); }); return a; })
+    .catch(e=>{ DB.pv=null; throw e; });
+  return DB.pv;
+}
+const CREDIT = '<div class="credit">속담·낱말 자료 출처: 국립국어원 <a href="https://opendict.korean.go.kr" target="_blank" rel="noopener">우리말샘</a><br>(CC BY-SA 2.0 KR) · 학생용으로 골라 다듬었어요</div>';
+function renderFind(){
+  return `<div id="sf">
+    <div class="sf-box"><div class="sf-in"><input id="sfq" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="낱말을 입력해 보세요 (예: 호랑이, 바늘)" aria-label="속담 속 낱말"><button class="sf-clear" id="sfx" aria-label="지우기">✕</button></div>
+    <div class="sf-opt"><button class="chip on" data-lv="all">모든 속담</button><button class="chip" data-lv="A">쉬운 속담만</button></div></div>
+    <div id="sfr"><div class="sf-info">속담 데이터를 불러오는 중…</div></div>${CREDIT}</div>`;
+}
+function initFind(){
+  const q=document.getElementById('sfq'), out=document.getElementById('sfr');
+  let data=[], lv='all', shown=30, last=[];
+  const hl=(text,toks)=>{
+    const e=esc(text); if(!toks.length) return e;
+    const re=new RegExp('('+toks.map(t=>[...t].map(c=>c.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s*')).join('|')+')','g');
+    return text.split(re).map((x,i)=>i%2?`<mark>${esc(x)}</mark>`:esc(x)).join('');
+  };
+  const card=(p,toks)=>`<button class="pcard" data-id="${p.id}"><span class="pt">${hl(p.t,toks)}${p.lv==='B'?'<span class="lvb">조금 어려움</span>':''}</span>
+    <div class="pm">${esc(p.m)}${p.s.length?`<div class="ps"><b>비슷한 속담</b> ${p.s.map(esc).join(' · ')}</div>`:''}</div></button>`;
+  const pick=a=>a[Math.floor(Math.random()*a.length)];
+  function draw(){
+    const raw=q.value.trim(), toks=raw.split(/\s+/).filter(Boolean).map(t=>t.replace(/\s+/g,''));
+    const pool=lv==='A'?data.filter(p=>p.lv==='A'):data;
+    if(!toks.length){
+      const t=pick(data.filter(p=>p.lv==='A'&&p.t.length<=16));
+      out.innerHTML=`<div class="today"><small>오늘의 속담</small><div class="pt">${esc(t.t)}</div><div class="pm">${esc(t.m)}</div></div>
+        <div class="sf-info">검색창에 속담 속 낱말을 입력하면 찾아 줘요. 낱말의 일부만 써도 돼요. 찾은 속담을 누르면 뜻이 나와요.</div>`;
+      return;
+    }
+    const all=pool.filter(p=>toks.every(t=>p.n.includes(t)));
+    const body=pool.filter(p=>!all.includes(p)&&toks.every(t=>p.mn.includes(t)));
+    const key=toks[0];
+    all.sort((a,b)=>(b.n.startsWith(key)-a.n.startsWith(key))||(a.n.length-b.n.length));
+    body.sort((a,b)=>a.n.length-b.n.length);
+    last=all.concat(body);
+    let h=`<div class="sf-info">‘${esc(raw)}’ 속담 ${all.length}개${body.length?` · 뜻풀이에서 ${body.length}개 더`:''}</div>`;
+    if(!last.length) h+=`<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>낱말을 줄이거나 다른 낱말로 찾아보세요.</div></div>`;
+    const vis=last.slice(0,shown);
+    let i=0; const na=all.length;
+    vis.forEach(p=>{ if(i===na && na>0) h+=`<div class="sf-h">뜻풀이에서 찾은 속담</div>`; h+=card(p,i<na?toks:[]); i++; });
+    if(last.length>shown) h+=`<button class="more" id="sfmore">더 보기 (${last.length-shown}개 남음)</button>`;
+    out.innerHTML=h;
+  }
+  loadProverbs().then(a=>{ data=a; draw(); }).catch(()=>{ out.innerHTML='<div class="soon"><span class="em">📡</span><div><b>속담 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>'; });
+  q.addEventListener('input',()=>{ shown=30; draw(); });
+  document.getElementById('sfx').addEventListener('click',()=>{ q.value=''; shown=30; draw(); q.focus(); });
+  document.getElementById('sf').addEventListener('click',e=>{
+    const c=e.target.closest('.chip'); if(c){ lv=c.dataset.lv; document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c)); shown=30; draw(); return; }
+    if(e.target.closest('#sfmore')){ shown+=30; draw(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
 /* ---------- 라우팅 (#이름) ---------- */
 function route(){
   const h = (location.hash||'').slice(1) || 'home';
@@ -292,6 +380,7 @@ function route(){
   else html=viewHome();
   $app.innerHTML = html;
   window.scrollTo(0,0);
+  const lf=leafIndex[h]; if(lf && lf.status==='done' && lf.init) lf.init();
 }
 function go(id){ if(location.hash==='#'+id) route(); else location.hash = id; }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
