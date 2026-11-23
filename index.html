@@ -999,7 +999,7 @@ function fitResults(R,list,o){
     const it=e.target.closest('.ri'); if(!it){ if(e.target.closest('.rbub')) close(); return; }
     const k=+it.dataset.i, same=open===k; close(); if(same) return;
     it.classList.add('on'); it.setAttribute('aria-expanded','true'); open=k;
-    it.insertAdjacentHTML('afterend',`<div class="rbub" role="note">${R.b(list[k],k)}<span class="rx">탭하면 닫혀요</span></div>`);
+    it.insertAdjacentHTML('afterend',`<div class="rbub" role="note">${R.b(list[k],k)}<span class="rx">닫기</span></div>`);
     const b=it.nextElementSibling; box.scrollTo({top:Math.max(0,it.offsetTop-box.offsetTop-6),behavior:'smooth'});
   });
   box.addEventListener('scroll',()=>{ if(shown<n && box.scrollTop+box.clientHeight>box.scrollHeight-160) more(); },{passive:true});
