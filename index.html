@@ -196,6 +196,54 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .jamo{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:4px 0 6px}
 .jamo button{text-align:center;padding:9px 0;border-radius:11px;background:#fff;border:1px solid var(--line);font-family:var(--display);font-size:21.8px}
 .jamo button.on{background:var(--wd);color:#fff;border-color:var(--wd)}
+
+/* 주제별 속담 찾기 (동식물 · 교훈 · 띠) */
+.tbanner{position:relative;border-radius:22px;padding:20px 18px 18px;color:#fff;overflow:hidden;margin-bottom:14px}
+.tbanner h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.25;position:relative}
+.tbanner h2,.tbanner p{max-width:74%}
+.tbanner p{font-size:15px;opacity:.95;margin-top:4px;position:relative;word-break:keep-all}
+.tbanner .fl{position:absolute;font-size:38px;opacity:.32;pointer-events:none}
+.tbanner .fl.a{right:12px;top:8px;font-size:54px;opacity:.5} .tbanner .fl.b{right:16px;bottom:6px;font-size:30px;opacity:.4} .tbanner .fl.c{display:none}
+.nat .tbanner{background:linear-gradient(135deg,#3FA66B,#1E7A55 60%,#12583F)}
+.mor .tbanner{background:linear-gradient(135deg,#F2A93B,#E0703C 55%,#B8483A)}
+.zod .tbanner{background:linear-gradient(160deg,#2A2F78,#4B3A9A 60%,#7A4FB0);}
+.zod .tbanner:before{content:"✦ ·  ✧  · ✦   ·  ✧ ·   ✦";position:absolute;left:14px;bottom:8px;color:rgba(255,255,255,.5);letter-spacing:10px;font-size:13px}
+.seg{display:flex;gap:6px;background:var(--paper2);border-radius:99px;padding:5px;margin-bottom:14px}
+.seg button{flex:1;text-align:center;padding:11px 0;border-radius:99px;font-weight:700;font-size:17px}
+.seg button.on{background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);color:#1E7A55}
+.tgrid{display:grid;gap:10px;margin-bottom:6px}
+.tgrid.c3{grid-template-columns:repeat(3,1fr)} .tgrid.c2{grid-template-columns:repeat(2,1fr)} .tgrid.c4{grid-template-columns:repeat(4,1fr);gap:8px}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:18px;padding:12px 4px 10px;background:#fff;border:2px solid var(--line);transition:transform .12s,box-shadow .12s}
+.tile:active{transform:scale(.94)}
+.tile .te{font-size:38px;line-height:1.15}
+.tile b{font-size:15.5px;margin-top:2px;word-break:keep-all}
+.tile small{font-size:12px;color:var(--mute)}
+.tile.on{transform:translateY(-3px);box-shadow:0 6px 0 rgba(0,0,0,.12)}
+.nat .tile .te{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:36px;background:var(--bg,#DDF0D6)}
+.nat .tile.on{border-color:#2E9A63;background:#F0FAF4}
+.mor .tile{align-items:flex-start;text-align:left;padding:14px 12px 12px;border:0;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:112px;box-shadow:0 4px 0 rgba(0,0,0,.10)}
+.mor .tile .te{font-size:36px}
+.mor .tile b{font-family:var(--display);font-weight:400;font-size:19px;margin-top:4px}
+.mor .tile small{color:#4a463e;font-size:12.5px;margin-top:1px;word-break:keep-all}
+.mor .tile em{font-style:normal;margin-top:auto;padding-top:6px;font-size:12px;font-weight:700;color:#5b3a1a}
+.mor .tile.on{outline:3px solid #B8483A;outline-offset:1px}
+.zod .tile{border-color:#D9D2F2;background:linear-gradient(180deg,#fff,#F2EEFC);padding:10px 2px 8px}
+.zod .tile .te{font-size:34px} .zod .tile b{font-size:14.5px}
+.zod .tile.on{border-color:#6B4FC0;background:#EDE6FF}
+.zbox{display:flex;gap:8px;margin-bottom:14px}
+.zbox input{flex:1;min-width:0;font:inherit;font-size:18px;padding:12px 14px;border:2px solid #CFC6EE;border-radius:14px;background:#fff;outline:none}
+.zbox input:focus{border-color:#6B4FC0}
+.zbox button{padding:0 18px;border-radius:14px;background:#5B3FB5;color:#fff;font-weight:700;text-align:center}
+.znote{font-size:12.5px;color:var(--mute);margin:-6px 2px 12px}
+.rhead{display:flex;align-items:center;gap:12px;margin:18px 0 10px;padding:12px 14px;border-radius:18px;color:#fff}
+.nat .rhead{background:#2E9A63} .mor .rhead{background:#C9553A} .zod .rhead{background:#5B3FB5}
+.rhead .re{font-size:44px;line-height:1;background:rgba(255,255,255,.22);border-radius:50%;width:66px;height:66px;display:grid;place-items:center;flex:none}
+.rhead b{font-family:var(--display);font-weight:400;font-size:21px;display:block;line-height:1.3}
+.rhead small{font-size:13px;opacity:.95;word-break:keep-all}
+.tsearch{margin-bottom:12px}
+.tsearch input{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:2px solid #F0C9A0;border-radius:14px;background:#fff;outline:none}
+.tsearch input:focus{border-color:#C9553A}
+.tpick{text-align:center;color:var(--mute);font-size:14px;padding:14px 0 4px}
 .foot{margin-top:28px;text-align:center;font-size:13.8px;color:var(--mute)}
 </style>
 </head>
@@ -234,9 +282,9 @@ const MENU = {
       ]},
       {id:'p-find', title:'속담 찾기', note:'속담사전 · 6,300여 개', items:[
         {id:'p-f-word', status:'done', render:()=>renderFind(), init:()=>initFind(), ic:'🔤', title:'낱말로 찾기', desc:'속담 속 낱말만 입력해도 찾아져요.', plan:['검색어 입력','검색 결과 목록 → 속담 뜻풀이']},
-        {id:'p-f-nature', ic:'🌿', title:'동식물로 찾기', desc:'동물·식물 이름으로 속담을 찾아요.', plan:['동식물 이름 입력 또는 고르기','검색 결과 목록 → 속담 뜻풀이']},
-        {id:'p-f-moral', ic:'🧭', title:'교훈으로 찾기', desc:'교훈·덕목·상징하는 낱말로 찾아요.', plan:['교훈/덕목 고르기','검색 결과 목록 → 속담 뜻풀이']},
-        {id:'p-f-zodiac', ic:'🐯', title:'나의 띠로 속담 찾기', desc:'내 띠 동물이 나오는 속담을 찾아요.', plan:['띠 고르기','띠 동물 속담 목록 → 속담 뜻풀이']}
+        {id:'p-f-nature', status:'done', render:()=>renderNature(), init:()=>initNature(), ic:'🌿', title:'동식물로 찾기', desc:'동물·식물 이름으로 속담을 찾아요.', plan:['동식물 이름 입력 또는 고르기','검색 결과 목록 → 속담 뜻풀이']},
+        {id:'p-f-moral', status:'done', render:()=>renderMoral(), init:()=>initMoral(), ic:'🧭', title:'교훈으로 찾기', desc:'교훈·덕목·상징하는 낱말로 찾아요.', plan:['교훈/덕목 고르기','검색 결과 목록 → 속담 뜻풀이']},
+        {id:'p-f-zodiac', status:'done', render:()=>renderZodiac(), init:()=>initZodiac(), ic:'🐯', title:'나의 띠로 속담 찾기', desc:'내 띠 동물이 나오는 속담을 찾아요.', plan:['띠 고르기','띠 동물 속담 목록 → 속담 뜻풀이']}
       ]},
       {id:'p-quiz', title:'속담 실력 알아보기', note:'평가', items:[
         {id:'p-q-fill', ic:'🧩', title:'속담 완성하기', desc:'빈칸을 채워 속담을 완성해요.', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
@@ -651,6 +699,132 @@ function initWfind(){
     const b=e.target.closest('#wfj button'); if(b){ q.value=b.dataset.j; mode='st'; document.querySelectorAll('#wfm .chip').forEach(x=>x.classList.toggle('on',x.dataset.m==='st')); setJ(b.dataset.j); shown=30; draw(); return; }
     if(e.target.closest('#wfx')){ q.value=''; setJ(''); shown=30; draw(); q.focus(); return; }
     if(e.target.closest('#wfmore')){ shown+=30; draw(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
+
+/* ---------- 주제별 속담 찾기: 동식물 · 교훈 · 띠 ---------- */
+DB.tg=null;
+function loadTags(){
+  if(!DB.tg) DB.tg=fetch('data/tags.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ DB.tg=null; throw e; });
+  return DB.tg;
+}
+const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>속담 자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>';
+function tcard(p){
+  return `<button class="pcard" data-id="${p.id}"><span class="pt">${esc(p.t)}${p.lv==='B'?'<span class="lvb">조금 어려움</span>':''}</span>
+    <div class="pm">${esc(p.m)}${p.s.length?`<div class="ps"><b>비슷한 속담</b> ${p.s.map(esc).join(' · ')}</div>`:''}</div></button>`;
+}
+/* 결과 상자: 머리띠 + 속담 카드 목록 + 더 보기 */
+function mountResult(box, head, ids, byid){
+  let shown=20;
+  const draw=()=>{
+    const list=ids.map(i=>byid[i]).filter(Boolean);
+    box.innerHTML=`<div class="rhead"><span class="re">${head.e}</span><div><b>${esc(head.t)}</b><small>${esc(head.d)}</small></div></div>`
+      +list.slice(0,shown).map(tcard).join('')
+      +(list.length>shown?`<button class="more" data-more="1">더 보기 (${list.length-shown}개 남음)</button>`:'');
+  };
+  box._draw=draw; box._more=()=>{ shown+=20; draw(); };
+  draw();
+}
+function wireResult(root){
+  root.addEventListener('click',e=>{
+    if(e.target.closest('[data-more]')){ const b=e.target.closest('[id$=res]')||root.querySelector('.resbox'); if(b&&b._more) b._more(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+const byIdMap=a=>{ const m={}; a.forEach(p=>m[p.id]=p); return m; };
+const PALT=[['#FFE9C6','#F7C98B'],['#D5EBE7','#9ED3CB'],['#F6DDD3','#EDAF9B'],['#E4E0F7','#BDB4EC'],['#FFF3B8','#F2D95F'],['#DDF0D6','#A9D79A']];
+
+/* 동식물로 찾기 */
+function renderNature(){
+  return `<div class="nat" id="nat"><div class="tbanner"><span class="fl a">🐯</span><span class="fl b">🌸</span><span class="fl c">🌳</span><h2>🌿 속담 숲속 도감</h2><p>동물과 식물 친구를 눌러, 그 친구가 나오는 속담을 찾아보세요.</p></div>
+    <div class="seg" id="natseg"><button class="on" data-k="an">🐾 동물</button><button data-k="pl">🌱 식물</button></div>
+    <div class="tgrid c3" id="natgrid"></div>
+    <div id="natres" class="resbox"><div class="tpick">👆 궁금한 친구를 눌러 보세요</div></div>${CREDIT}</div>`;
+}
+function initNature(){
+  const root=document.getElementById('nat'), grid=document.getElementById('natgrid'), res=document.getElementById('natres');
+  let T=null, by=null, kind='an';
+  const draw=()=>{
+    grid.innerHTML=T[kind].map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--bg:${c[0]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>속담 ${x.ids.length}개</small></button>`; }).join('');
+    res.innerHTML='<div class="tpick">👆 궁금한 친구를 눌러 보세요</div>';
+  };
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); draw(); }).catch(()=>{ res.innerHTML=LOADFAIL; });
+  root.addEventListener('click',e=>{
+    const sg=e.target.closest('#natseg button'); if(sg&&T){ kind=sg.dataset.k; document.querySelectorAll('#natseg button').forEach(b=>b.classList.toggle('on',b===sg)); draw(); return; }
+    const t=e.target.closest('.tile'); if(t&&T){
+      document.querySelectorAll('#natgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
+      const x=T[kind][+t.dataset.i];
+      mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:'속담을 누르면 뜻이 나와요'},x.ids,by);
+      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+    }
+    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
+/* 교훈으로 찾기 */
+function renderMoral(){
+  return `<div class="mor" id="mor"><div class="tbanner"><span class="fl a">🎁</span><span class="fl b">✨</span><span class="fl c">💎</span><h2>🧭 마음 보물상자</h2><p>마음에 새기고 싶은 교훈을 골라 보세요. 그 가르침이 담긴 속담이 나와요.</p></div>
+    <div class="tsearch"><input id="morq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔍 낱말로 찾기 (예: 약속, 친구, 정성)"></div>
+    <div class="tgrid c2" id="morgrid"></div>
+    <div id="morres" class="resbox"><div class="tpick">👆 마음에 드는 보물상자를 열어 보세요</div></div>${CREDIT}</div>`;
+}
+function initMoral(){
+  const root=document.getElementById('mor'), grid=document.getElementById('morgrid'), res=document.getElementById('morres'), q=document.getElementById('morq');
+  let T=null, by=null, all=[];
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; all=a; by=byIdMap(a);
+    grid.innerHTML=T.mo.map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>${esc(x.d)}</small><em>속담 ${x.ids.length}개</em></button>`; }).join('');
+  }).catch(()=>{ res.innerHTML=LOADFAIL; });
+  q.addEventListener('input',()=>{
+    const t=q.value.trim().replace(/\s+/g,'');
+    document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.remove('on'));
+    if(!t){ res.innerHTML='<div class="tpick">👆 마음에 드는 보물상자를 열어 보세요</div>'; return; }
+    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort((a,b)=>(a.lv!=='A')-(b.lv!=='A')||a.t.length-b.t.length).map(p=>p.id);
+    if(!r.length){ res.innerHTML='<div class="soon"><span class="em">🔍</span><div><b>찾는 속담이 없어요</b>다른 낱말로 찾아보세요.</div></div>'; return; }
+    mountResult(res,{e:'🔍',t:`‘${q.value.trim()}’ 속담 ${r.length}개`,d:'속담 또는 뜻풀이에서 찾았어요'},r,by);
+  });
+  root.addEventListener('click',e=>{
+    const t=e.target.closest('.tile'); if(t&&T){
+      q.value=''; document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
+      const x=T.mo[+t.dataset.i];
+      mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:x.d},x.ids,by);
+      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+    }
+    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
+/* 나의 띠로 속담 찾기 */
+function renderZodiac(){
+  return `<div class="zod" id="zod"><div class="tbanner"><span class="fl a">🐯</span><span class="fl b">🐭</span><span class="fl c">🐲</span><h2>🐯 띠 친구 찾기</h2><p>태어난 해를 넣으면 내 띠가 나와요. 띠 친구가 나오는 속담도 찾아보세요.</p></div>
+    <div class="zbox"><input id="zy" type="number" inputmode="numeric" min="1950" max="2035" placeholder="태어난 해 (예: 2014)" aria-label="태어난 해"><button id="zgo">내 띠 찾기</button></div>
+    <div class="znote">※ 띠는 음력 설을 기준으로 해서, 1~2월에 태어났다면 앞 해의 띠일 수 있어요.</div>
+    <div class="tgrid c4" id="zgrid"></div>
+    <div id="zres" class="resbox"><div class="tpick">👆 띠를 눌러 보세요</div></div>${CREDIT}</div>`;
+}
+function initZodiac(){
+  const root=document.getElementById('zod'), grid=document.getElementById('zgrid'), res=document.getElementById('zres'), yi=document.getElementById('zy');
+  let T=null, by=null;
+  const pick=i=>{
+    document.querySelectorAll('#zgrid .tile').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+    const x=T.zo[i];
+    mountResult(res,{e:x.e,t:`${x.k}띠 · 속담 ${x.ids.length}개`,d:x.d+(x.ids.length<10?' · 이 친구가 나오는 속담은 많지 않아요':'')},x.ids,by);
+    res.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a);
+    grid.innerHTML=T.zo.map((x,i)=>`<button class="tile" data-i="${i}"><span class="te">${x.e}</span><b>${esc(x.k)}띠</b></button>`).join('');
+  }).catch(()=>{ res.innerHTML=LOADFAIL; });
+  const go=()=>{ const y=parseInt(yi.value,10); if(!T) return;
+    if(!(y>=1900&&y<=2100)){ res.innerHTML='<div class="soon"><span class="em">🔢</span><div><b>태어난 해를 숫자 네 자리로 넣어 주세요</b>예) 2014</div></div>'; return; }
+    pick(((y-4)%12+12)%12); };
+  document.getElementById('zgo').addEventListener('click',go);
+  yi.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  root.addEventListener('click',e=>{
+    const t=e.target.closest('.tile'); if(t&&T){ pick(+t.dataset.i); return; }
+    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
   });
 }
