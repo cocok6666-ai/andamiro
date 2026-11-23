@@ -435,6 +435,21 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .pg{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 18px}
 .pgb{width:52px;height:46px;border-radius:99px;background:var(--pv);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center;flex:none}
 .pgb:disabled{background:var(--paper2);color:#b9b2a2}
+/* 예화 카드: 제목이 상단에 딱 붙고 카드가 남은 화면을 채움 */
+html:has(.mscn){scroll-snap-type:y proximity}
+.mscn{min-height:calc(100dvh - 52px);display:flex;flex-direction:column;scroll-snap-align:start;scroll-margin-top:48px;padding-bottom:8px}
+.mscn .sec{margin:6px 2px 8px;flex:none}
+.mscn .slider{flex:1;min-height:0;align-items:stretch;padding:2px 0 2px}
+.mscn .story{display:flex;flex-direction:column;margin-bottom:0}
+.mscn .story .scene{flex:1 1 auto;height:auto;min-height:64px}
+.mscn .story .scene .se{font-size:clamp(44px,8dvh,72px)}
+.mscn .story .sb{flex:none;display:flex;flex-direction:column;padding:10px 14px 12px}
+.mscn .story h4{font-size:clamp(18px,2.7dvh,23px)}
+.mscn .story p{font-size:clamp(15px,2.2dvh,17px)}
+.mscn .story .sm{font-size:clamp(14.5px,2dvh,16.5px)}
+.mscn .pg{flex:none;margin:6px 0 4px}
+.mscn .cta.nx{position:static;margin:0 auto;box-shadow:none;padding:8px 20px;flex:none}
+@media(max-height:720px){.mscn .story .sn{display:none}.mscn .story .scene{min-height:48px}}
 .pgm{flex:1;text-align:center;min-width:0}
 .eh{position:absolute;z-index:5;transform:translateY(-50%);font-size:34px;font-weight:700;line-height:1;color:#fff;background:rgba(40,30,20,.18);padding:12px 3px;border-radius:10px;pointer-events:none;animation:ehb 1.2s ease-in-out infinite;text-shadow:0 1px 3px rgba(0,0,0,.4)}
 .eh.l{left:2px}.eh.r{right:2px}.eh[hidden]{display:none}
@@ -882,10 +897,10 @@ function renderMeaning(){
     ${L.feats.map((f,i)=>`<div class="feat"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p>${f[3]?`<div class="eg">예) <b>${esc(f[3])}</b><br>→ ${esc(f[4])}</div>`:''}</div></div>`).join('')}
     <h3 class="sec">속담이 좋은 까닭</h3>
     ${L.values.map(v=>`<div class="feat"><span class="fi">${v[0]}</span><div><b>${esc(v[1])}</b><p>${esc(v[2])}</p></div></div>`).join('')}
-    <h3 class="sec">일상생활에서 쓰이는 장면 보기</h3>
+    <div class="mscn" id="mscn"><h3 class="sec">일상생활에서 쓰이는 장면 보기</h3>
     <div class="slider" id="msl">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
     ${pagerBar('m',L.cards.length)}
-    <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
+    <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div></div>`;
 }
 
 function setupPager(px){
