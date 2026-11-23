@@ -613,7 +613,7 @@ function initOrigin(){
   document.getElementById('otabs').addEventListener('click',e=>{
     const c=e.target.closest('.chip'); if(!c) return;
     document.querySelectorAll('#otabs .chip').forEach(x=>x.classList.toggle('on',x===c));
-    draw(+c.dataset.t); body.scrollIntoView({block:'nearest'});
+    draw(+c.dataset.t); document.getElementById('otabs').scrollIntoView({block:'start'});
   });
 }
 
@@ -638,7 +638,7 @@ function initGood(){
   document.getElementById('gtabs').addEventListener('click',e=>{
     const c=e.target.closest('.chip'); if(!c) return;
     document.querySelectorAll('#gtabs .chip').forEach(x=>x.classList.toggle('on',x===c));
-    draw(+c.dataset.t); body.scrollIntoView({block:'nearest'});
+    draw(+c.dataset.t); document.getElementById('gtabs').scrollIntoView({block:'start'});
   });
 }
 
@@ -817,7 +817,7 @@ function initNature(){
       document.querySelectorAll('#natgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
       const x=T[kind][+t.dataset.i];
       mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:'속담을 누르면 뜻이 나와요'},x.ids,by);
-      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+      document.getElementById('natseg').scrollIntoView({behavior:'smooth',block:'start'}); return;
     }
     if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
@@ -850,7 +850,7 @@ function initMoral(){
       q.value=''; document.querySelectorAll('#morgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
       const x=T.mo[+t.dataset.i];
       mountResult(res,{e:x.e,t:`${x.k} 속담 ${x.ids.length}개`,d:x.d},x.ids,by);
-      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+      document.getElementById('morgrid').scrollIntoView({behavior:'smooth',block:'start'}); return;
     }
     if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
@@ -872,7 +872,7 @@ function initZodiac(){
     document.querySelectorAll('#zgrid .tile').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
     const x=T.zo[i];
     mountResult(res,{e:x.e,t:`${x.k}띠 · 속담 ${x.ids.length}개`,d:x.d+(x.ids.length<10?' · 이 친구가 나오는 속담은 많지 않아요':'')},x.ids,by);
-    res.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('zgrid').scrollIntoView({behavior:'smooth',block:'start'});
   };
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a);
     grid.innerHTML=T.zo.map((x,i)=>`<button class="tile" data-i="${i}"><span class="te">${x.e}</span><b>${esc(x.k)}띠</b></button>`).join('');
@@ -916,7 +916,7 @@ function initWcat(){
       document.querySelectorAll('#wcgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
       const x=T[+t.dataset.i];
       mountResult(res,{e:x.e,t:`${x.k} ${x.ids.length}개`,d:'낱말을 누르면 뜻과 예문이 나와요'},x.ids,by,wcardFn);
-      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+      document.getElementById('wcgrid').scrollIntoView({behavior:'smooth',block:'start'}); return;
     }
     if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
