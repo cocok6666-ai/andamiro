@@ -90,7 +90,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .pill{flex:1;padding:12px 10px;border-radius:14px;background:var(--paper2);font-size:16.1px;text-align:center;font-weight:500}
 
 /* hub */
-.hubhead{border-radius:20px;padding:20px;color:#fff;margin-bottom:18px}
+.screen.hubs{margin-top:-20px}
+.hubhead{border-radius:0 0 26px 26px;padding:12px 20px 20px;color:#fff;margin:0 -18px 14px}
+.hback{display:inline-flex;align-items:center;gap:2px;height:28px;padding:0 12px 0 8px;border-radius:99px;background:rgba(255,255,255,.24);color:#fff;font-size:13.5px;font-weight:700;margin-bottom:12px;line-height:1}
 .hubhead.pv{background:linear-gradient(135deg,#C9553A,#A63C26)}
 .hubhead.wd{background:linear-gradient(135deg,#2E8B83,#1B625C)}
 .hubhead h2{font-family:var(--display);font-weight:400;font-size:27px;word-break:keep-all}
@@ -404,8 +406,8 @@ function viewHub(k){
     const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
-  return `<div class="screen">${bar('home','안다미로',m.short)}
-    <div class="hubhead ${m.cls}"><h2>${m.icon} ${esc(m.title)}</h2><p>${esc(m.sub)}</p></div>
+  return `<div class="screen hubs">
+    <div class="hubhead ${m.cls}"><button class="hback" data-go="home" aria-label="처음 화면으로">‹ 안다미로</button><h2>${m.icon} ${esc(m.title)}</h2><p>${esc(m.sub)}</p></div>
     <div class="ggrid n${n}">${tiles}</div></div>`;
 }
 
