@@ -1,5 +1,5 @@
-const CACHE = 'andamiro-v17';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192-3.png', './icons/icon-512-3.png', './data/proverbs.json', './data/words.json', './data/tags.json'];
+const CACHE = 'andamiro-v19';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192-3.png', './icons/icon-512-3.png', './data/proverbs.json', './data/words.json', './data/tags.json', './data/wtags.json'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });

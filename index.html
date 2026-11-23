@@ -221,7 +221,7 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .tile.on{transform:translateY(-3px);box-shadow:0 6px 0 rgba(0,0,0,.12)}
 .nat .tile .te{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:36px;background:var(--bg,#DDF0D6)}
 .nat .tile.on{border-color:#2E9A63;background:#F0FAF4}
-.mor .tile{align-items:flex-start;text-align:left;padding:14px 12px 12px;border:0;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:112px;box-shadow:0 4px 0 rgba(0,0,0,.10)}
+.mor .tile,.wcat .tile{align-items:flex-start;text-align:left;padding:14px 12px 12px;border:0;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:112px;box-shadow:0 4px 0 rgba(0,0,0,.10)}
 .mor .tile .te{font-size:36px}
 .mor .tile b{font-family:var(--display);font-weight:400;font-size:19px;margin-top:4px}
 .mor .tile small{color:#4a463e;font-size:12.5px;margin-top:1px;word-break:keep-all}
@@ -244,6 +244,17 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .tsearch input{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:2px solid #F0C9A0;border-radius:14px;background:#fff;outline:none}
 .tsearch input:focus{border-color:#C9553A}
 .tpick{text-align:center;color:var(--mute);font-size:14px;padding:14px 0 4px}
+
+/* 우리말 분류하여 찾기 */
+.wcat .tbanner{background:linear-gradient(135deg,#2E8B83,#1B625C 60%,#124A45)}
+.wcat .tile{align-items:flex-start;text-align:left;padding:14px 12px 12px;border:0;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:128px;box-shadow:0 4px 0 rgba(0,0,0,.10)}
+.wcat .tile .te{font-size:36px;line-height:1.15}
+.wcat .tile b{font-family:var(--display);font-weight:400;font-size:19px;margin-top:4px}
+.wcat .tile small{color:#3f4a47;font-size:12.5px;margin-top:1px;word-break:keep-all}
+.wcat .tile .sw{display:block;margin-top:5px;font-size:12.5px;color:#14524D;font-weight:700;word-break:keep-all}
+.wcat .tile em{font-style:normal;margin-top:auto;padding-top:6px;font-size:12px;font-weight:700;color:#14524D}
+.wcat .tile.on{outline:3px solid #1B625C;outline-offset:1px}
+.wcat .rhead{background:#23766F}
 .foot{margin-top:28px;text-align:center;font-size:13.8px;color:var(--mute)}
 </style>
 </head>
@@ -299,7 +310,7 @@ const MENU = {
     groups:[
       {id:'w-find', title:'우리말 찾기', note:'5,500여 개', items:[
         {id:'w-f-char', status:'done', render:()=>renderWfind(), init:()=>initWfind(), ic:'🔡', title:'글자로 찾기', desc:'글자 단위로 검색해 자유롭게 찾아봐요. 처음 시작하는 친구에게 알맞아요.', plan:['글자 입력(예: “나”가 들어간 우리말)','검색 결과 목록 → 낱말 뜻풀이']},
-        {id:'w-f-cat', ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
+        {id:'w-f-cat', status:'done', render:()=>renderWcat(), init:()=>initWcat(), ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
       ]},
       {id:'w-right', title:'우리말 바로 쓰기', note:'', items:[
         {id:'w-fix', ic:'🔁', title:'꼭! 우리말로 바꿔주세요', desc:'잘못 쓰는 외국어·파생어·신조어를 우리말로 바꿔 봐요.', plan:['순화어 목록','바꿔 쓴 말 예문 살펴보기']},
@@ -722,12 +733,13 @@ function tcard(p){
     <div class="pm">${esc(p.m)}${p.s.length?`<div class="ps"><b>비슷한 속담</b> ${p.s.map(esc).join(' · ')}</div>`:''}</div></button>`;
 }
 /* 결과 상자: 머리띠 + 속담 카드 목록 + 더 보기 */
-function mountResult(box, head, ids, byid){
+function mountResult(box, head, ids, byid, cardFn){
+  cardFn=cardFn||tcard;
   let shown=20;
   const draw=()=>{
     const list=ids.map(i=>byid[i]).filter(Boolean);
     box.innerHTML=`<div class="rhead"><span class="re">${head.e}</span><div><b>${esc(head.t)}</b><small>${esc(head.d)}</small></div></div>`
-      +list.slice(0,shown).map(tcard).join('')
+      +list.slice(0,shown).map(cardFn).join('')
       +(list.length>shown?`<button class="more" data-more="1">더 보기 (${list.length-shown}개 남음)</button>`:'');
   };
   box._draw=draw; box._more=()=>{ shown+=20; draw(); };
@@ -830,6 +842,40 @@ function initZodiac(){
   yi.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
   root.addEventListener('click',e=>{
     const t=e.target.closest('.tile'); if(t&&T){ pick(+t.dataset.i); return; }
+    if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
+    const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
+  });
+}
+
+
+/* ---------- 우리말 찾기: 분류하여 찾기 ---------- */
+let WTAG=null;
+function loadWtags(){
+  if(!WTAG) WTAG=fetch('data/wtags.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ WTAG=null; throw e; });
+  return WTAG;
+}
+function wcardFn(x){
+  return `<button class="pcard"><span class="pt">${esc(x.w)}<small>${esc(x.p)}</small><span class="pq">${esc(x.m[0])}</span></span>
+    <div class="pm">${x.m.length>1?`<ol>${x.m.map(m=>`<li>${esc(m)}</li>`).join('')}</ol>`:''}${x.e?`<div class="ex">예) ${esc(x.e)}</div>`:''}</div></button>`;
+}
+function renderWcat(){
+  return `<div class="mor wcat wdscr" id="wcat"><div class="tbanner"><span class="fl a">🌸</span><span class="fl b">✨</span><h2>🗂️ 우리말 꾸러미</h2><p>궁금한 꾸러미를 열어 보세요. 같은 종류의 우리말이 모여 있어요.</p></div>
+    <div class="tgrid c2" id="wcgrid"><div class="sf-info">불러오는 중…</div></div>
+    <div id="wcres" class="resbox"><div class="tpick">👆 열어 보고 싶은 꾸러미를 눌러 보세요</div></div>${CREDIT}</div>`;
+}
+function initWcat(){
+  const root=document.getElementById('wcat'), grid=document.getElementById('wcgrid'), res=document.getElementById('wcres');
+  let T=null, by=null;
+  Promise.all([loadWtags(),loadWords()]).then(([t,a])=>{ T=t; by=byIdMap(a);
+    grid.innerHTML=T.map((x,i)=>{ const c=PALT[i%6]; return `<button class="tile" data-i="${i}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${x.e}</span><b>${esc(x.k)}</b><small>${esc(x.d)}</small><span class="sw">${x.s.map(esc).join(' · ')}</span><em>우리말 ${x.ids.length}개</em></button>`; }).join('');
+  }).catch(()=>{ grid.innerHTML=''; res.innerHTML=LOADFAIL; });
+  root.addEventListener('click',e=>{
+    const t=e.target.closest('.tile'); if(t&&T){
+      document.querySelectorAll('#wcgrid .tile').forEach(x=>x.classList.toggle('on',x===t));
+      const x=T[+t.dataset.i];
+      mountResult(res,{e:x.e,t:`${x.k} ${x.ids.length}개`,d:'낱말을 누르면 뜻과 예문이 나와요'},x.ids,by,wcardFn);
+      res.scrollIntoView({behavior:'smooth',block:'start'}); return;
+    }
     if(e.target.closest('[data-more]')){ res._more&&res._more(); return; }
     const pc=e.target.closest('.pcard'); if(pc) pc.classList.toggle('open');
   });
