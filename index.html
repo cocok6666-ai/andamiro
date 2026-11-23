@@ -436,6 +436,9 @@ th{color:var(--mute);font-weight:500;font-size:13.8px}
 .pgb{width:52px;height:46px;border-radius:99px;background:var(--pv);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center;flex:none}
 .pgb:disabled{background:var(--paper2);color:#b9b2a2}
 .pgm{flex:1;text-align:center;min-width:0}
+.eh{position:absolute;z-index:5;transform:translateY(-50%);font-size:34px;font-weight:700;line-height:1;color:#fff;background:rgba(40,30,20,.18);padding:12px 3px;border-radius:10px;pointer-events:none;animation:ehb 1.2s ease-in-out infinite;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.eh.l{left:2px}.eh.r{right:2px}.eh[hidden]{display:none}
+@keyframes ehb{0%,100%{opacity:.25}50%{opacity:.8}}
 .pgm b{font-size:16px;color:var(--pv-deep)}
 .dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:6px}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
@@ -879,7 +882,7 @@ function renderMeaning(){
     ${L.feats.map((f,i)=>`<div class="feat"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p>${f[3]?`<div class="eg">예) <b>${esc(f[3])}</b><br>→ ${esc(f[4])}</div>`:''}</div></div>`).join('')}
     <h3 class="sec">속담이 좋은 까닭</h3>
     ${L.values.map(v=>`<div class="feat"><span class="fi">${v[0]}</span><div><b>${esc(v[1])}</b><p>${esc(v[2])}</p></div></div>`).join('')}
-    <h3 class="sec">예화 카드 넘겨 보기 <small>밀거나 버튼으로 넘겨요</small></h3>
+    <h3 class="sec">일상생활에서 쓰이는 장면 보기</h3>
     <div class="slider" id="msl">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
     ${pagerBar('m',L.cards.length)}
     <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div>`;
@@ -887,14 +890,23 @@ function renderMeaning(){
 
 function setupPager(px){
   const sl=document.getElementById(px+'sl'); if(!sl) return;
-  const n=sl.children.length, pv=document.getElementById(px+'prev'), nx=document.getElementById(px+'next'), cnt=document.getElementById(px+'cnt'), dots=[...document.querySelectorAll('#'+px+'dots i')];
+  const n=sl.children.length, cnt=document.getElementById(px+'cnt'), dots=[...document.querySelectorAll('#'+px+'dots i')];
   const idx=()=>Math.max(0,Math.min(n-1,Math.round(sl.scrollLeft/(sl.clientWidth+12))));
-  const upd=()=>{ const i=idx(); cnt.textContent=(i+1)+' / '+n; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); pv.disabled=i===0; nx.disabled=i===n-1; };
-  const go=i=>sl.scrollTo({left:i*(sl.clientWidth+12),behavior:'smooth'});
-  pv.onclick=()=>go(idx()-1); nx.onclick=()=>go(idx()+1);
-  sl.addEventListener('scroll',upd,{passive:true}); upd();
+  const eh=edgeHints(sl,idx,n);
+  const upd=()=>{ const i=idx(); cnt.textContent=(i+1)+' / '+n; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); eh(); };
+  sl.addEventListener('scroll',upd,{passive:true}); upd(); setTimeout(upd,300);
 }
-const pagerBar=(px,n)=>`<div class="pg"><button class="pgb" id="${px}prev" aria-label="이전 카드">‹</button><div class="pgm"><b id="${px}cnt">1 / ${n}</b><div class="dots" id="${px}dots">${Array.from({length:n},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div><button class="pgb" id="${px}next" aria-label="다음 카드">›</button></div>`;
+const pagerBar=(px,n)=>`<div class="pg"><div class="pgm"><b id="${px}cnt">1 / ${n}</b><div class="dots" id="${px}dots">${Array.from({length:n},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div></div>`;
+/* 좌우 넘김 표시: 오른쪽에 더 있으면 》, 왼쪽에 더 있으면 《 (반투명, 깜빡임) */
+function edgeHints(sl,idx,n){
+  const par=sl.parentElement; if(!par) return ()=>{};
+  if(getComputedStyle(par).position==='static') par.style.position='relative';
+  par.querySelectorAll(':scope>.eh').forEach(e=>e.remove());
+  const L=document.createElement('span'),R=document.createElement('span');
+  L.className='eh l';L.textContent='《';R.className='eh r';R.textContent='》';
+  par.append(L,R);
+  return ()=>{ const i=idx(), t=(sl.offsetTop+(sl.classList.contains('slider')?Math.min(48,sl.offsetHeight/2):sl.offsetHeight/2))+'px'; L.style.top=R.style.top=t; L.hidden=i<=0; R.hidden=i>=n-1; };
+}
 function initMeaning(){ setupPager('m'); }
 /* 속담의 유래 */
 function renderOrigin(){
@@ -1006,12 +1018,12 @@ function fitChoices(items,tileFn,cols,pick){
   for(let p=0;p<np;p++) h+=`<div class="cpage" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${items.slice(p*per,(p+1)*per).map((x,k)=>tileFn(x,p*per+k)).join('')}</div>`;
   const cp=fq('#cp'); cp.innerHTML=h;
   if(np>1){
-    pg.innerHTML=`<button class="pgb" id="cprev" aria-label="이전 쪽">‹</button><div class="pgm"><b id="ccnt">1 / ${np} 쪽</b><div class="dots">${Array.from({length:np},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div><button class="pgb" id="cnext" aria-label="다음 쪽">›</button>`;
-    const dots=[...pg.querySelectorAll('.dots i')], pv=fq('#cprev'), nx=fq('#cnext'), cn=fq('#ccnt');
+    pg.innerHTML=`<div class="pgm"><b id="ccnt">1 / ${np} 쪽</b><div class="dots">${Array.from({length:np},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`;
+    const dots=[...pg.querySelectorAll('.dots i')], cn=fq('#ccnt');
     const idx=()=>Math.max(0,Math.min(np-1,Math.round(cp.scrollLeft/cp.clientWidth)));
-    const upd=()=>{ const i=idx(); cn.textContent=(i+1)+' / '+np+' 쪽'; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); pv.disabled=i===0; nx.disabled=i===np-1; };
-    pv.onclick=()=>cp.scrollTo({left:(idx()-1)*cp.clientWidth,behavior:'smooth'}); nx.onclick=()=>cp.scrollTo({left:(idx()+1)*cp.clientWidth,behavior:'smooth'});
-    cp.addEventListener('scroll',upd,{passive:true}); upd();
+    const eh=edgeHints(cp,idx,np);
+    const upd=()=>{ const i=idx(); cn.textContent=(i+1)+' / '+np+' 쪽'; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); eh(); };
+    cp.addEventListener('scroll',upd,{passive:true}); upd(); setTimeout(upd,300);
   } else pg.innerHTML='';
   cp.onclick=e=>{ const t=e.target.closest('[data-i]'); if(t) pick(+t.dataset.i); };
 }
