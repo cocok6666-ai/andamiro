@@ -62,6 +62,42 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .tabs.o3.c2{grid-template-columns:1fr 1fr}
 .tabs.o3 .chip{flex-direction:column;gap:2px;min-height:54px;padding:6px 4px;font-size:13px;font-weight:700;border-radius:12px}
 .tabs.o3 .chip .ti{font-size:21px;line-height:1}
+/* 속담의 유래: 한 화면에 딱 맞춤 */
+#app:has(.o-wrap){padding-bottom:10px;min-height:0}
+.screen:has(.o-wrap){display:flex;flex-direction:column;height:calc(100dvh - 30px)}
+.o-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
+.o-wrap .otw{position:static;margin:0 -18px 6px;padding:2px 18px 8px;box-shadow:none;background:none}
+.o-wrap .tabs.o3 .chip{min-height:clamp(44px,7dvh,56px);font-size:12.5px}
+.o-wrap .tabs.o3 .chip .ti{font-size:clamp(17px,2.6dvh,22px)}
+.o-wrap #obody{flex:1;min-height:0;display:flex;flex-direction:column}
+.o-wrap .gdesc{flex:none;margin:0 2px 6px}
+.o-wrap .gdesc b{font-size:19px}
+.o-wrap .gdesc p{font-size:14px;line-height:1.35;margin-top:1px}
+.o-wrap .slider{flex:1;min-height:0;padding:0;align-items:stretch}
+.o-wrap .story{display:flex;flex-direction:column;overflow-y:auto;margin:0}
+.o-wrap .story .scene{flex:none;height:clamp(54px,11dvh,96px)}
+.o-wrap .story .scene .se{font-size:clamp(30px,5.4dvh,46px)}
+.o-wrap .story .sb{padding:10px 14px 12px;flex:1}
+.o-wrap .story h4{font-size:clamp(17px,2.5dvh,21px);margin-top:1px}
+.o-wrap .story .ob{font-size:clamp(14.5px,2.1dvh,16.7px);line-height:1.55;margin-top:4px}
+.o-wrap .story .sm{font-size:clamp(14px,1.95dvh,16px);margin-top:7px;padding:7px 11px}
+.o-wrap .pg{flex:none;margin:6px 0 6px}
+.o-wrap .pgb{height:40px;width:50px}
+.o-wrap .cta{flex:none;margin-top:0;padding:12px}
+@media(max-height:720px){
+.o-wrap .gdesc p{display:none}
+.o-wrap .tabs.o3 .chip{min-height:42px;padding:3px 4px;gap:1px}
+.o-wrap .tabs.o3 .chip .ti{font-size:15px}
+.o-wrap .story .scene{height:40px}
+.o-wrap .story .scene .se{font-size:24px}
+.o-wrap .story .sn{display:none}
+.o-wrap .story .sb{padding:8px 12px 10px}
+.o-wrap .story .hint{display:none}
+.o-wrap .pgb{height:34px}
+.o-wrap .pg{margin:4px 0}
+.o-wrap .dots{margin-top:2px}
+.o-wrap .cta{padding:9px}
+}
 /* 속담이란 주화면: 큰 카드 3장 */
 .screen.intro3{margin-bottom:-40px}
 .i3wrap{display:flex;flex-direction:column;gap:6px;margin:0 -18px;min-height:calc(100dvh - 62px)}
