@@ -147,7 +147,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .fpg .pgb{height:40px;width:50px}
 .cp{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cp::-webkit-scrollbar{display:none}
-.cpage{flex:0 0 100%;scroll-snap-align:start;display:grid;gap:8px;align-content:start;padding:2px 1px}
+.cpage{flex:0 0 100%;scroll-snap-align:start;display:grid;gap:8px;align-content:stretch;padding:2px 1px}
 .ftile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:18px;padding:6px 4px;background:linear-gradient(160deg,var(--c1),var(--c2));color:#2B2A28;box-shadow:0 4px 0 rgba(0,0,0,.1);min-width:0;transition:transform .08s}
 .ftile:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.1)}
 .ftile .te{font-size:clamp(26px,4.4dvh,38px);line-height:1.1}
@@ -971,9 +971,9 @@ function fitChoices(items,tileFn,cols,pick){
   const H=st.clientHeight||320, minH=cols>=4?84:92;
   let rows=Math.max(2,Math.floor((H+8)/(minH+8))), per=cols*rows;
   if(items.length<=per){ rows=Math.ceil(items.length/cols); per=cols*rows; }
-  const rowH=Math.min(124,Math.floor((H-(rows-1)*8)/rows)), np=Math.ceil(items.length/per);
+  const rowH=Math.floor((H-(rows-1)*8)/rows), np=Math.ceil(items.length/per);
   let h='';
-  for(let p=0;p<np;p++) h+=`<div class="cpage" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},${rowH}px)">${items.slice(p*per,(p+1)*per).map((x,k)=>tileFn(x,p*per+k)).join('')}</div>`;
+  for(let p=0;p<np;p++) h+=`<div class="cpage" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${items.slice(p*per,(p+1)*per).map((x,k)=>tileFn(x,p*per+k)).join('')}</div>`;
   const cp=fq('#cp'); cp.innerHTML=h;
   if(np>1){
     pg.innerHTML=`<button class="pgb" id="cprev" aria-label="이전 쪽">‹</button><div class="pgm"><b id="ccnt">1 / ${np} 쪽</b><div class="dots">${Array.from({length:np},(_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div><button class="pgb" id="cnext" aria-label="다음 쪽">›</button>`;
@@ -1088,7 +1088,7 @@ function renderZodiac(){
 }
 function initZodiac(){
   let T=null, by=null;
-  const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),4,pick);
+  const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),3,pick);
   const pick=i=>{ const x=T.zo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
     fitResults(rP([]),list,{e:x.e,title:`${x.k}띠 · 속담 ${list.length}개`,onBack:choose}); };
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
