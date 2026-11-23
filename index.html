@@ -230,6 +230,16 @@ body:has(.fgs),body:has(.fitwrap),body:has(.i3wrap),body:has(.o-wrap){overflow:h
 .rbub ol{padding-left:20px;font-size:16.5px;line-height:1.6;word-break:keep-all}
 .rbub .rx{display:block;text-align:right;font-size:11.5px;color:var(--mute);margin-top:4px}
 @keyframes bub{from{opacity:0;transform:scale(.92) translateY(-4px)}to{opacity:1;transform:none}}
+/* 찾기 첫 화면: 여백 없이 꽉 채움 */
+#app:has(.fgs){padding-bottom:0;min-height:0}
+.screen.fgs{display:flex;flex-direction:column;height:calc(100dvh - 20px)}
+.screen.fgs .lbanner{flex:none;margin-bottom:6px}
+.fgrid,.fgrid.n2,.fgrid.n4{flex:1;height:auto;min-height:0;margin:0 -18px;padding:0;gap:6px}
+.fgrid .fcard{border-radius:0}
+.fgrid.n4 .fcard .fico{width:60px;height:60px;font-size:32px}
+.fgrid.n4 .fcard b{font-size:21px}
+.fgrid.n2 .fcard .fico{width:84px;height:84px;font-size:46px}
+.fgrid.n2 .fcard b{font-size:24px}
 /* 속담이란 주화면: 큰 카드 3장 */
 .screen.intro3{margin-bottom:-40px}
 .i3wrap{display:flex;flex-direction:column;gap:6px;margin:0 -18px;min-height:calc(100dvh - 62px)}
@@ -644,13 +654,14 @@ const FCOL={
   pv:[['#E2603F','#8E2A1B'],['#E3A52F','#935C08'],['#2FA093','#14594F'],['#8070D4','#43308F']],
   wd:[['#35A89B','#14594F'],['#E2708F','#9A3355']]
 };
+const FSRC={'p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 우리말 390여 개를 찾아볼 수 있어요.'};
 function viewFindHome(g,m,k){
   const n=g.items.length, pal=FCOL[m.cls];
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
     const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
     return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
   return `<div class="screen fgs">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
-    <div class="lbanner ${m.cls}"><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">어떤 방법으로 찾아볼까요?${g.note?' · '+esc(g.note):''}</p></div>
+    <div class="lbanner ${m.cls}"><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid n${n}">${cards}</div></div>`;
 }
 function viewGroup(id){
