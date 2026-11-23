@@ -57,7 +57,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .ghead p{font-size:14px;color:#3f4a47;margin-top:2px}
 /* 속담의 유래: 탭 고정 */
 .otw{position:sticky;top:44px;z-index:25;margin:-12px -18px 10px;padding:8px 18px 8px;background:rgba(251,246,234,.97);box-shadow:0 1px 0 var(--line)}
+.otw.gtw{margin:0 -18px 10px}
 .tabs.o3{grid-template-columns:repeat(3,1fr);gap:6px;padding:0;margin:0}
+.tabs.o3.c2{grid-template-columns:1fr 1fr}
 .tabs.o3 .chip{flex-direction:column;gap:2px;min-height:54px;padding:6px 4px;font-size:13px;font-weight:700;border-radius:12px}
 .tabs.o3 .chip .ti{font-size:21px;line-height:1}
 /* 속담이란 주화면: 큰 카드 3장 */
@@ -693,14 +695,15 @@ function renderGood(){
     ${G.five.map((f,i)=>`<div class="cmp"><div class="ch"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p></div></div>
       ${f[4]?`<div class="vs"><div class="v1"><small>보통 말로 하면</small>${esc(f[3])}</div><div class="v2"><small>속담으로 하면</small><b>${esc(f[4])}</b></div></div>`:`<div class="eg">${esc(f[3])}</div>`}</div>`).join('')}
     <h3 class="sec">상황별로 쓰기 좋은 속담 30가지</h3>
-    <div class="tabs" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}">${c.ic} ${esc(c.t)}</button>`).join('')}</div>
+    <div class="otw gtw"><div class="tabs o3 c2" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}"><span class="ti">${c.ic}</span><span>${esc(c.t)}</span></button>`).join('')}</div></div>
     <div id="gbody"></div></div>`;
 }
 function initGood(){
   const body=document.getElementById('gbody'), C=LES.good.cats;
   const draw=t=>{
     const c=C[t];
-    body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} <small>${c.items.length}선</small></b><p>${esc(c.d)}</p></div>`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false)}<div class="sb"><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('');
+    body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} <small>${c.items.length}선</small></b><p>${esc(c.d)}</p></div>`+`<div class="slider" id="gsl">`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false)}<div class="sb"><div class="sn">${i+1} / ${c.items.length}</div><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('')+`</div>`+pagerBar('g',c.items.length);
+    setupPager('g');
   };
   draw(0);
   document.getElementById('gtabs').addEventListener('click',e=>{
