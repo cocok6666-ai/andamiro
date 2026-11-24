@@ -1181,7 +1181,7 @@ function applyTint(h){
   sc.style.setProperty('--pv-soft','color-mix(in srgb,'+t[2]+' 16%,#fff)');
   const hd=$app.querySelector('.fhead,.lbanner,.s3head'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
 }
-const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
+const FHT={'p-intro':['속','담','이','란'],'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
 const FSRC={'p-game':'이모지 속담 게임을 비롯해 여러 가지 게임으로 속담을 놀이처럼 익혀요.','p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
 /* ===== 화면 단계 규칙 (내용이 바뀌거나 메뉴가 늘어나도 자동으로 같은 모양) =====
    메인   : 그림 머리 + 큰 세로 카드 2장                         → viewHome
@@ -1217,7 +1217,7 @@ function viewFindHome(g,m,k){
     <div class="fgrid n${n}">${cards}</div></div>`;
 }
 function viewGroup(id){
-  { const gi=groupIndex[id]; if(id!=='p-intro') return viewFindHome(gi.g,MENU[gi.k],gi.k); }
+  { const gi=groupIndex[id]; return viewFindHome(gi.g,MENU[gi.k],gi.k); }
   if(id==='p-intro'){ const {g}=groupIndex[id]; return viewIntro(g,MENU.proverb); }
   const {k,g}=groupIndex[id], m=MENU[k], i=m.groups.indexOf(g), c=PALT[i%6];
   return `<div class="screen hubs">
