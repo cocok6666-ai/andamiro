@@ -1664,13 +1664,24 @@ function renderPic(){
 const PQ_BASE=[20,14,8];
 const pqPts=(stage,wrong)=>Math.max(2,PQ_BASE[stage]-wrong*4);
 function pqBig(p){ const t=p.replace(/\s/g,''), r=new Set(); for(let i=0;i<t.length-1;i++) r.add(t.slice(i,i+2)); return r; }
-function pqMake(pool,used){
+function pqMake(pool,used,big){
   const withImg=pool.filter(x=>x.i&&!used.has(x.id)), rest=pool.filter(x=>!x.i&&!used.has(x.id));
   const src=withImg.length?withImg:rest; if(!src.length) return null;
-  const it=src[Math.random()*src.length|0], a=pqBig(it.p);
-  const sc=pool.filter(o=>o.id!==it.id).map(o=>{ let n=0; pqBig(o.p).forEach(b=>{ if(a.has(b)) n+=1; }); n+=o.k.filter(w=>it.k.includes(w)).length*3; return [o,n+Math.random()*1.5]; }).sort((x,y)=>y[1]-x[1]);
-  const top=gmShuf(sc.slice(0,12).map(x=>x[0])).slice(0,3);
-  return {it,opts:gmShuf([it,...top]),wrong:0,dead:new Set(),done:false};
+  const it=src[Math.random()*src.length|0], a=pqBig(it.p), nrm=t=>t.replace(/\s/g,'');
+  const keys=[...new Set(it.k.flatMap(k=>k.split(' ')).filter(w=>w.length>=2))];
+  const jac=(x,y)=>{ let n=0; x.forEach(b=>{ if(y.has(b)) n++; }); return n/Math.max(1,x.size+y.size-n); };
+  const cand=(big&&big.length?big:pool.map(o=>({t:o.p}))).map(o=>o.t).filter(t=>nrm(t)!==nrm(it.p));
+  /* 정답의 변형(거의 같은 말)은 보기에서 뺀다 */
+  const ok=cand.filter(t=>jac(a,pqBig(t))<.42&&!(keys.length>1&&keys.every(w=>t.includes(w))));
+  const same=gmShuf(ok.filter(t=>keys.some(w=>t.includes(w)))), picked=[];
+  const want=Math.random()<.5?1:2;
+  const add=t=>{ if(picked.length<3&&!picked.includes(t)&&picked.every(x=>jac(pqBig(x),pqBig(t))<.42)) picked.push(t); };
+  same.slice(0,40).forEach(t=>{ if(picked.length<want) add(t); });
+  const sim=ok.map(t=>{ let n=0; pqBig(t).forEach(b=>{ if(a.has(b)) n++; }); return [t,n+Math.random()*1.5]; }).sort((x,y)=>y[1]-x[1]).slice(0,30).map(x=>x[0]);
+  gmShuf(sim).forEach(add);
+  gmShuf(ok.slice()).forEach(t=>{ if(picked.length<3) add(t); });
+  if(picked.length<3) return null;
+  return {it,opts:gmShuf([it,...picked.map((t,i)=>({id:'x'+i,p:t}))]),wrong:0,dead:new Set(),done:false};
 }
 function initPic(){
   const gb=document.getElementById('gpb'); if(!gb) return;
@@ -1689,12 +1700,12 @@ function initPic(){
   }
   function start(){
     gmSnd('x'); G.n=0; G.total=0; G.res=[]; G.used=new Set();
-    loadPic().then(a=>{ G.pool=a; next(); }).catch(()=>say('<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
+    Promise.all([loadPic(),loadProverbs().catch(()=>null)]).then(([a,pr])=>{ G.pool=a; G.big=pr?pr.filter(p=>p.lv==='A'&&/^[가-힣 ]+$/.test(p.t)&&p.t.length<=26):null; next(); }).catch(()=>say('<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
   }
   function next(){
     clearInterval(G.tm);
     if(G.n>=5) return result();
-    const q=pqMake(G.pool,G.used); if(!q) return say('<div class="fmsg">문제를 만들지 못했어요.</div>');
+    const q=pqMake(G.pool,G.used,G.big)||pqMake(G.pool,G.used,null); if(!q) return say('<div class="fmsg">문제를 만들지 못했어요.</div>');
     G.used.add(q.it.id); G.n++; q.t0=Date.now(); q.stage=0; question(q);
   }
   function question(q){
