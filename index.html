@@ -309,6 +309,63 @@ body:has(.hubfit){overflow:hidden}
 .gr-sub{border:0;background:var(--paper2);border-radius:14px;padding:11px;font-size:15px;font-weight:700;color:var(--pv-deep)}
 @media(max-height:700px){.gres{justify-content:flex-start;gap:4px}.gr-top span{font-size:34px}.gr-top small{display:none}.gr-sc b{font-size:46px}.gr-st{display:none}.gr-ls{gap:4px}.gr-bt .cta{padding:11px}.gr-sub{padding:8px}.gi-ol li{padding:7px 10px;font-size:14px}.gsen{padding:10px 8px}.ghint{font-size:13px}.gr-ls li{padding:4px 8px}.gr-st{font-size:24px}}
 @media(prefers-reduced-motion:reduce){.gslot.ok,.gslot.shake{animation:none}}
+/* 속담 실력 평가 시험지 */
+.tx .gintro{padding-top:10px}
+.txb{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.txb span{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:12px;background:var(--paper2);color:#a59b84;font-size:11px;line-height:1.2}
+.txb span i{font-style:normal;font-size:22px;filter:grayscale(1);opacity:.55}.txb span b{font-weight:700}.txb span small{font-size:10px;opacity:.8}
+.txb span.on{background:linear-gradient(160deg,#FFF6D8,#FFE7A8);color:#6b4a0c;box-shadow:inset 0 0 0 1px rgba(214,160,60,.7)}.txb span.on i{filter:none;opacity:1}
+.txb span.nw{animation:nwp 1s ease-in-out infinite}.txb span u{position:absolute;top:-6px;right:-3px;text-decoration:none;font-size:9px;font-weight:900;background:#E5252A;color:#fff;border-radius:8px;padding:1px 5px}
+@keyframes nwp{50%{transform:scale(1.1)}}
+.paper{position:relative;margin:10px 0 12px;padding:14px 14px 16px 24px;background:#FFFEF8;border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,.05),0 8px 18px rgba(120,90,40,.15),inset 0 0 0 1px #E8DFC6;background-image:linear-gradient(90deg,transparent 15px,rgba(229,37,42,.35) 15px,rgba(229,37,42,.35) 16px,transparent 16px)}
+.phead{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:8px;margin-bottom:6px;border-bottom:2px solid #2B2A28}
+.phead b{font-family:var(--display);font-weight:400;font-size:20px}.rv{font-style:normal;font-size:12px;background:#E5252A;color:#fff;border-radius:8px;padding:1px 6px;vertical-align:middle}
+.pscore{font-size:13px;color:#6b6556}.pscore u{display:inline-block;min-width:44px;text-align:center;font-family:var(--display);font-size:24px;color:#E5252A;text-decoration:none;border-bottom:1.5px solid #2B2A28;line-height:1.1}
+.tq{padding:14px 0 12px;border-bottom:1px dashed #D9CFB4}
+.tq.good{background:linear-gradient(90deg,rgba(47,160,147,.07),transparent)}.tq.miss{background:linear-gradient(90deg,rgba(229,37,42,.07),transparent)}
+.tqh{display:flex;gap:10px;align-items:flex-start}
+.qn{position:relative;flex:none;width:32px;height:32px;display:grid;place-items:center;font-family:var(--display);font-size:21px;color:#2B2A28}
+.mk{position:absolute;left:-13px;top:-13px;width:58px;height:58px;overflow:visible;pointer-events:none}
+.mk path{fill:none;stroke:#E5252A;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:mkd .5s ease-out forwards;filter:drop-shadow(0 1px 0 rgba(229,37,42,.3))}
+.mk.x path{stroke-width:5.4;animation-duration:.28s}
+@keyframes mkd{to{stroke-dashoffset:0}}
+.qt{font-weight:700;font-size:15.5px;line-height:1.45;padding-top:3px;word-break:keep-all}
+.qty{font-style:normal;font-weight:700;font-size:11px;color:var(--pv-deep);background:var(--pv-soft);border-radius:8px;padding:2px 7px;margin-left:4px;white-space:nowrap}
+.tqs{margin:8px 0 6px 42px;padding:10px 12px;background:#FBF3DC;border-radius:10px;font-family:var(--display);font-size:clamp(18px,5vw,22px);line-height:1.4;color:#4a2c14;word-break:keep-all;box-shadow:inset 0 0 0 1px rgba(214,160,60,.45)}
+.blk{display:inline-block;width:3.2em;height:1.1em;vertical-align:-.15em;border-bottom:3px solid #E5252A;margin:0 .15em}
+.tqhint{margin:0 0 6px 42px;font-size:13px;color:#6b6556;line-height:1.45;word-break:keep-all}
+.tqo{list-style:none;margin:4px 0 0 36px;display:flex;flex-direction:column;gap:5px}
+.opt{display:flex;gap:8px;align-items:flex-start;width:100%;text-align:left;padding:8px 10px;border-radius:10px;font-size:14.5px;line-height:1.4;word-break:keep-all;background:transparent;border:1px solid transparent}
+.opt .bub{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid #6b6556;display:grid;place-items:center;font-style:normal;font-size:13px;color:#6b6556;margin-top:1px}
+.opt:active{background:#FBF3DC}
+.opt.sel{background:#F2EFE6}.opt.sel .bub{background:#3b3a37;border-color:#3b3a37;color:#fff}
+.opt.right{background:rgba(47,160,147,.12)}.opt.right .bub{background:#2FA093;border-color:#2FA093;color:#fff}
+.opt.bad{text-decoration:line-through;text-decoration-color:#E5252A;text-decoration-thickness:2px;color:#a33}.opt.bad .bub{background:#E5252A;border-color:#E5252A;color:#fff}
+.tqx{margin:6px 0 0 36px}.tqx small{display:block;font-size:12.5px;color:#6b6556;line-height:1.45;margin-top:2px;font-family:var(--sans)}
+.tqok,.tqno{font-family:var(--display);font-size:16px;padding:7px 10px;border-radius:10px;animation:txin .35s}
+.tqok{color:#14594F;background:rgba(47,160,147,.12)}.tqno{color:#C21F23;background:rgba(229,37,42,.09)}
+@keyframes txin{from{opacity:0;transform:translateY(6px)}}
+.pfoot{text-align:center;color:#a59b84;font-size:13px;padding-top:14px}
+.tgr{position:sticky;bottom:10px;z-index:20;box-shadow:0 5px 14px rgba(0,0,0,.28);font-size:17px}.tgr small{display:block;font-weight:400;font-size:12px;opacity:.9}.tgr.warn{background:#E3A52F;color:#3a2600}
+.rs{margin:6px 0 30px;padding:18px 14px 16px;border-radius:22px;text-align:center;background:var(--pat-dia),linear-gradient(160deg,#FFFBEF,#FFF0CF);box-shadow:inset 0 0 0 1px rgba(214,160,60,.6),0 8px 20px rgba(120,80,20,.15);display:flex;flex-direction:column;gap:9px;align-items:center}
+.rs.hi{background:var(--pat-dia),linear-gradient(160deg,#FFF6CC,#FFD978)}.rs.lo{background:var(--pat-dia),linear-gradient(160deg,#F1F6EE,#DDEBD6)}
+.stamp{display:inline-flex;align-items:baseline;gap:3px;padding:8px 22px;border:5px solid #E5252A;border-radius:22px;color:#E5252A;transform:rotate(-7deg);font-family:var(--display);animation:stampin .7s cubic-bezier(.2,1.5,.4,1) both;background:rgba(255,255,255,.55)}
+.stamp b{font-weight:400;font-size:62px;line-height:1}.stamp i{font-style:normal;font-size:22px}
+@keyframes stampin{0%{transform:scale(3) rotate(-18deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(-7deg)}}
+.rs-tt{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:26px;color:var(--pv-deep)}.rs-tt span{font-size:34px}
+.rs-ms{font-size:15.5px;font-weight:700;line-height:1.45;word-break:keep-all}
+.rs-te{font-size:14.5px;line-height:1.5;background:rgba(255,255,255,.7);border-radius:12px;padding:8px 12px;word-break:keep-all}.rs-te b{color:#E5252A}
+.rs-nx{font-size:13.5px;color:#7a4b00;word-break:keep-all}
+.rs-cn{display:flex;gap:10px;font-family:var(--display);font-size:18px}.rs-cn span{padding:3px 14px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}.rs-cn span:first-child{color:#E5252A}
+.rs .txb{width:100%}
+.rs-bt{display:flex;flex-direction:column;gap:7px;width:100%;margin-top:4px}
+.rs-bt .cta{font-size:18px}.rs-rv{border:0;border-radius:14px;padding:12px;background:#FFE3DD;color:#A8281C;font-weight:800;font-size:15px}
+.rs-sub{border:0;border-radius:14px;padding:11px;background:#E3F3F0;color:#14594F;font-weight:700;font-size:14.5px}
+.rs-sub2{border:0;background:transparent;padding:8px;color:var(--pv-deep);font-weight:700;font-size:14px}
+.cfx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:90}
+.cfx span{position:absolute;top:-30px;animation:cfall linear forwards}
+@keyframes cfall{to{transform:translateY(105vh) rotate(540deg)}}
+@media(prefers-reduced-motion:reduce){.mk path{animation-duration:.01s}.stamp{animation:none}.cfx{display:none}}
 .screen.fgs{margin-bottom:-40px}
 .fgrid{display:grid;gap:6px;margin:0 -18px;height:calc(100dvh - 62px);min-height:360px}
 .fgrid.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
@@ -759,7 +816,7 @@ const MENU = {
       {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임, 속담 완성하기, 실력 평가, 그림 퀴즈로 내 속담 실력을 키워요.', items:[
         {id:'p-q-game', ic:'🎮', title:'재미있는 속담 게임', desc:'게임으로 즐겁게 놀면서 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
         {id:'p-q-fill', status:'done', render:()=>renderFill(), init:()=>initFill(), ic:'🧩', title:'속담 완성하기', desc:'낱말 카드를 끌어다 놓아 속담을 완성해요. 5문제 · 100점 만점!', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
-        {id:'p-q-test', ic:'📝', title:'속담 실력 평가', desc:'문제를 풀어 내 속담 실력을 확인해요.', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']},
+        {id:'p-q-test', status:'done', render:()=>renderTest(), init:()=>initTest(), ic:'📝', title:'속담 실력 평가', desc:'시험지로 10문제를 풀고 색연필로 채점해요. 100점 만점!', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']},
         {id:'p-q-pic', ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요.', plan:['그림 보고 떠올리기','낱말 버튼을 눌러 속담 완성']}
       ]}
     ]
@@ -1351,6 +1408,136 @@ function initFill(){
       <ul class="gr-ls">${GM.res.map((r,i)=>`<li><span class="no">${i+1}</span><span class="tx">${esc(r.t)}</span><span class="pt">${r.pts}점</span></li>`).join('')}</ul>
       <div class="gr-bt"><button class="cta pv" id="gre">🔁 다시 하기 <small>(새로운 속담)</small></button><button class="gr-sub" data-go="p-quiz">‹ 실력 키우기 메뉴</button></div></div>`);
     document.getElementById('gre').onclick=start;
+  }
+  intro();
+}
+
+
+/* ---------- 속담 실력 평가 (시험지 · 색연필 채점) ---------- */
+const TX_TY={1:'속담의 뜻',2:'뜻에 맞는 속담',3:'빈칸 낱말',4:'비슷한 속담',5:'동물 빈칸'};
+const TX_TITLES=[[0,'속담 씨앗','🌱'],[30,'속담 새싹','🌿'],[50,'속담 반반이','🥉'],[60,'속담 튼튼이','💪'],[70,'속담 척척이','🎯'],[80,'속담 달인','🥈'],[90,'속담 박사','🥇'],[100,'속담 대왕','👑']];
+const txLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.exam')||'{}');}catch(e){return {};} };
+const txSave=o=>{ try{localStorage.setItem('andamiro.exam',JSON.stringify(o));}catch(e){} };
+let TXB=null;
+function loadQuiz(){ if(!TXB) TXB=fetch('data/quiz.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ TXB=null; throw e; }); return TXB; }
+function renderTest(){
+  return `<div class="leaf tx ${curCls}" id="tx"><div class="fhead ${curCls}"><span class="fhe">📝</span><div><b>속담 실력 평가</b><small>10문제 · 한 문제 10점 · 100점 만점</small></div></div><div id="tb"><div class="fmsg">불러오는 중…</div></div></div>`;
+}
+function txBadges(best,newer){
+  return `<div class="txb">${TX_TITLES.map(t=>{const on=best>=t[0]; const nw=newer&&newer.includes(t[0]); return `<span class="${on?'on':''}${nw?' nw':''}"><i>${on?t[2]:'🔒'}</i><b>${t[1].replace('속담 ','')}</b><small>${t[0]}점~</small>${nw?'<u>NEW</u>':''}</span>`;}).join('')}</div>`;
+}
+function initTest(){
+  const tb=document.getElementById('tb'); if(!tb) return;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const alive=()=>!!document.getElementById('tx');
+  const MK_O='M30 7 C45 4 57 17 54 31 C52 47 36 57 21 52 C8 48 2 32 9 20 C15 8 31 3 45 9 C50 11 52 14 53 17';
+  const MK_X='M8 53 Q30 34 54 7';
+  function intro(){
+    const st=txLoad(), best=st.best;
+    tb.innerHTML=`<div class="gintro"><div class="gi-ttl">📝 속담 실력 평가</div>
+      <ol class="gi-ol"><li><i>1</i><span>시험지에 <b>10문제</b>가 나와요. <small>(5가지 유형 × 2문제, 순서는 무작위)</small></span></li>
+      <li><i>2</i><span>보기 <b>5개</b> 중 알맞은 답을 눌러 표시해요.</span></li>
+      <li><i>3</i><span><b>채점하기</b>를 누르면 <b>빨간 색연필</b>로 ⭕ 와 ╱ 채점!</span></li>
+      <li><i>4</i><span>문제는 <b>300개</b> 중에서 뽑아서 <b>볼 때마다 달라요.</b></span></li></ol>
+      ${best!==undefined?`<div class="gi-box">내 최고 기록 <b>${best}점</b> · 도전 ${st.tries||1}번째 완료<small>이번엔 ${best>=100?'만점 연속 도전!':'이 기록을 깰 수 있을까요? 😏'}</small></div>`:`<div class="gi-box">100점 만점 · 한 문제 10점<small>첫 도전 기록이 '내 기록'이 돼요</small></div>`}
+      ${txBadges(best===undefined?-1:best,null)}
+      <button class="cta pv gi-go" id="tgo">✏️ 시험 시작하기</button></div>`;
+    document.getElementById('tgo').onclick=()=>{ gmSnd('x'); begin(null); };
+  }
+  function begin(list){
+    loadQuiz().then(bank=>{
+      let L=list;
+      if(!L){ const st=txLoad(), seen=new Set(st.seen||[]); L=[];
+        for(let ty=1;ty<=5;ty++){ let pool=bank.filter(q=>q.ty===ty&&!seen.has(q.id)); if(pool.length<2) pool=bank.filter(q=>q.ty===ty); L.push(...gmShuf(pool.slice()).slice(0,2)); }
+        L=gmShuf(L); }
+      exam(L.map(q=>({...q,opts:gmShuf(q.o.map((t,i)=>({t,ok:i===0}))),pick:-1})),!!list);
+    }).catch(()=>{ tb.innerHTML='<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+  }
+  function exam(Q,revenge){
+    const CN='①②③④⑤';
+    tb.innerHTML=`<div class="paper" id="pp"><div class="phead"><b>속담 실력 평가${revenge?' <em class="rv">설욕전</em>':''}</b><span class="pscore">점수 <u id="psc">　</u>점</span></div>
+      ${Q.map((q,i)=>`<section class="tq" data-i="${i}"><div class="tqh"><span class="qn"><b>${i+1}</b><svg class="mk" viewBox="0 0 60 60" aria-hidden="true"></svg></span><span class="qt">${esc(q.q)} <em class="qty">${TX_TY[q.ty]}</em></span></div>
+        <div class="tqs">${esc(q.s).split('(   )').join('<span class="blk"></span>')}</div>${q.h?`<div class="tqhint">💡 뜻 ${esc(q.h)}</div>`:''}
+        <ol class="tqo">${q.opts.map((o,k)=>`<li><button type="button" class="opt" data-i="${i}" data-k="${k}"><i class="bub">${CN[k]}</i><span>${esc(o.t)}</span></button></li>`).join('')}</ol><div class="tqx"></div></section>`).join('')}
+      <div class="pfoot">― 수고했어요. 채점해 볼까요? ―</div></div>
+      <button type="button" class="cta pv tgr" id="tgr">✏️ 채점하기 <small>(0/10 풀었어요)</small></button><div id="tres"></div>`;
+    let graded=false, warn=false;
+    const btn=document.getElementById('tgr');
+    const cnt=()=>Q.filter(q=>q.pick>=0).length;
+    const upd=()=>{ btn.innerHTML=`✏️ 채점하기 <small>(${cnt()}/${Q.length} 풀었어요)</small>`; warn=false; btn.classList.remove('warn'); };
+    document.getElementById('pp').addEventListener('click',e=>{
+      const b=e.target.closest('.opt'); if(!b||graded) return;
+      const i=+b.dataset.i,k=+b.dataset.k; Q[i].pick=k;
+      b.closest('.tqo').querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b)); upd();
+    });
+    btn.onclick=async()=>{
+      if(graded) return;
+      const left=Q.length-cnt();
+      if(left>0&&!warn){ warn=true; btn.classList.add('warn'); btn.innerHTML=`아직 ${left}문제를 안 풀었어요!<small>그래도 채점하려면 한 번 더 눌러요</small>`; return; }
+      graded=true; btn.style.display='none';
+      let sc=0; const wrongs=[];
+      for(let i=0;i<Q.length;i++){
+        if(!alive()) return;
+        const q=Q[i], sec=document.querySelector(`.tq[data-i="${i}"]`);
+        sec.scrollIntoView({block:'center',behavior:'smooth'}); await sleep(520);
+        const ok=q.pick>=0&&q.opts[q.pick].ok, ci=q.opts.findIndex(o=>o.ok);
+        const mk=sec.querySelector('.mk'); mk.innerHTML=`<path d="${ok?MK_O:MK_X}" pathLength="1"/>`; mk.classList.add(ok?'o':'x');
+        const opts=sec.querySelectorAll('.opt'); opts[ci].classList.add('right'); if(!ok&&q.pick>=0) opts[q.pick].classList.add('bad');
+        sec.classList.add(ok?'good':'miss');
+        sec.querySelector('.tqx').innerHTML=ok?`<div class="tqok">🌟 참 잘했어요! <small>${esc(q.x)}</small></div>`:`<div class="tqno">✏️ ${q.pick<0?'안 풀었어요. ':''}정답은 <b>${CN[ci]}</b> <small>${esc(q.x)}</small></div>`;
+        if(ok) sc+=10; else wrongs.push(q);
+        document.getElementById('psc').textContent=sc; gmSnd(ok?'ok':'no'); await sleep(ok?520:620);
+      }
+      await sleep(350); if(!alive()) return;
+      result(Q,sc,wrongs,revenge);
+    };
+  }
+  function confetti(n){
+    const c=document.createElement('div'); c.className='cfx'; const E=['🎉','⭐','✨','🎊','🌟','💮'];
+    for(let i=0;i<n;i++){ const s=document.createElement('span'); s.textContent=E[i%E.length]; s.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*1.2}s;animation-duration:${2.2+Math.random()*1.6}s;font-size:${16+Math.random()*16}px`; c.appendChild(s); }
+    document.body.appendChild(c); setTimeout(()=>c.remove(),4600);
+  }
+  function result(Q,sc,wrongs,revenge){
+    const st=txLoad(), prevBest=st.best, wn=wrongs.length;
+    const full=Q.length*10;
+    let newB=[];
+    if(!revenge){
+      const ns={...st,tries:(st.tries||0)+1,best:Math.max(prevBest||0,sc),seen:[...(st.seen||[]),...Q.map(q=>q.id)].slice(-150)};
+      if(sc===100) ns.perfects=(st.perfects||0)+1;
+      TX_TITLES.forEach(t=>{ if(sc>=t[0]&&!((prevBest!==undefined)&&prevBest>=t[0])) newB.push(t[0]); });
+      txSave(ns);
+    }
+    const tier=[...TX_TITLES].reverse().find(t=>sc>=t[0]);
+    const M={100:['만점이에요!! 속담 사전이 깜짝 놀랐대요 😲','또 만점 도전! 🔥'],90:['딱 한 문제 차이! 만점이 코앞이에요 👀','만점 사냥 가기 🎯'],80:['대단해요! 박사까지 딱 한 걸음 🚶','박사 되러 가기 🥇'],70:['잘하고 있어요! 조금만 더 힘내요 💪','80점 넘기러 가기 ⚡'],60:['오~ 반타작은 넘었어요! 더 올라갈 수 있어요','한 번 더! 이번엔 70점 🚀'],50:['딱 절반! 나머지 절반은 어디 갔을까요? 🤔','반타작 탈출 도전 🏃'],30:['새싹이 쑥쑥 자라는 중! 다음엔 두 배도 가능해요 🌿','쑥쑥 자라러 가기 🌱'],0:['괜찮아요! 틀린 문제를 보고 다시 하면 점수가 확 올라요 💪','이번엔 꼭! 다시 도전 🔥']};
+    const keyM=sc>=100?100:sc>=90?90:sc>=80?80:sc>=70?70:sc>=60?60:sc>=50?50:sc>=30?30:0;
+    const [msg,cta]=M[keyM];
+    let tease='';
+    if(revenge) tease=wn===0?'🎉 설욕 성공! 틀렸던 문제를 모두 맞혔어요!':`아직 ${wn}문제가 남았어요. 한 번 더 설욕전!`;
+    else if(prevBest===undefined) tease=`첫 도전 기록 <b>${sc}점</b> 저장! 이 점수를 넘어 보세요.`;
+    else if(sc>prevBest) tease=`🎉 <b>신기록!</b> 이전 최고 ${prevBest}점을 ${sc-prevBest}점 넘겼어요!`;
+    else if(sc===prevBest) tease=`최고 기록과 똑같아요! 한 문제만 더 맞히면 <b>신기록</b> 😏`;
+    else tease=`최고 기록 ${prevBest}점까지 <b>${prevBest-sc}점</b> 모자라요 😤 다시 붙어 볼래요?`;
+    const nx=TX_TITLES.find(t=>t[0]>sc);
+    const nxl=nx&&!revenge?`다음 칭호 <b>${nx[2]} ${nx[1]}</b>까지 <b>${nx[0]-sc}점</b>!`:(!revenge?'가장 높은 칭호 <b>👑 속담 대왕</b> 달성! 이제 연속 만점에 도전!':'');
+    const bestNow=revenge?(st.best===undefined?-1:st.best):Math.max(prevBest||0,sc);
+    const el=document.getElementById('tres');
+    el.innerHTML=`<div class="rs ${sc>=80?'hi':sc>=50?'mid':'lo'}"><div class="rs-st"><span class="stamp"><b>${revenge?wn===0?Q.length:Q.length-wn:sc}</b><i>${revenge?`/ ${Q.length}문제`:'점'}</i></span></div>
+      <div class="rs-tt"><span>${tier[2]}</span><b>${tier[1]}</b></div><div class="rs-ms">${msg}</div>
+      <div class="rs-te">${tease}</div>${nxl?`<div class="rs-nx">${nxl}</div>`:''}
+      <div class="rs-cn"><span>⭕ ${Q.length-wn}</span><span>╱ ${wn}</span></div>
+      ${revenge?'':txBadges(bestNow,newB)}
+      <div class="rs-bt"><button class="cta pv" id="tagain">${revenge?'새 시험지로 도전 ✏️':cta}</button>
+      ${wn>0?`<button class="rs-rv" id="trev">😏 틀린 ${wn}문제만 다시 붙어 보기</button>`:''}
+      <button class="rs-sub" id="tshare">📣 친구에게 도전장 보내기</button>
+      <button class="rs-sub2" data-go="p-quiz">‹ 실력 키우기 메뉴</button></div></div>`;
+    el.scrollIntoView({block:'start',behavior:'smooth'});
+    gmSnd(sc>=60?'end':'no'); if(sc>=80) confetti(sc===100?46:26);
+    document.getElementById('tagain').onclick=()=>{ gmSnd('x'); window.scrollTo(0,0); begin(null); };
+    const rv=document.getElementById('trev'); if(rv) rv.onclick=()=>{ window.scrollTo(0,0); begin(wrongs.map(q=>({id:q.id,ty:q.ty,q:q.q,s:q.s,h:q.h,o:q.o,x:q.x}))); };
+    document.getElementById('tshare').onclick=async()=>{
+      const url=location.origin+location.pathname, text=`안다미로 속담 실력 평가에서 ${sc}점 받았어! 내 점수 이길 수 있어? 😏`;
+      try{ if(navigator.share){ await navigator.share({title:'안다미로 속담 도전장',text,url}); return; } await navigator.clipboard.writeText(text+' '+url); const b=document.getElementById('tshare'); b.textContent='✅ 복사했어요! 친구에게 붙여넣기 해요'; }catch(e){}
+    };
   }
   intro();
 }
