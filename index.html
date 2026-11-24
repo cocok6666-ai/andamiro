@@ -193,21 +193,24 @@ body:has(.hubfit){overflow:hidden}
 .vtile .vpl{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:50%;background:rgba(200,30,30,.92);color:#fff;font-style:normal;font-size:11px;display:grid;place-items:center;padding-left:2px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .vtile b{flex:none;font-size:12.3px;line-height:1.25;padding:4px 7px 0;word-break:keep-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .vtile small{flex:none;font-size:10.5px;color:var(--mute);padding:1px 7px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ftile.rich{position:relative;overflow:hidden;gap:3px;padding:8px 6px 8px;justify-content:space-between}
-.ftile.rich .rdc{position:absolute;opacity:.2;pointer-events:none;font-size:clamp(30px,5.5dvh,52px);line-height:1}
-.ftile.rich .rdc.a{left:-4px;top:-2px;transform:rotate(-14deg)}.ftile.rich .rdc.b{right:-2px;bottom:26px;transform:rotate(12deg);font-size:clamp(24px,4.4dvh,42px)}
-.ftile.rich .rbig{position:relative;font-size:clamp(34px,6.4dvh,60px);line-height:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.2));margin-top:2px}
-.ftile.rich b{position:relative;font-family:var(--display);font-weight:400;font-size:clamp(16px,2.5dvh,20px);margin:0;color:#2B2A28}
+.ftile.rich{position:relative;overflow:hidden;gap:2px;padding:6px 6px 8px;justify-content:flex-end;--d:clamp(62px,8.4dvh,82px)}
+.ftile.rich.dns{--d:clamp(52px,7.1dvh,64px);padding:4px 5px 6px}
+.ftile.rich .rdc{position:absolute;opacity:.18;pointer-events:none;font-size:clamp(28px,5dvh,48px);line-height:1}
+.ftile.rich .rdc.a{left:-4px;top:-2px;transform:rotate(-14deg)}.ftile.rich .rdc.b{right:-2px;bottom:24px;transform:rotate(12deg)}
+.ftile.rich .rst{position:relative;flex:1;min-height:0;width:100%}
+.ftile.rich .rbig{position:absolute;transform:translate(-50%,-50%);font-size:clamp(34px,6.2dvh,58px);line-height:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.22))}
+.ftile.rich.dns .rbig{font-size:clamp(26px,4.2dvh,38px)}
+.ftile.rich .rst i{position:absolute;transform:translate(-50%,-50%);width:var(--d);height:var(--d);border-radius:50%;background:var(--bb,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-style:normal;font-weight:800;font-size:clamp(10.5px,1.5dvh,13px);line-height:1.2;word-break:keep-all;padding:0 4px;box-sizing:border-box;box-shadow:0 2px 0 rgba(0,0,0,.14),inset 0 0 0 2px rgba(255,255,255,.55)}
+.ftile.rich.dns .rst i{font-size:clamp(9.5px,1.35dvh,11.5px);line-height:1.15}
+.ftile.rich .rst i span{display:block}
+.ftile.rich .rst i::after{content:"";position:absolute;bottom:3px;left:14%;width:9px;height:9px;border-radius:50%;background:var(--bb,#fff);transform:rotate(0)}
+.ftile.rich b{position:relative;font-family:var(--display);font-weight:400;font-size:clamp(21px,3.3dvh,27px);margin:0;color:#2B2A28;line-height:1.15;word-break:keep-all}
+.ftile.rich.dns b{font-size:clamp(18px,2.7dvh,23px)}
 .ftile.rich .rhk{position:relative;font-size:clamp(11px,1.5dvh,12.5px);line-height:1.3;color:#4b4a44;word-break:keep-all;margin:0 2px}
-.ftile.rich .rch{position:relative;display:flex;flex-direction:row;justify-content:center;align-items:flex-start;gap:8px;width:100%;margin-top:2px;padding:0 2px;box-sizing:border-box}
-.ftile.rich .rch i{position:relative;flex:1 1 0;min-width:0;max-width:50%;font-style:normal;background:var(--bb,#fff);border-radius:50%;padding:7px 6px 8px;display:flex;flex-direction:column;justify-content:center;font-size:clamp(10.5px,1.45dvh,12.5px);font-weight:700;line-height:1.25;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.14);word-break:keep-all}
-.ftile.rich .rch i span{display:block;white-space:nowrap}
-.ftile.rich .rch i::after{content:"";position:absolute;bottom:-5px;width:9px;height:9px;background:var(--bb,#fff);border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.1)}
-.ftile.rich .rch i.l::after{left:22%}.ftile.rich .rch i.r::after{right:22%}
-.ftile.rich .rch s{color:#C23A2E;text-decoration-thickness:1.5px}.ftile.rich .rch u{text-decoration:none;color:#1E7A45;font-weight:800}.ftile.rich .rch .x{color:#C23A2E}
-.ftile.rich em{position:relative;font-style:normal;background:rgba(255,255,255,.55);border-radius:99px;padding:1px 10px;font-size:11.5px;font-weight:800;color:#3a3935}
-.ftile.rich.dns{gap:2px;justify-content:center;padding:4px 5px}.ftile.rich.dns .rbig{font-size:clamp(24px,3.8dvh,34px);margin:0;line-height:1}.ftile.rich.dns .rhk{display:none}.ftile.rich.dns b{font-size:clamp(15px,2.1dvh,18px);line-height:1.15}.ftile.rich.dns .rch{gap:6px;margin-top:2px}.ftile.rich.dns .rch i{line-height:1.2;padding:1px 8px}.ftile.rich.dns em{line-height:1.4;padding:0 8px;font-size:11px}.ftile.rich.dns .rdc{font-size:clamp(24px,3.6dvh,36px)}
-@media(max-height:700px){.ftile.rich.dns .rch i:nth-child(2){display:none}.ftile.rich.dns .rdc{display:none}}
+.ftile.rich .rst s{color:#C23A2E;text-decoration-thickness:1.5px}.ftile.rich .rst u{text-decoration:none;color:#1E7A45;font-weight:800}.ftile.rich .rst .x{color:#C23A2E}
+.ftile.rich em{position:relative;font-style:normal;background:rgba(255,255,255,.6);border-radius:99px;padding:0 10px;font-size:11.5px;font-weight:800;color:#3a3935;line-height:1.5;margin-top:2px}
+.ftile.rich.dns .rhk{display:none}
+@media(max-height:700px){.ftile.rich .rst i:nth-of-type(2){display:none}.ftile.rich .rdc{display:none}}
 .ftile:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.1)}
 .ftile .te{font-size:clamp(26px,4.4dvh,38px);line-height:1.1}
 .ftile b{font-size:14.5px;margin-top:2px;line-height:1.25;word-break:keep-all}
@@ -1733,8 +1736,8 @@ function josaFix(s,w,a){
 }
 const LXG=[['food','🍱','밥상·먹거리','음식과 식사 이야기'],['thing','✏️','학교·집 물건','쓰는 물건 이야기'],['cloth','👕','옷차림','입는 옷 이야기'],['web','📱','인터넷·누리집','컴퓨터·휴대 전화 이야기'],['video','🎬','영화·방송','보고 듣는 이야기'],['town','🏙️','거리·마을','길과 가게 이야기'],['people','🤝','사람과 마음','일과 사람 이야기'],['move','🏃','몸짓·모양 말','모양을 흉내 내는 말']];
 const BPA=['#D4EAFB','#FBD5E4','#E3D9FA','#D6F2DD','#FCF0BC','#FDE0C8'],OWN=[5,3,1,2,4,3];
-const RBP=[[['l',-3,0],['r',3,12]],[['l',2,12],['r',-3,0]],[['l',-2,6],['r',2,0]],[['l',3,0],['r',-2,10]]];
-const richTile=(i,ic,name,hook,chips,cnt,cmp)=>`<button class="ftile rich${cmp?' dns':''}" data-i="${i}" style="--c1:${PALT[i%6][0]};--c2:${PALT[i%6][1]}"><span class="rdc a">${ic}</span><span class="rdc b">${ic}</span><span class="rbig">${ic}</span><b>${esc(name)}</b><span class="rhk">${esc(hook)}</span><span class="rch">${chips.map((c,k)=>{const P=RBP[i%RBP.length][k%2];return c.replace('<i>',`<i class="${P[0]}" style="--bb:${BPA[(()=>{let x=(i*2+k*3+1)%6; if(x===OWN[i%6]) x=(x+1)%6; return x;})()]};transform:rotate(${P[1]}deg);margin-top:${P[2]}px">`);}).join('')}</span><em>${esc(cnt)}</em></button>`;
+const RBP=[[[52,70],[24,32],[80,40]],[[18,66],[50,30],[82,62]],[[82,40],[20,28],[62,76]],[[50,70],[82,34],[18,30]],[[22,34],[54,66],[84,30]],[[80,72],[64,28],[20,70]]];
+const richTile=(i,ic,name,hook,chips,cnt,cmp)=>{ const P=RBP[i%RBP.length]; return `<button class="ftile rich${cmp?' dns':''}" data-i="${i}" style="--c1:${PALT[i%6][0]};--c2:${PALT[i%6][1]}"><span class="rdc a">${ic}</span><span class="rdc b">${ic}</span><span class="rst"><span class="rbig" style="left:clamp(22px,${P[0][0]}%,calc(100% - 22px));top:${P[0][1]}%">${ic}</span>${chips.map((c,k)=>{const q=P[k+1]||P[1];let x=(i*2+k*3+1)%6; if(x===OWN[i%6]) x=(x+1)%6; return c.replace('<i>',`<i style="--bb:${BPA[x]};left:clamp(calc(var(--d)/2 + 2px),${q[0]}%,calc(100% - var(--d)/2 - 2px));top:clamp(calc(var(--d)/2),${q[1]}%,calc(100% - var(--d)/2))">`);}).join('')}</span><b>${esc(name)}</b>${cmp?'':`<span class="rhk">${esc(hook)}</span>`}<em>${esc(cnt)}</em></button>`; };
 const LXH={food:'급식 시간에 쓰던 말, 있었나요? 🍽️',thing:'내 필통 속 말도 살펴봐요 ✏️',cloth:'오늘 입은 옷, 맞게 불렀나요? 👀',web:'채팅할 때 쓰던 말을 우리말로!',video:'영화 이야기가 더 멋져져요 🍿',town:'길 위의 낯선 말을 쉽게 🚏',people:'친구에게 건네는 말이 예뻐져요 💬',move:'흉내 내는 말도 우리말이 재미있어요 ✨'};
 const LXE={food:['다대기','벤또'],thing:['구루마','지라시'],cloth:['곤색','소데나시'],web:['리플','네티즌'],video:['트레일러','러닝 타임'],town:['싱크홀','스크린도어'],people:['파이팅','노하우'],move:['잇파이','앗사리']};
 const TRH={table:'밥상 앞, 몇 개나 맞힐까? 🍚',school:'받아쓰기 달인에 도전! ✏️',home:'집에서 쓰는 말도 퀴즈로 🏠',talk:'문자 보낼 때 헷갈렸다면? 📱',play:'놀다가 쓰는 말, 정확히! 🌳',heart:'내 마음을 예쁘게 말해요 💗'};
@@ -1759,7 +1762,7 @@ function initLearn(){
   };
   const choose=()=>{
     const done=new Set(St.get());
-    fitChoices(LXG,(x,i)=>{ const l=L(i), n=l.filter(q=>done.has(q.id)).length, ex=LXE[x[0]].map(w=>l.find(q=>q.w===w)).filter(Boolean); return richTile(i,x[1],x[2],LXH[x[0]],ex.map(q=>`<i><span><s>${esc(q.w)}</s></span><span>→ <u>${esc(q.a)}</u></span></i>`),`${n}/${l.length} 고쳐 봤어요`,1); },2,i=>{
+    fitChoices(LXG,(x,i)=>{ const l=L(i), n=l.filter(q=>done.has(q.id)).length, ex=LXE[x[0]].map(w=>l.find(q=>q.w===w)).filter(Boolean); return richTile(i,x[1],x[2],LXH[x[0]],ex.map(q=>`<i><span><s>${esc(q.w)}</s></span><span><u>${esc(q.a)}</u></span></i>`),`${n}/${l.length} 고쳐 봤어요`,1); },2,i=>{
       fitPager(LXG,i,null,null,(x,j)=>({e:x[1],name:x[2],cnt:`예화 ${L(j).length}개`}),choose,fill);
     },4);
   };
