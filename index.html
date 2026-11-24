@@ -34,9 +34,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 /* top bar */
 .bar{position:sticky;top:0;z-index:30;margin:-20px -18px 12px;padding:8px 18px;background:rgba(251,246,234,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--line)}
 .nav{display:flex;align-items:center;gap:3px;font-size:13px;line-height:1;white-space:nowrap;min-width:0;max-width:100%}
-.nav .nv{height:28px;padding:0 10px;border-radius:99px;background:var(--paper2);color:var(--ink);font-weight:600;font-size:13px;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.nav .nv{height:28px;padding:0 10px;border-radius:99px;background:var(--paper2);color:var(--ink);font-weight:600;font-size:13px;flex:0 .15 auto;min-width:2.6em;overflow:hidden;text-overflow:ellipsis}
 .nav .sp{color:var(--mute);flex:none;font-size:12px}
-.nav .cur{flex:0 1 auto;height:28px;display:inline-flex;align-items:center;padding:0 11px;border-radius:99px;background:var(--pv);color:#fff;font-weight:700;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.nav .cur{flex:0 2 auto;height:28px;display:inline-flex;align-items:center;padding:0 11px;border-radius:99px;background:var(--pv);color:#fff;font-weight:700;overflow:hidden;text-overflow:ellipsis;min-width:4em}
+@media(max-width:420px){.nav .hubc,.nav .hubc+.sp{display:none}.nav .homec{font-size:0;padding:0 11px}.nav .homec::before{content:'🏠';font-size:15px}}
 .nav.wd .cur{background:var(--wd)}
 
 /* 허브: 소주제 전체 보기 */
@@ -333,6 +334,40 @@ body:has(.hubfit){overflow:hidden}
 .qt{font-weight:700;font-size:15.5px;line-height:1.45;padding-top:3px;word-break:keep-all}
 .qty{font-style:normal;font-weight:700;font-size:11px;color:var(--pv-deep);background:var(--pv-soft);border-radius:8px;padding:2px 7px;margin-left:4px;white-space:nowrap}
 .tqs{margin:8px 0 6px 42px;padding:10px 12px;background:#FBF3DC;border-radius:10px;font-family:var(--display);font-size:clamp(18px,5vw,22px);line-height:1.4;color:#4a2c14;word-break:keep-all;box-shadow:inset 0 0 0 1px rgba(214,160,60,.45)}
+/* 재미있는 속담 게임 */
+.gmz{padding-bottom:28px}
+.egmenu{display:flex;flex-direction:column;gap:12px;padding:6px 2px}
+.egmt{text-align:center;font-weight:700;color:var(--pv-deep);font-size:16px}
+.egm{position:relative;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:2px solid #E7C98A;border-radius:18px;padding:14px 14px;box-shadow:0 3px 0 #E7C98A}
+.egm .egi{font-size:36px;flex:none;width:52px;height:52px;display:grid;place-items:center;background:var(--paper2);border-radius:14px}
+.egm .egx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.egm .egx b{font-family:var(--display);font-size:19px;color:var(--pv-deep)}.egm .egx small{font-size:13px;color:var(--mute);line-height:1.35}
+.egm .egg{flex:none;display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:700;color:var(--pv)}.egm .egg .fg{font-style:normal;font-size:22px;animation:tpFin 1.4s ease-in-out infinite}
+.egm.soon{background:#F4EFE4;border-color:#DDD3BD;box-shadow:none}.egm.soon .egx b{color:var(--mute)}.egm .egs{flex:none;font-size:12px;font-weight:700;color:#fff;background:#B9AE95;border-radius:99px;padding:4px 10px}
+.egm.wob{animation:egwob .4s}@keyframes egwob{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.egtop{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:700;color:var(--pv-deep);padding:2px 4px}
+.egcard{background:linear-gradient(180deg,#FFF7DC,#FFEFC0);border:2px solid #E7C98A;border-radius:20px;padding:16px 10px 12px;text-align:center;margin:6px 0 12px;box-shadow:0 3px 0 #E7C98A}
+.egem{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 8px;font-size:clamp(40px,12vw,54px);line-height:1.15}
+.egem span{display:inline-block;animation:egpop .5s both cubic-bezier(.2,1.6,.4,1)}@keyframes egpop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+.egq{margin-top:10px;font-weight:700;font-size:16px;color:var(--ink)}
+.egk{display:inline-block;margin-top:8px;background:#fff;border:2px dashed var(--pv);border-radius:99px;padding:4px 14px;font-size:15px;color:var(--pv-deep)}.egk b{font-family:var(--display);font-size:20px;color:var(--pv)}
+.egop{display:flex;flex-direction:column;gap:9px}
+.eop{display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:2px solid #E3D8C0;border-radius:14px;padding:11px 12px;font-size:16.5px;line-height:1.35;transition:transform .12s}
+.eop:active:not(:disabled){transform:scale(.98)}.eop i{flex:none;font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--paper2);font-size:14px;font-weight:700;color:var(--pv-deep)}
+.eop .hk{color:var(--pv);background:#FFE7A8;border-radius:4px;padding:0 2px}
+.eop.right{background:#E3F5E8;border-color:#3BA26A;font-weight:700}.eop.right i{background:#3BA26A;color:#fff}
+.eop.bad{background:#FDE6E4;border-color:#D9534F;color:#B33;text-decoration:line-through;animation:egwob .35s}
+.eop:disabled:not(.right):not(.bad){opacity:.55}
+.egtry{margin-top:10px;text-align:center;background:#FFF1C9;border-radius:12px;padding:9px;font-size:15px}
+.egfb{margin-top:12px;border-radius:16px;padding:13px;border:2px solid}.egfb.ok{background:#EFFAF1;border-color:#3BA26A}.egfb.no{background:#FFF3E8;border-color:#E39A4C}
+.egfh{font-weight:800;font-size:17px}.egfh u{text-decoration:none;color:#D9342B}
+.egans{margin:6px 0;font-family:var(--display);font-size:21px;color:var(--pv-deep);line-height:1.3}
+.egfb p{font-size:14.5px;line-height:1.5;margin-top:4px}
+.egres{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding-top:6px}
+.egrt span{font-size:60px;display:block;animation:egpop .6s both cubic-bezier(.2,1.6,.4,1)}.egrt b{font-family:var(--display);font-size:28px;color:var(--pv-deep)}.egrt small{display:block;font-size:14px;color:var(--mute)}
+.egte{font-weight:700;color:#D9342B;font-size:15px}
+.egls{width:100%;display:flex;flex-direction:column;gap:6px;margin:4px 0}
+.egls li{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:7px 10px;border-left:5px solid #3BA26A;text-align:left;font-size:14px}
+.egls li.n{border-left-color:#D9534F}.egls .no{font-weight:800;color:var(--pv-deep);flex:none}.egls .em{flex:none;font-size:18px}.egls .tx{flex:1;min-width:0}.egls .pt{flex:none;font-weight:800}
 .blk{display:inline-block;width:3.2em;height:1.1em;vertical-align:-.15em;border-bottom:3px solid #E5252A;margin:0 .15em}
 .ul{text-decoration:underline wavy #E5252A;text-underline-offset:4px;font-weight:800}
 .tqhint{margin:0 0 6px 42px;font-size:13px;color:#6b6556;line-height:1.45;word-break:keep-all}
@@ -816,7 +851,7 @@ const MENU = {
         {id:'p-video', status:'done', render:()=>renderVideo(), init:()=>initVideo(), ic:'🎬', title:'동영상 자료', desc:'속담 영상 40여 편을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
       {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임, 속담 완성하기, 실력 평가, 그림 퀴즈로 내 속담 실력을 키워요.', items:[
-        {id:'p-q-game', ic:'🎮', title:'재미있는 속담 게임', desc:'게임으로 즐겁게 놀면서 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
+        {id:'p-q-game', status:'done', render:()=>renderGames(), init:()=>initGames(), ic:'🎮', title:'재미있는 속담 게임', desc:'이모지 속담 게임 등 4가지 게임으로 즐겁게 놀며 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
         {id:'p-q-fill', status:'done', render:()=>renderFill(), init:()=>initFill(), ic:'🧩', title:'속담 완성하기', desc:'낱말 카드를 끌어다 놓아 속담을 완성해요. 5문제 · 100점 만점!', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
         {id:'p-q-test', status:'done', render:()=>renderTest('p'), init:()=>initTest('p'), ic:'📝', title:'속담 실력 평가', desc:'시험지로 10문제를 풀고 색연필로 채점해요. 100점 만점!', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']},
         {id:'p-q-pic', ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요.', plan:['그림 보고 떠올리기','낱말 버튼을 눌러 속담 완성']}
@@ -860,7 +895,7 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 
 function nav(trail, cls, ob){
   const last=trail.length-1;
-  return `<nav class="nav ${cls||''}${ob?' ob'+(ob==='g'?' gb':''):''}" aria-label="현재 위치">`+trail.map((t,i)=>i===last?`<span class="cur" aria-current="page">${esc(t[0])}</span>`:`<button class="nv" data-go="${t[1]}">${i===0?'🏠 ':''}${esc(t[0])}</button><span class="sp">›</span>`).join('')+`</nav>`;
+  return `<nav class="nav ${cls||''}${ob?' ob'+(ob==='g'?' gb':''):''}" aria-label="현재 위치">`+trail.map((t,i)=>i===last?`<span class="cur" aria-current="page">${esc(t[0])}</span>`:`<button class="nv${i===1&&last>=3?' hubc':''}${i===0&&last>=3?' homec':''}" data-go="${t[1]}">${i===0?'🏠 ':''}${esc(t[0])}</button><span class="sp">›</span>`).join('')+`</nav>`;
 }
 function bar(trail, cls){ return `<div class="bar">${nav(trail,cls)}</div>`; }
 
@@ -1412,6 +1447,91 @@ function initFill(){
     document.getElementById('gre').onclick=start;
   }
   intro();
+}
+
+
+/* ---------- 재미있는 속담 게임 (메뉴 + 이모지 속담 게임) ---------- */
+const EG_LIST=[
+  {id:'emoji',ic:'🎭',t:'이모지 속담 게임',d:'이모지를 보고 떠오르는 속담을 찾아요. 공통 낱말이 힌트예요!',on:1},
+  {id:'g2',ic:'🎲',t:'게임 2',d:'새로운 속담 게임이 곧 열려요.'},
+  {id:'g3',ic:'🧩',t:'게임 3',d:'새로운 속담 게임이 곧 열려요.'},
+  {id:'g4',ic:'🏁',t:'게임 4',d:'새로운 속담 게임이 곧 열려요.'}
+];
+let EGB=null;
+function loadEmoji(){ if(!EGB) EGB=fetch('data/emoji.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ EGB=null; throw e; }); return EGB; }
+const egSplit=s=>{ try{ return Array.from(new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(s),x=>x.segment); }catch(e){ return Array.from(s); } };
+const egLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.emoji')||'{}');}catch(e){return {};} };
+const egSave=o=>{ try{localStorage.setItem('andamiro.emoji',JSON.stringify(o));}catch(e){} };
+function renderGames(){
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🎮</span><div><b>재미있는 속담 게임</b><small>게임으로 놀면서 속담을 익혀요</small></div></div><div id="eb"></div></div>`;
+}
+function initGames(){
+  const eb=document.getElementById('eb'); if(!eb) return;
+  const G={n:0,total:0,res:[],used:new Set()};
+  const hk=(t,k)=>esc(t).replace(new RegExp('(^|\\s)('+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')'),'$1<b class="hk">$2</b>');
+  function menu(){
+    eb.innerHTML=`<div class="egmenu"><p class="egmt">하고 싶은 게임을 골라 보세요</p>
+      ${EG_LIST.map(g=>`<button type="button" class="egm${g.on?'':' soon'}" data-g="${g.id}"><span class="egi">${g.ic}</span><span class="egx"><b>${g.t}</b><small>${g.d}</small></span>${g.on?'<span class="egg"><i class="fg">👆</i><em>터치 하세요</em></span>':'<span class="egs">준비 중</span>'}</button>`).join('')}</div>`;
+    eb.querySelector('.egm[data-g="emoji"]').onclick=intro;
+    eb.querySelectorAll('.egm.soon').forEach(b=>b.onclick=()=>{ b.classList.remove('wob'); void b.offsetWidth; b.classList.add('wob'); });
+  }
+  function intro(){
+    const best=egLoad().best;
+    eb.innerHTML=`<div class="gintro egintro"><div class="gi-ttl">🎭 이모지 속담 게임</div>
+      <ol class="gi-ol"><li><i>1</i><span><b>이모지</b>를 보고 어떤 속담일지 떠올려 봐요.</span></li>
+      <li><i>2</i><span>이모지에 나온 <b>공통 낱말</b>이 들어간 속담 <b>4개</b> 중에서 골라요.</span></li>
+      <li><i>3</i><span>한 번에 맞히면 <b>20점</b>, 두 번째에 맞히면 <b>10점</b>!</span></li></ol>
+      <div class="gi-box">5문제 · <b>100점 만점</b><small>${best!==undefined?`내 최고 기록 ${best}점 · 할 때마다 새 문제`:'할 때마다 새로운 문제가 나와요'}</small></div>
+      <button class="cta pv gi-go" id="ego">🎮 시작하기</button><button class="gr-sub" id="eback">‹ 게임 메뉴</button></div>`;
+    document.getElementById('ego').onclick=start; document.getElementById('eback').onclick=menu;
+  }
+  function start(){
+    gmSnd('x'); G.n=0; G.total=0; G.res=[];
+    loadEmoji().then(bank=>{
+      const st=egLoad(), seen=new Set(st.seen||[]);
+      let pool=bank.filter(q=>!seen.has(q.id)); if(pool.length<5) pool=bank.slice();
+      G.set=gmShuf(pool.slice()).slice(0,5); next();
+    }).catch(()=>{ eb.innerHTML='<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+  }
+  function next(){ if(G.n>=5) return result(); const q=G.set[G.n]; G.n++; question(q); window.scrollTo(0,0); }
+  function question(q){
+    const opts=gmShuf([{t:q.t,ok:1},...gmShuf(q.d.slice()).slice(0,3).map(t=>({t,ok:0}))]);
+    let tries=0, done=false;
+    eb.innerHTML=`<div class="egtop"><span class="gn">문제 <b>${G.n}</b>/5</span><span class="gtot">누적 <b>${G.total}</b>점</span></div>
+      <div class="gprog">${[1,2,3,4,5].map(i=>`<i class="${i<G.n?'d':i===G.n?'c':''}"></i>`).join('')}</div>
+      <div class="egcard"><div class="egem">${egSplit(q.e).map((x,i)=>`<span style="animation-delay:${i*.18}s">${x}</span>`).join('')}</div>
+        <div class="egq">이 이모지가 떠올리게 하는 속담은?</div><div class="egk">🔑 공통 낱말 <b>${esc(q.k)}</b></div></div>
+      <div class="egop">${opts.map((o,i)=>`<button type="button" class="eop" data-i="${i}"><i>${'①②③④'[i]}</i><span>${hk(o.t,q.k)}</span></button>`).join('')}</div><div id="egfb"></div>`;
+    const bs=[...eb.querySelectorAll('.eop')], fb=document.getElementById('egfb');
+    const fin=(pts,ok)=>{
+      done=true; G.total+=pts; G.res.push({q,pts});
+      bs.forEach(b=>{ b.disabled=true; if(opts[+b.dataset.i].ok) b.classList.add('right'); });
+      fb.innerHTML=`<div class="egfb ${ok?'ok':'no'}"><div class="egfh">${ok?(pts===20?'🎉 딱 맞혔어요! <u>+20점</u>':'👍 두 번째에 맞혔어요! <u>+10점</u>'):'😮 아깝다! 정답은 이 속담이에요.'}</div>
+        <div class="egans">${esc(q.t)}</div><p>🔎 <b>이모지 풀이</b> ${esc(q.r)}</p><p>📖 <b>뜻</b> ${esc(q.m)}</p>
+        <button type="button" class="cta pv" id="enx">${G.n>=5?'🏆 결과 보기':'다음 문제 ›'}</button></div>`;
+      document.getElementById('enx').onclick=()=>{ gmSnd('x'); next(); };
+      fb.scrollIntoView({block:'center',behavior:'smooth'});
+    };
+    bs.forEach(b=>b.onclick=()=>{
+      if(done) return; const o=opts[+b.dataset.i];
+      if(o.ok){ b.classList.add('right'); gmSnd('ok'); try{navigator.vibrate&&navigator.vibrate(30);}catch(e){} fin(tries===0?20:10,true); }
+      else { tries++; b.classList.add('bad'); b.disabled=true; gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([40,40,40]);}catch(e){}
+        if(tries>=2) fin(0,false); else { fb.innerHTML='<div class="egtry">🤔 앗, 아니에요! <b>한 번 더</b> 골라 봐요. (맞히면 10점)</div>'; } }
+    });
+  }
+  function result(){
+    const t=G.total, st=egLoad(), prev=st.best;
+    egSave({...st,best:Math.max(prev||0,t),tries:(st.tries||0)+1,seen:[...(st.seen||[]),...G.set.map(q=>q.id)].slice(-30)});
+    const T=t>=100?['🏆','속담 천재','이모지만 봐도 속담이 척척! 대단해요!']:t>=80?['🥇','속담 척척이','거의 다 맞혔어요! 만점이 코앞이에요.']:t>=60?['🥈','속담 눈치꾼','눈치가 빨라요! 조금만 더 하면 척척이!']:t>=40?['🌱','속담 새싹','좋아요! 속담이 쑥쑥 자라고 있어요.']:['🌰','속담 씨앗','괜찮아요! 다시 하면 더 잘할 수 있어요.'];
+    const tease=prev===undefined?'':t>prev?`🎉 신기록! 이전 최고 ${prev}점을 넘었어요!`:t===prev?'최고 기록과 똑같아요!':`최고 기록 ${prev}점까지 ${prev-t}점!`;
+    eb.innerHTML=`<div class="egres"><div class="egrt"><span>${T[0]}</span><b>${T[1]}</b><small>${T[2]}</small></div>
+      <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>${tease?`<div class="egte">${tease}</div>`:''}
+      <ul class="egls">${G.res.map((r,i)=>`<li class="${r.pts?'y':'n'}"><span class="no">${i+1}</span><span class="em">${esc(r.q.e)}</span><span class="tx">${esc(r.q.t)}</span><span class="pt">${r.pts}점</span></li>`).join('')}</ul>
+      <div class="gr-bt"><button class="cta pv" id="eag">🔁 다시 하기 <small>(새로운 문제)</small></button><button class="gr-sub" id="ebk">‹ 게임 메뉴</button></div></div>`;
+    gmSnd(t>=60?'end':'no'); window.scrollTo(0,0);
+    document.getElementById('eag').onclick=start; document.getElementById('ebk').onclick=menu;
+  }
+  menu();
 }
 
 
