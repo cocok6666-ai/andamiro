@@ -200,9 +200,9 @@ body:has(.hubfit){overflow:hidden}
 .ftile.rich b{position:relative;font-family:var(--display);font-weight:400;font-size:clamp(16px,2.5dvh,20px);margin:0;color:#2B2A28}
 .ftile.rich .rhk{position:relative;font-size:clamp(11px,1.5dvh,12.5px);line-height:1.3;color:#4b4a44;word-break:keep-all;margin:0 2px}
 .ftile.rich .rch{position:relative;display:flex;flex-direction:row;justify-content:center;align-items:flex-start;gap:8px;width:100%;margin-top:2px;padding:0 2px;box-sizing:border-box}
-.ftile.rich .rch i{position:relative;flex:1 1 0;min-width:0;max-width:50%;font-style:normal;background:#fff;border-radius:50%/46%;padding:5px 7px 6px;font-size:clamp(10.5px,1.45dvh,12.5px);font-weight:700;line-height:1.25;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.14);word-break:keep-all}
-.ftile.rich .rch i span{display:block}
-.ftile.rich .rch i::after{content:"";position:absolute;bottom:-5px;width:9px;height:9px;background:#fff;border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.ftile.rich .rch i{position:relative;flex:1 1 0;min-width:0;max-width:50%;font-style:normal;background:var(--bb,#fff);border-radius:50%;padding:7px 6px 8px;display:flex;flex-direction:column;justify-content:center;font-size:clamp(10.5px,1.45dvh,12.5px);font-weight:700;line-height:1.25;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.14);word-break:keep-all}
+.ftile.rich .rch i span{display:block;white-space:nowrap}
+.ftile.rich .rch i::after{content:"";position:absolute;bottom:-5px;width:9px;height:9px;background:var(--bb,#fff);border-radius:50%;box-shadow:0 2px 0 rgba(0,0,0,.1)}
 .ftile.rich .rch i.l::after{left:22%}.ftile.rich .rch i.r::after{right:22%}
 .ftile.rich .rch s{color:#C23A2E;text-decoration-thickness:1.5px}.ftile.rich .rch u{text-decoration:none;color:#1E7A45;font-weight:800}.ftile.rich .rch .x{color:#C23A2E}
 .ftile.rich em{position:relative;font-style:normal;background:rgba(255,255,255,.55);border-radius:99px;padding:1px 10px;font-size:11.5px;font-weight:800;color:#3a3935}
@@ -1732,8 +1732,9 @@ function josaFix(s,w,a){
    .replace('올리기했어요','올렸어요').replace('내려받기했어요','내려받았어요').replace('괴롭힘하면','괴롭히면').replace('다걸기했어요','다걸기를 했어요');
 }
 const LXG=[['food','🍱','밥상·먹거리','음식과 식사 이야기'],['thing','✏️','학교·집 물건','쓰는 물건 이야기'],['cloth','👕','옷차림','입는 옷 이야기'],['web','📱','인터넷·누리집','컴퓨터·휴대 전화 이야기'],['video','🎬','영화·방송','보고 듣는 이야기'],['town','🏙️','거리·마을','길과 가게 이야기'],['people','🤝','사람과 마음','일과 사람 이야기'],['move','🏃','몸짓·모양 말','모양을 흉내 내는 말']];
+const BPA=['#D4EAFB','#FBD5E4','#E3D9FA','#D6F2DD','#FCF0BC','#FDE0C8'],OWN=[5,3,1,2,4,3];
 const RBP=[[['l',-3,0],['r',3,12]],[['l',2,12],['r',-3,0]],[['l',-2,6],['r',2,0]],[['l',3,0],['r',-2,10]]];
-const richTile=(i,ic,name,hook,chips,cnt,cmp)=>`<button class="ftile rich${cmp?' dns':''}" data-i="${i}" style="--c1:${PALT[i%6][0]};--c2:${PALT[i%6][1]}"><span class="rdc a">${ic}</span><span class="rdc b">${ic}</span><span class="rbig">${ic}</span><b>${esc(name)}</b><span class="rhk">${esc(hook)}</span><span class="rch">${chips.map((c,k)=>{const P=RBP[i%RBP.length][k%2];return c.replace('<i>',`<i class="${P[0]}" style="transform:rotate(${P[1]}deg);margin-top:${P[2]}px">`);}).join('')}</span><em>${esc(cnt)}</em></button>`;
+const richTile=(i,ic,name,hook,chips,cnt,cmp)=>`<button class="ftile rich${cmp?' dns':''}" data-i="${i}" style="--c1:${PALT[i%6][0]};--c2:${PALT[i%6][1]}"><span class="rdc a">${ic}</span><span class="rdc b">${ic}</span><span class="rbig">${ic}</span><b>${esc(name)}</b><span class="rhk">${esc(hook)}</span><span class="rch">${chips.map((c,k)=>{const P=RBP[i%RBP.length][k%2];return c.replace('<i>',`<i class="${P[0]}" style="--bb:${BPA[(()=>{let x=(i*2+k*3+1)%6; if(x===OWN[i%6]) x=(x+1)%6; return x;})()]};transform:rotate(${P[1]}deg);margin-top:${P[2]}px">`);}).join('')}</span><em>${esc(cnt)}</em></button>`;
 const LXH={food:'급식 시간에 쓰던 말, 있었나요? 🍽️',thing:'내 필통 속 말도 살펴봐요 ✏️',cloth:'오늘 입은 옷, 맞게 불렀나요? 👀',web:'채팅할 때 쓰던 말을 우리말로!',video:'영화 이야기가 더 멋져져요 🍿',town:'길 위의 낯선 말을 쉽게 🚏',people:'친구에게 건네는 말이 예뻐져요 💬',move:'흉내 내는 말도 우리말이 재미있어요 ✨'};
 const LXE={food:['다대기','벤또'],thing:['구루마','지라시'],cloth:['곤색','소데나시'],web:['리플','네티즌'],video:['트레일러','러닝 타임'],town:['싱크홀','스크린도어'],people:['파이팅','노하우'],move:['잇파이','앗사리']};
 const TRH={table:'밥상 앞, 몇 개나 맞힐까? 🍚',school:'받아쓰기 달인에 도전! ✏️',home:'집에서 쓰는 말도 퀴즈로 🏠',talk:'문자 보낼 때 헷갈렸다면? 📱',play:'놀다가 쓰는 말, 정확히! 🌳',heart:'내 마음을 예쁘게 말해요 💗'};
