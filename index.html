@@ -1717,72 +1717,60 @@ function josaFix(s,w,a){
    .replace('올리기했어요','올렸어요').replace('내려받기했어요','내려받았어요').replace('괴롭힘하면','괴롭히면').replace('다걸기했어요','다걸기를 했어요');
 }
 const LXG=[['food','🍱','밥상·먹거리','음식과 식사 이야기'],['thing','✏️','학교·집 물건','쓰는 물건 이야기'],['cloth','👕','옷차림','입는 옷 이야기'],['web','📱','인터넷·누리집','컴퓨터·휴대 전화 이야기'],['video','🎬','영화·방송','보고 듣는 이야기'],['town','🏙️','거리·마을','길과 가게 이야기'],['people','🤝','사람과 마음','일과 사람 이야기'],['move','🏃','몸짓·모양 말','모양을 흉내 내는 말']];
+const lxBar=()=>`<div class="lxbar"><div class="lxpg"><i></i></div><span class="lxn"></span></div>`;
+const lxUpd=(box,total)=>{ const n=box.querySelectorAll('.lxc.open').length; box.querySelector('.lxn').textContent=n+'/'+total; box.querySelector('.lxpg i').style.width=(n/total*100)+'%'; const d=box.querySelector('.lxdone'); if(d) d.hidden=n<total; };
 function renderLearn(){
-  return `<div class="leaf ${curCls}" id="lxr"><div class="fhead ${curCls}" id="lxh"><span class="fhe">📖</span><div><b>꼭! 순우리말로 바꿔주세요</b><small>잘못 쓰는 말을 아름다운 우리말로 고쳐 봐요</small></div></div><div id="lxb"></div></div>`;
+  return fitShell('w-learn','📖','꼭! 순우리말로 바꿔주세요','잘못 쓰는 말을 아름다운 우리말로 고쳐 봐요','');
 }
 function initLearn(){
-  const box=document.getElementById('lxb'), root=document.getElementById('lxr'); if(!box) return;
-  const St=lxStore('andamiro.learn');
-  const reset=()=>{ root.classList.remove('lxd'); root.style.cssText=''; document.querySelector('#lxh b').textContent='꼭! 순우리말로 바꿔주세요'; document.querySelector('#lxh small').textContent='잘못 쓰는 말을 아름다운 우리말로 고쳐 봐요'; document.querySelector('#lxh .fhe').textContent='📖'; };
-  loadFix().then(bank=>{
-    const home=()=>{
-      reset(); const done=new Set(St.get());
-      box.innerHTML=`<div class="egmt" style="text-align:center;font-weight:700;color:var(--pv-deep);margin:4px 0 10px">어떤 이야기에서 잘못 쓰고 있을까요? 하나를 골라요.</div><div class="lxg">${LXG.map((g,i)=>{const L=bank.filter(q=>q.g===g[0]);const n=L.filter(q=>done.has(q.id)).length;return `<button class="lxt" data-g="${g[0]}" style="--c1:${TC(i)[0]};--c2:${TC(i)[1]}"><span class="i">${g[1]}</span><b>${g[2]}</b><small>${g[3]}</small><em>${n}/${L.length} 고쳐 봤어요</em></button>`;}).join('')}</div>`;
-      box.querySelectorAll('.lxt').forEach(b=>b.onclick=()=>topic(b.dataset.g)); window.scrollTo(0,0);
-    };
-    const topic=gk=>{
-      const gi=LXG.findIndex(g=>g[0]===gk), g=LXG[gi], L=bank.filter(q=>q.g===gk);
-      tcApply(root,gi); root.classList.add('lxd');
-      document.querySelector('#lxh .fhe').textContent=g[1]; document.querySelector('#lxh b').textContent=g[2]; document.querySelector('#lxh small').textContent='밑줄 친 말을 아름다운 우리말로 고쳐 봐요';
-      const done=new Set(St.get());
-      box.innerHTML=`<div class="lxbar"><button class="lxbk">‹ 이야기 고르기</button><div class="lxpg"><i id="lxp"></i></div><span class="lxn" id="lxn"></span></div>`+
-        L.map((q,i)=>`<div class="lxc" data-id="${q.id}"><span class="lxl">${i+1}. 잘못 쓴 말 😟</span><div class="lxs">${fxSent(q)}</div><button class="lxb">✨ 아름다운 우리말로 고쳐 볼까요?</button><div class="lxfx" hidden><span class="lxl ok">고쳐 쓴 말 😊</span><div class="lxs">${esc(josaFix(q.s,q.w,q.a)).replace(esc(q.a),'<mark>'+esc(q.a)+'</mark>')}</div><div class="arr"><s>${esc(q.w)}</s> → <b>${esc(q.a)}</b></div><p>🔎 ${esc(q.o)}</p><p>💡 뜻: ${esc(q.m)}</p></div></div>`).join('')+`<div class="lxdone" id="lxd" hidden>🎉 모두 아름다운 말로 고쳤어요!</div>`;
-      const upd=()=>{ const n=box.querySelectorAll('.lxc.open').length; document.getElementById('lxn').textContent=n+'/'+L.length; document.getElementById('lxp').style.width=(n/L.length*100)+'%'; document.getElementById('lxd').hidden=n<L.length; };
-      box.querySelectorAll('.lxc').forEach(c=>{
-        const open=()=>{ c.classList.add('open'); c.querySelector('.lxb').hidden=true; c.querySelector('.lxfx').hidden=false; St.add(c.dataset.id); upd(); };
-        c.querySelector('.lxb').onclick=()=>{ open(); gmSnd&&gmSnd('ok'); };
-        if(done.has(c.dataset.id)) open();
-      });
-      upd(); box.querySelector('.lxbk').onclick=home; window.scrollTo(0,0);
-    };
-    home();
-  }).catch(()=>{ box.innerHTML='<div class="fmsg">자료를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+  const St=lxStore('andamiro.learn'); let bank=null;
+  const lists=LXG.map(()=>null);
+  const L=i=>lists[i]||(lists[i]=bank.filter(q=>q.g===LXG[i][0]));
+  const fill=(box,gi)=>{
+    const list=L(gi), done=new Set(St.get());
+    box.innerHTML=lxBar()+list.map((q,i)=>`<div class="lxc" data-id="${q.id}"><span class="lxl">${i+1}. 잘못 쓴 말 😟</span><div class="lxs">${fxSent(q)}</div><button class="lxb">✨ 아름다운 우리말로 고쳐 볼까요?</button><div class="lxfx" hidden><span class="lxl ok">고쳐 쓴 말 😊</span><div class="lxs">${esc(josaFix(q.s,q.w,q.a)).replace(esc(q.a),'<mark>'+esc(q.a)+'</mark>')}</div><div class="arr"><s>${esc(q.w)}</s> → <b>${esc(q.a)}</b></div><p>🔎 ${esc(q.o)}</p><p>💡 뜻: ${esc(q.m)}</p></div></div>`).join('')+`<div class="lxdone" hidden>🎉 모두 아름다운 말로 고쳤어요!</div>`;
+    box.querySelectorAll('.lxc').forEach(c=>{
+      const open=()=>{ c.classList.add('open'); c.querySelector('.lxb').hidden=true; c.querySelector('.lxfx').hidden=false; St.add(c.dataset.id); lxUpd(box,list.length); };
+      c.querySelector('.lxb').onclick=()=>{ open(); gmSnd('ok'); };
+      if(done.has(c.dataset.id)) open();
+    });
+    lxUpd(box,list.length);
+  };
+  const choose=()=>{
+    const done=new Set(St.get());
+    fitChoices(LXG,(x,i)=>{ const l=L(i), n=l.filter(q=>done.has(q.id)).length; return tileHtml(x,i,PALT[i%6],x[1],x[2],`${n}/${l.length} 고쳐 봤어요`); },2,i=>{
+      fitPager(LXG,i,null,null,(x,j)=>({e:x[1],name:x[2],cnt:`예화 ${L(j).length}개`}),choose,fill);
+    },4);
+  };
+  loadFix().then(b=>{ bank=b; choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
 
 let TRB=null;
 function loadTricky(){ if(!TRB) TRB=fetch('data/tricky.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ TRB=null; throw e; }); return TRB; }
 function renderTricky(){
-  return `<div class="leaf ${curCls}" id="lxr"><div class="fhead ${curCls}" id="lxh"><span class="fhe">⚠️</span><div><b>틀리기 쉬운 순우리말</b><small>장면마다 알맞은 말을 골라 익혀요</small></div></div><div id="lxb"></div></div>`;
+  return fitShell('w-tricky','⚠️','틀리기 쉬운 순우리말','장면마다 알맞은 말을 골라 익혀요','');
 }
 function initTricky(){
-  const box=document.getElementById('lxb'), root=document.getElementById('lxr'); if(!box) return;
-  const St=lxStore('andamiro.tricky');
-  const H=document.getElementById('lxh');
-  const reset=()=>{ root.classList.remove('lxd'); root.style.cssText=''; H.querySelector('.fhe').textContent='⚠️'; H.querySelector('b').textContent='틀리기 쉬운 순우리말'; H.querySelector('small').textContent='장면마다 알맞은 말을 골라 익혀요'; };
-  loadTricky().then(D=>{
-    const home=()=>{
-      reset(); const done=new Set(St.get());
-      box.innerHTML=`<div style="text-align:center;font-weight:700;color:var(--pv-deep);margin:4px 0 10px">어떤 장면에서 헷갈릴까요? 하나를 골라요.</div><div class="lxg">${D.map((sc,i)=>{const n=sc.items.filter((_,k)=>done.has(sc.id+k)).length;return `<button class="lxt" data-i="${i}" style="--c1:${TC(i)[0]};--c2:${TC(i)[1]}"><span class="i">${sc.ic}</span><b>${sc.name}</b><small>${sc.intro}</small><em>${n}/${sc.items.length} 익혔어요</em></button>`;}).join('')}</div>`;
-      box.querySelectorAll('.lxt').forEach(b=>b.onclick=()=>scene(+b.dataset.i)); window.scrollTo(0,0);
-    };
-    const scene=i=>{
-      const sc=D[i]; tcApply(root,i); root.classList.add('lxd');
-      H.querySelector('.fhe').textContent=sc.ic; H.querySelector('b').textContent=sc.name; H.querySelector('small').textContent='알맞은 말을 골라 빈칸을 채워 봐요';
-      const done=new Set(St.get());
-      box.innerHTML=`<div class="lxbar"><button class="lxbk">‹ 장면 고르기</button><div class="lxpg"><i id="lxp"></i></div><span class="lxn" id="lxn"></span></div>`+
-        sc.items.map((q,k)=>{const o=gmShuf([{t:q.a,ok:1},{t:q.b,ok:0}]);return `<div class="lxc" data-k="${k}"><span class="lxl" style="background:var(--pv-soft);color:var(--pv-deep)">${k+1}. 알맞은 말은?</span><div class="lxs">${esc(q.s).replace('[[]]','<span class="lxblank">　?　</span>')}</div><div class="lxch">${o.map(x=>`<button type="button" data-ok="${x.ok}">${esc(x.t)}</button>`).join('')}</div><div class="lxfx" hidden><p>💡 ${esc(q.w)}</p></div></div>`;}).join('')+`<div class="lxdone" id="lxd" hidden>🎉 이 장면의 말을 모두 익혔어요!</div>`;
-      const upd=()=>{ const n=box.querySelectorAll('.lxc.open').length; document.getElementById('lxn').textContent=n+'/'+sc.items.length; document.getElementById('lxp').style.width=(n/sc.items.length*100)+'%'; document.getElementById('lxd').hidden=n<sc.items.length; };
-      box.querySelectorAll('.lxc').forEach(c=>{
-        const q=sc.items[+c.dataset.k];
-        const fill=()=>{ c.classList.add('open'); c.querySelector('.lxblank').outerHTML='<mark>'+esc(q.a)+'</mark>'; c.querySelectorAll('.lxch button').forEach(b=>{b.disabled=true; if(b.dataset.ok==='1') b.classList.add('ok');}); c.querySelector('.lxfx').hidden=false; St.add(sc.id+c.dataset.k); upd(); };
-        c.querySelectorAll('.lxch button').forEach(b=>b.onclick=()=>{ if(c.classList.contains('open')) return;
-          if(b.dataset.ok==='1'){ fill(); gmSnd&&gmSnd('ok'); } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); gmSnd&&gmSnd('no'); b.disabled=true; } });
-        if(done.has(sc.id+c.dataset.k)) fill();
-      });
-      upd(); box.querySelector('.lxbk').onclick=home; window.scrollTo(0,0);
-    };
-    home();
-  }).catch(()=>{ box.innerHTML='<div class="fmsg">자료를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+  const St=lxStore('andamiro.tricky'); let D=null;
+  const fill=(box,i)=>{
+    const sc=D[i], done=new Set(St.get());
+    box.innerHTML=lxBar()+sc.items.map((q,k)=>{const o=gmShuf([{t:q.a,ok:1},{t:q.b,ok:0}]);return `<div class="lxc" data-k="${k}"><span class="lxl" style="background:var(--pv-soft);color:var(--pv-deep)">${k+1}. 알맞은 말은?</span><div class="lxs">${esc(q.s).replace('[[]]','<span class="lxblank">　?　</span>')}</div><div class="lxch">${o.map(x=>`<button type="button" data-ok="${x.ok}">${esc(x.t)}</button>`).join('')}</div><div class="lxfx" hidden><p>💡 ${esc(q.w)}</p></div></div>`;}).join('')+`<div class="lxdone" hidden>🎉 이 장면의 말을 모두 익혔어요!</div>`;
+    box.querySelectorAll('.lxc').forEach(c=>{
+      const q=sc.items[+c.dataset.k];
+      const fin=()=>{ c.classList.add('open'); const bl=c.querySelector('.lxblank'); if(bl) bl.outerHTML='<mark>'+esc(q.a)+'</mark>'; c.querySelectorAll('.lxch button').forEach(b=>{b.disabled=true; if(b.dataset.ok==='1') b.classList.add('ok');}); c.querySelector('.lxfx').hidden=false; St.add(sc.id+c.dataset.k); lxUpd(box,sc.items.length); };
+      c.querySelectorAll('.lxch button').forEach(b=>b.onclick=()=>{ if(c.classList.contains('open')) return;
+        if(b.dataset.ok==='1'){ fin(); gmSnd('ok'); } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); gmSnd('no'); b.disabled=true; } });
+      if(done.has(sc.id+c.dataset.k)) fin();
+    });
+    lxUpd(box,sc.items.length);
+  };
+  const choose=()=>{
+    const done=new Set(St.get());
+    fitChoices(D,(x,i)=>tileHtml(x,i,PALT[i%6],x.ic,x.name,`${x.items.filter((_,k)=>done.has(x.id+k)).length}/${x.items.length} 익혔어요`),2,i=>{
+      fitPager(D,i,null,null,(x,j)=>({e:x.ic,name:x.name,cnt:`${x.items.length}문항`}),choose,fill);
+    },3);
+  };
+  loadTricky().then(d=>{ D=d; choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
 
 /* ---------- 순우리말로 바꾸기 (일본어 투·외래어를 알맞은 우리말로) ---------- */
@@ -2030,7 +2018,8 @@ function loadWtags(){
 /* ===== 검색 화면 공통: 한 화면 맞춤 · 가로 넘기기 · 다른 검색 메뉴 ===== */
 const FIT_OTHERS={
   'p-find':[['p-f-word','🔤','낱말'],['p-f-nature','🌿','동식물'],['p-f-moral','🧭','교훈'],['p-f-zodiac','🐯','띠']],
-  'w-find':[['w-f-char','🔡','글자'],['w-f-cat','🗂️','분류']]
+  'w-find':[['w-f-char','🔡','글자'],['w-f-cat','🗂️','분류']],
+  'w-right':[['w-learn','📖','바꿔 쓰기'],['w-tricky','⚠️','틀리기 쉬운 말']]
 };
 const fq=s=>document.querySelector(s);
 const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>';
@@ -2041,7 +2030,7 @@ function fitShell(id,ic,title,desc,ctl){
     ${ctl?`<div class="fctl">${ctl}</div>`:''}
     <div class="fstage" id="fst"><div class="fmsg">불러오는 중…</div></div>
     <div class="fpg" id="fpg"></div>
-    ${solo?`<div class="fother"><button data-go="${hubOf[id]}"><i>🏠</i>${MENU[hubOf[id]].short} 메뉴로</button></div>`:`<div class="fother"><small>다른 검색</small>${others.map(o=>`<button data-go="${o[0]}"><i>${o[1]}</i>${o[2]}</button>`).join('')}<button data-go="${gid}"><i>🏠</i>메뉴</button></div>`}</div>`;
+    ${solo?`<div class="fother"><button data-go="${hubOf[id]}"><i>🏠</i>${MENU[hubOf[id]].short} 메뉴로</button></div>`:`<div class="fother"><small>${gid==='w-right'?'다른 공부':'다른 검색'}</small>${others.map(o=>`<button data-go="${o[0]}"><i>${o[1]}</i>${o[2]}</button>`).join('')}<button data-go="${gid}"><i>🏠</i>메뉴</button></div>`}</div>`;
 }
 function fitMsg(h){ fq('#fst').innerHTML=`<div class="fmsg">${h}</div>`; fq('#fpg').innerHTML=''; }
 function fitOne(label,html){ fq('#fst').innerHTML=`<div class="rhd"><span>${label}</span></div><div class="rpv"><div class="rcard">${html}</div></div>`; fq('#fpg').innerHTML=''; }
@@ -2082,12 +2071,12 @@ function bindList(box,R,list){
   box.addEventListener('click',()=>setTimeout(()=>vu&&vu(),60));
 }
 /* 교훈으로 찾기: 좌우로 밀면 교훈 항목이 바뀌고, 각 교훈의 속담은 위아래로 스크롤 */
-function fitPager(items,start,R,listOf,info,onBack){
+function fitPager(items,start,R,listOf,info,onBack,fillFn){
   const st=fq('#fst'), pg=fq('#fpg'), N=items.length;
   st.innerHTML=`<div class="rhd rhc" id="mhd"></div><div class="mpg" id="mpg">${items.map((x,i)=>`<div class="mpp"><div class="rl"></div></div>`).join('')}</div>`;
   pg.innerHTML=`<div class="pgm"><b id="mcnt"></b><div class="dots" id="mdots">${items.map((_,i)=>'<i></i>').join('')}</div></div>`;
   const mp=fq('#mpg'), hd=fq('#mhd'), cn=fq('#mcnt'), dots=[...pg.querySelectorAll('.dots i')];
-  mp.querySelectorAll('.rl').forEach((box,i)=>bindList(box,R,listOf(i)));
+  mp.querySelectorAll('.rl').forEach((box,i)=>fillFn?fillFn(box,i):bindList(box,R,listOf(i)));
   const idx=()=>Math.max(0,Math.min(N-1,Math.round(mp.scrollLeft/mp.clientWidth)));
   const eh=edgeHints(mp,idx,N);
   let cur=-1;
