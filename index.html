@@ -337,6 +337,7 @@ body:has(.hubfit){overflow:hidden}
 .tqs{margin:8px 0 6px 42px;padding:10px 12px;background:#FBF3DC;border-radius:10px;font-family:var(--display);font-size:clamp(18px,5vw,22px);line-height:1.4;color:#4a2c14;word-break:keep-all;box-shadow:inset 0 0 0 1px rgba(214,160,60,.45)}
 /* 재미있는 속담 게임 */
 .gmz{padding-bottom:28px}
+.gmz .fhead{padding:22px 20px 26px;gap:14px;margin-bottom:12px}.gmz .fhead .fhe{font-size:56px}.gmz .fhead b{font-size:30px}.gmz .fhead small{font-size:15px}
 .egmenu{display:flex;flex-direction:column;gap:12px;padding:6px 2px}
 .egmt{text-align:center;font-weight:700;color:var(--pv-deep);font-size:16px}
 .egm{position:relative;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:2px solid #E7C98A;border-radius:18px;padding:14px 14px;box-shadow:0 3px 0 #E7C98A}
@@ -349,7 +350,7 @@ body:has(.hubfit){overflow:hidden}
 .egcard{background:linear-gradient(180deg,#FFF7DC,#FFEFC0);border:2px solid #E7C98A;border-radius:20px;padding:16px 10px 12px;text-align:center;margin:6px 0 12px;box-shadow:0 3px 0 #E7C98A}
 .egem{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 8px;font-size:clamp(40px,12vw,54px);line-height:1.15}
 .egem span{display:inline-block;animation:egpop .5s both cubic-bezier(.2,1.6,.4,1)}@keyframes egpop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
-.egq{margin-top:10px;font-weight:700;font-size:16px;color:var(--ink)}
+.egq{margin-top:10px;font-weight:700;font-size:15.5px;line-height:1.4;word-break:keep-all;color:var(--ink)}
 .egk{display:inline-block;margin-top:8px;background:#fff;border:2px dashed var(--pv);border-radius:99px;padding:4px 14px;font-size:15px;color:var(--pv-deep)}.egk b{font-family:var(--display);font-size:20px;color:var(--pv)}
 .egop{display:flex;flex-direction:column;gap:9px}
 .eop{display:flex;align-items:center;gap:10px;text-align:left;background:#fff;border:2px solid #E3D8C0;border-radius:14px;padding:11px 12px;font-size:16.5px;line-height:1.35;transition:transform .12s}
@@ -1554,7 +1555,7 @@ function initEmoji(){
       <div class="gprog">${[1,2,3,4,5].map(i=>`<i class="${i<G.n?'d':i===G.n?'c':''}"></i>`).join('')}</div>
       ${G.combo>=2?`<div class="egcombo">🔥 ${G.combo}연속 정답 중!</div>`:''}
       <div class="egcard" id="egcard"><div class="egem">${egSplit(q.e).map((x,i)=>`<span style="animation-delay:${i*.18}s">${x}</span>`).join('')}</div>
-        <div class="egq">이 이모지가 떠올리게 하는 속담은?</div></div>
+        <div class="egq">작은 그림들이 뜻하는 내용을 연결하여 속담을 찾아보세요</div></div>
       <div class="egop">${opts.map((o,i)=>`<button type="button" class="eop" data-i="${i}"><i>${'①②③④'[i]}</i><span>${esc(o.t)}</span></button>`).join('')}</div><div id="egfb"></div>`;
     const bs=[...eb.querySelectorAll('.eop')], fb=document.getElementById('egfb'), card=document.getElementById('egcard'), hh=document.getElementById('egh');
     const fin=(pts,ok)=>{
