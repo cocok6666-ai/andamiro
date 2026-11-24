@@ -879,6 +879,9 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .screen.home .mains .main.wd .mc{box-shadow:0 1px 0 #1F8F82,0 2px 0 #167F73,0 3px 0 #0F6E63,0 9px 10px rgba(0,0,0,.4),inset 0 2px 0 #fff}
 @keyframes icoF{0%,100%{translate:0 0}50%{translate:0 -4px}}
 @media (prefers-reduced-motion:reduce){.screen.home .mains .main .ico{animation:none}}
+.mpg{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.mpg::-webkit-scrollbar{display:none}
+.mpp{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;min-height:0;min-width:0;position:relative}
 </style>
 </head>
 <body>
@@ -1819,14 +1822,8 @@ function fitChoices(items,tileFn,cols,pick,fixRows){
   } else pg.innerHTML='';
   cp.onclick=e=>{ const t=e.target.closest('[data-i]'); if(t) pick(+t.dataset.i); };
 }
-/* 결과: 목록으로 보여 주고, 하나를 누르면 설명이 말풍선으로 떴다가 다른 것을 누르면 사라짐 */
-function fitResults(R,list,o){
-  const st=fq('#fst'), pg=fq('#fpg'), n=list.length; pg.innerHTML='';
-  const hasC=o.ci!==undefined; if(hasC) tcApply(st,o.ci); else st.style.cssText='';
-  const head=`<div class="rhd${hasC?' rhc':''}"><span>${o.e||''} <b>${esc(o.title||'')}</b></span>${o.onBack?`<button id="rback">↩ ${o.back||'다시 고르기'}</button>`:''}</div>`;
-  if(!n){ st.innerHTML=head+`<div class="fmsg"><span class="em">🔍</span><b>찾는 것이 없어요</b>다른 말로 찾아보세요.</div>`; if(o.onBack) fq('#rback').onclick=o.onBack; return; }
-  st.innerHTML=head+'<div class="rl" id="rl"></div>';
-  const box=fq('#rl'); let shown=0, open=-1;
+function bindList(box,R,list){
+  const n=list.length; let shown=0, open=-1;
   const more=()=>{ const end=Math.min(n,shown+60); let h=''; for(let k=shown;k<end;k++) h+=`<button class="ri" data-i="${k}" aria-expanded="false"><span class="rn">${k+1}</span><span class="rt">${R.t(list[k],k)}</span></button>`; box.insertAdjacentHTML('beforeend',h); shown=end; };
   more();
   const vu=vHints(box);
@@ -1840,6 +1837,33 @@ function fitResults(R,list,o){
   });
   box.addEventListener('scroll',()=>{ if(shown<n && box.scrollTop+box.clientHeight>box.scrollHeight-160){ more(); vu&&vu(); } },{passive:true});
   box.addEventListener('click',()=>setTimeout(()=>vu&&vu(),60));
+}
+/* 교훈으로 찾기: 좌우로 밀면 교훈 항목이 바뀌고, 각 교훈의 속담은 위아래로 스크롤 */
+function fitPager(items,start,R,listOf,info,onBack){
+  const st=fq('#fst'), pg=fq('#fpg'), N=items.length;
+  st.innerHTML=`<div class="rhd rhc" id="mhd"></div><div class="mpg" id="mpg">${items.map((x,i)=>`<div class="mpp"><div class="rl"></div></div>`).join('')}</div>`;
+  pg.innerHTML=`<div class="pgm"><b id="mcnt"></b><div class="dots" id="mdots">${items.map((_,i)=>'<i></i>').join('')}</div></div>`;
+  const mp=fq('#mpg'), hd=fq('#mhd'), cn=fq('#mcnt'), dots=[...pg.querySelectorAll('.dots i')];
+  mp.querySelectorAll('.rl').forEach((box,i)=>bindList(box,R,listOf(i)));
+  const idx=()=>Math.max(0,Math.min(N-1,Math.round(mp.scrollLeft/mp.clientWidth)));
+  const eh=edgeHints(mp,idx,N);
+  let cur=-1;
+  const upd=()=>{ const i=idx(); eh(); if(i===cur) return; cur=i; const x=items[i], inf=info(x,i);
+    tcApply(st,i);
+    hd.innerHTML=`<span>${inf.e} <b>${esc(inf.title)}</b></span><button id="rback">↩ 다시 고르기</button>`;
+    fq('#rback').onclick=onBack;
+    cn.textContent=(i+1)+' / '+N; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); };
+  mp.addEventListener('scroll',upd,{passive:true});
+  mp.scrollLeft=start*mp.clientWidth; upd(); setTimeout(()=>{ mp.scrollLeft=start*mp.clientWidth; upd(); },60);
+}
+/* 결과: 목록으로 보여 주고, 하나를 누르면 설명이 말풍선으로 떴다가 다른 것을 누르면 사라짐 */
+function fitResults(R,list,o){
+  const st=fq('#fst'), pg=fq('#fpg'), n=list.length; pg.innerHTML='';
+  const hasC=o.ci!==undefined; if(hasC) tcApply(st,o.ci); else st.style.cssText='';
+  const head=`<div class="rhd${hasC?' rhc':''}"><span>${o.e||''} <b>${esc(o.title||'')}</b></span>${o.onBack?`<button id="rback">↩ ${o.back||'다시 고르기'}</button>`:''}</div>`;
+  if(!n){ st.innerHTML=head+`<div class="fmsg"><span class="em">🔍</span><b>찾는 것이 없어요</b>다른 말로 찾아보세요.</div>`; if(o.onBack) fq('#rback').onclick=o.onBack; return; }
+  st.innerHTML=head+'<div class="rl" id="rl"></div>';
+  bindList(fq('#rl'),R,list);
   if(o.onBack) fq('#rback').onclick=o.onBack;
 }
 const hlP=(text,toks)=>{
@@ -1900,22 +1924,16 @@ function initNature(){
 
 /* 교훈으로 찾기 */
 function renderMoral(){
-  return fitShell('p-f-moral','🧭','교훈으로 찾기','마음에 새기고 싶은 교훈을 골라 보세요',
-   `<div class="fin"><input id="morq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔍 낱말로 찾기 (예: 약속, 친구, 정성)" aria-label="낱말"></div>`);
+  return fitShell('p-f-moral','🧭','교훈으로 찾기','마음에 새기고 싶은 교훈을 골라 보세요','');
 }
 function initMoral(){
-  let T=null, by=null, all=[];
-  const q=fq('#morq');
+  let T=null, by=null;
+  const lists=[];
   const choose=()=>fitChoices(T.mo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
-    const x=T.mo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    q.value=''; fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,ci:i,onBack:choose});
+    fitPager(T.mo,i,rP([]),j=>lists[j]||(lists[j]=T.mo[j].ids.map(id=>by[id]).filter(Boolean).sort(byKo)),
+      (x,j)=>({e:x.e,title:`${x.k} 속담 ${(lists[j]||[]).length}개`}),choose);
   });
-  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; all=a; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
-  q.addEventListener('input',()=>{
-    if(!T) return; const t=q.value.trim().replace(/\s+/g,''); if(!t){ choose(); return; }
-    const r=all.filter(p=>p.n.includes(t)||p.mn.includes(t)).sort(byKo);
-    fitResults(rP([t]),r,{e:'🔍',title:`‘${q.value.trim()}’ 속담 ${r.length}개`,onBack:()=>{ q.value=''; choose(); }});
-  });
+  Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
 
 /* 나의 띠로 속담 찾기 */
