@@ -391,6 +391,11 @@ body:has(.hubfit){overflow:hidden}
 .screen .lbanner.tint,.screen .fhead.tint{background:linear-gradient(112deg,transparent 0 70%,rgba(0,0,0,.16) 70% 100%),radial-gradient(circle at 90% 10%,rgba(255,240,200,.38),transparent 48%),var(--pat-sg),linear-gradient(135deg,var(--h1),var(--h2))}
 .screen[style] .nav .cur,.screen[style] .nav.wd .cur{background:var(--pv)}
 .gtile{box-shadow:0 5px 0 var(--m,rgba(0,0,0,.10))}.gtile b{color:var(--m,inherit)}.gtile .gar{background:var(--m,rgba(255,255,255,.55));color:#fff}
+#exitdlg{position:fixed;inset:0;z-index:200;background:rgba(40,25,10,.5);display:flex;align-items:center;justify-content:center;padding:24px;animation:exfade .2s}
+#exitdlg .exbox{background:#FFF9EC;border-radius:24px;padding:22px 20px 18px;width:100%;max-width:320px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35);border:2px solid #E7C98A;display:flex;flex-direction:column;gap:6px;animation:egpop .35s both cubic-bezier(.2,1.5,.4,1)}
+#exitdlg .exem{font-size:44px}#exitdlg b{font-family:var(--display);font-weight:400;font-size:22px;color:var(--pv-deep)}#exitdlg small{font-size:14px;color:var(--mute)}
+#exitdlg button{margin-top:10px;text-align:center;background:var(--pv);color:#fff;border-radius:14px;padding:13px;font-size:17px;font-weight:700}
+@keyframes exfade{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.egfx{animation-duration:1.3s}}
 .blk{display:inline-block;width:3.2em;height:1.1em;vertical-align:-.15em;border-bottom:3px solid #E5252A;margin:0 .15em}
 .ul{text-decoration:underline wavy #E5252A;text-underline-offset:4px;font-weight:800}
@@ -1963,9 +1968,24 @@ function route(){
   $app.innerHTML = html;
   if(!MENU[h]&&h!=='home') applyTint(h);
   window.scrollTo(0,0);
+  hideExit(); if(h==='home'||!(MENU[h]||groupIndex[h]||leafIndex[h]||h==='help'||h==='status')) homeGuard();
   const lf=leafIndex[h]; if(lf && lf.status==='done' && lf.init) lf.init();
   setTimeout(()=>window.pageHints&&window.pageHints(),80);
 }
+/* ---------- 첫 화면에서 뒤로 가기: 한 번 더 누르면 종료 ---------- */
+function homeGuard(){
+  try{ const st=history.state||{}; if(!st.home&&!st.g){ history.replaceState({home:1},''); history.pushState({g:1},''); } }catch(e){}
+}
+function hideExit(){ const d=document.getElementById('exitdlg'); if(d) d.remove(); }
+function showExit(){
+  if(document.getElementById('exitdlg')) return;
+  const d=document.createElement('div'); d.id='exitdlg'; d.setAttribute('role','dialog');
+  d.innerHTML='<div class="exbox"><div class="exem">👋</div><b>한 번 더 누르면 종료돼요</b><small>뒤로 가기를 한 번 더 누르면 앱이 닫혀요.</small><button type="button" id="exgo">계속하기</button></div>';
+  document.body.appendChild(d);
+  document.getElementById('exgo').onclick=()=>{ hideExit(); try{ history.pushState({g:1},''); }catch(e){} };
+}
+window.addEventListener('popstate',e=>{ if(e.state&&e.state.home&&(location.hash===''||location.hash==='#home')) showExit(); else hideExit(); });
+
 function go(id){ if(location.hash==='#'+id) route(); else location.hash = id; }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
 window.addEventListener('hashchange',route);
