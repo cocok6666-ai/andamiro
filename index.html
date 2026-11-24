@@ -1968,25 +1968,43 @@ function route(){
   $app.innerHTML = html;
   if(!MENU[h]&&h!=='home') applyTint(h);
   window.scrollTo(0,0);
-  hideExit(); if(h==='home'||!(MENU[h]||groupIndex[h]||leafIndex[h]||h==='help'||h==='status')) homeGuard();
+  hideExit(); tagState(); if(needGuard()) guardPending=true;
   const lf=leafIndex[h]; if(lf && lf.status==='done' && lf.init) lf.init();
   setTimeout(()=>window.pageHints&&window.pageHints(),80);
 }
-/* ---------- 첫 화면에서 뒤로 가기: 한 번 더 누르면 종료 ---------- */
-function homeGuard(){
-  try{ const st=history.state||{}; if(!st.home&&!st.g){ history.replaceState({home:1},''); history.pushState({g:1},''); } }catch(e){}
+/* ---------- 첫 화면에서 뒤로 가기: 항상 종료 확인 ----------
+   기록 쌓기: [E 첫 화면][G 보호 칸][이후 화면…]. 첫 화면에서 뒤로 가면 E가 되어 안내 창이 뜨고, 한 번 더 누르면 앱이 닫힌다.
+   '처음'을 누르면 쌓인 화면을 한꺼번에 건너뛰어 G로 돌아오므로 항상 같은 흐름이 된다.
+   (보호 칸은 사용자가 화면을 한 번 만진 뒤에 만든다 — 만지기 전에 쌓은 칸은 안드로이드가 건너뛴다) */
+let guardPending=false, gN;
+const isHome=()=>{ const h=(location.hash||'').slice(1); return h===''||h==='home'; };
+const stN=()=>((history.state&&history.state.n)||0);
+function tagState(){
+  try{ const st=history.state||{};
+    if(st.n===undefined){ const prev=window.__lastN===undefined?-1:window.__lastN; history.replaceState({...st,n:prev+1,b:gN},''); }
+    window.__lastN=history.state.n; if(history.state.b!==undefined) gN=history.state.b;
+  }catch(e){}
 }
+const needGuard=()=>isHome()&&!(history.state&&(history.state.home||history.state.g));
+function doGuard(){
+  try{ const n=stN(); gN=n+1; history.replaceState({home:1,n,b:gN},''); history.pushState({g:1,n:n+1,b:gN},''); window.__lastN=n+1; }catch(e){}
+}
+['pointerup','touchend','click','keydown'].forEach(ev=>window.addEventListener(ev,()=>{ if(guardPending&&needGuard()){ guardPending=false; doGuard(); } },true));
 function hideExit(){ const d=document.getElementById('exitdlg'); if(d) d.remove(); }
 function showExit(){
   if(document.getElementById('exitdlg')) return;
   const d=document.createElement('div'); d.id='exitdlg'; d.setAttribute('role','dialog');
   d.innerHTML='<div class="exbox"><div class="exem">👋</div><b>한 번 더 누르면 종료돼요</b><small>뒤로 가기를 한 번 더 누르면 앱이 닫혀요.</small><button type="button" id="exgo">계속하기</button></div>';
   document.body.appendChild(d);
-  document.getElementById('exgo').onclick=()=>{ hideExit(); try{ history.pushState({g:1},''); }catch(e){} };
+  document.getElementById('exgo').onclick=()=>{ hideExit(); try{ const n=stN(); history.pushState({g:1,n:n+1,b:gN},''); window.__lastN=n+1; }catch(e){} };
 }
-window.addEventListener('popstate',e=>{ if(e.state&&e.state.home&&(location.hash===''||location.hash==='#home')) showExit(); else hideExit(); });
+window.addEventListener('popstate',e=>{ if(e.state&&e.state.home&&isHome()) showExit(); else hideExit(); });
 
-function go(id){ if(location.hash==='#'+id) route(); else location.hash = id; }
+function go(id){
+  if(id==='home'){ const st=history.state||{};
+    if(isHome()) { route(); return; }
+    if(st.b!==undefined && st.n>st.b){ history.go(st.b-st.n); return; } }
+  if(location.hash==='#'+id) route(); else location.hash = id; }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
 window.addEventListener('hashchange',route);
 route();
