@@ -360,7 +360,7 @@ body:has(.hubfit){overflow:hidden}
 .pqopt.shake{animation:pqsh .4s}@keyframes pqsh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .pqopt.ok{background:#CFF3DD;border-color:#2FA093;color:#0F403A;box-shadow:0 3px 0 #2FA093;pointer-events:none}
 .pqopt.fade{opacity:.45;pointer-events:none}
-.pqfb{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.pqfb .gbig{font-size:clamp(30px,5dvh,42px)}.pqfb .cta{max-width:320px;width:100%}
+.pqfb{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.pqfb .gbig{font-size:clamp(30px,5dvh,42px)}.pqfb .gbig.pqx{font-size:clamp(22px,3.6dvh,28px);color:#C2492F}.pqfb .cta{max-width:320px;width:100%}
 .gfb .cta{max-width:320px;width:100%}
 .gres{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;text-align:center}
 .gr-top{display:flex;flex-direction:column;align-items:center}
@@ -1751,7 +1751,7 @@ function initPic(){
       <ol class="gi-ol"><li><i>1</i><span>그림을 보고 어떤 <b>속담</b>인지 4개 중에서 골라요.</span></li>
       <li><i>2</i><span><b>10초</b>까지는 힌트가 없어요. <b>10초</b> 뒤에 <b>🔑 주요 낱말</b>이 나와요.</span></li>
       <li><i>3</i><span><b>20초</b> 뒤에는 <b>📖 속담의 뜻</b>이 나와요.</span></li>
-      <li><i>4</i><span>빨리 맞힐수록 <b>높은 점수</b>! 틀리면 점수가 깎여요.</span></li></ol>
+      <li><i>4</i><span>빨리 맞힐수록 <b>높은 점수</b>! 틀리면 점수가 깎이고, <b>30초</b> 안에 못 고르면 <b>0점</b>이에요.</span></li></ol>
       <div class="gi-box">5문제 · 한 문제 20점 · <b>100점 만점</b><small>10초 안 <b>20점</b> · 20초 안 <b>14점</b> · 그 뒤 <b>8점</b></small></div>
       <div class="gi-act"><button class="cta pv gi-go" id="pgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
     document.getElementById('pgo').onclick=start;
@@ -1790,6 +1790,7 @@ function initPic(){
       if(q.done) return;
       const t=(Date.now()-q.t0)/1000, st=t>=20?2:t>=10?1:0;
       fill.style.width=Math.min(100,t/30*100)+'%';
+      if(t>=30) return timeout();
       if(st!==q.stage) setStage(st);
       sc.innerHTML=`⭐ <b>${pqPts(q.stage,q.wrong)}</b>점`;
     },200);
@@ -1798,6 +1799,16 @@ function initPic(){
       const o=q.opts[+b.dataset.i];
       if(o.id===it.id) good(b); else bad(b);
     });
+    function timeout(){
+      q.done=true; clearInterval(G.tm); fill.style.width='100%'; gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([60,40,60]);}catch(e){}
+      gb.querySelectorAll('.pqopt').forEach(x=>{ if(q.opts[+x.dataset.i].id===it.id) x.classList.add('ok','reveal'); else x.classList.add('fade'); });
+      hint.classList.remove('pop'); hint.innerHTML=keyHtml()+`<div class="pqm"><b>📖 이런 뜻이에요</b>${esc(it.m)}</div>`;
+      G.res.push({t:it.p,pts:0,wrong:q.wrong,sec:30});
+      sc.innerHTML=`⭐ <b>0</b>점`;
+      document.getElementById('pqfb').innerHTML=`<div class="gbig pqx">⏰ 시간이 다 됐어요! 0점</div><div class="gsub">정답은 초록색 속담이었어요</div><button class="cta pv" id="pnx">${G.n>=5?'결과 보기 🏆':'다음 문제 ▶'}</button>`;
+      document.getElementById('pnx').onclick=next;
+      document.getElementById('pnx').scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
     function bad(b){
       q.wrong++; q.dead.add(b); b.classList.add('dead','shake'); gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([40,30,40]);}catch(e){}
       sc.innerHTML=`⭐ <b>${pqPts(q.stage,q.wrong)}</b>점`;
