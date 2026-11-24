@@ -39,6 +39,24 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .nav.wd .cur{background:var(--wd)}
 
 /* 허브: 소주제 전체 보기 */
+/* 메인1(주제 첫 화면): 한 화면에 꽉 차게 */
+.screen.hubfit{display:flex;flex-direction:column;height:calc(100dvh - 36px)}
+html:has(.hubfit){overflow:hidden;height:100%}
+body:has(.hubfit){overflow:hidden}
+#app:has(.hubfit){padding-bottom:10px;min-height:0}
+.hubfit .hubhead{flex:none;margin-bottom:10px}
+.hubfit .ggrid{flex:1;min-height:0;grid-auto-rows:minmax(0,1fr);gap:10px;margin-top:0}
+.hubfit .ggrid.n4,.hubfit .ggrid.n6{grid-template-columns:1fr 1fr}
+.hubfit .gtile,.hubfit .ggrid.n4 .gtile{min-height:0;padding:12px 12px 10px;overflow:hidden}
+.hubfit .gtile .te{font-size:clamp(28px,5dvh,42px)}
+.hubfit .gtile b{font-size:clamp(17px,2.6dvh,21px);margin-top:4px}
+.hubfit .gtile small{font-size:clamp(11.5px,1.7dvh,13.5px)}
+.hsrc{flex:none;margin-top:10px;padding:10px 12px;border-radius:16px;background:linear-gradient(160deg,#FFFBEF,#FFF0CF);border:1px solid rgba(190,140,50,.35);box-shadow:0 2px 0 rgba(0,0,0,.05);color:#5A4524;font-size:12.6px;line-height:1.45;display:flex;flex-direction:column;gap:5px}
+.hsrc div{display:flex;gap:8px;align-items:flex-start}
+.hsrc i{flex:none;font-style:normal;font-weight:800;font-size:12px;color:#fff;background:var(--pv);border-radius:99px;padding:1px 9px;margin-top:1px}
+.hsrc.wd i{background:var(--wd)}
+.hsrc span{word-break:keep-all}
+@media(max-height:720px){.hubfit .gtile small{display:none}.hubfit .hubhead p{display:none}.hsrc{font-size:11.5px;padding:8px 10px}}
 .ggrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
 .gtile{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;border-radius:22px;padding:16px 14px 14px;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:150px;box-shadow:0 5px 0 rgba(0,0,0,.10);transition:transform .1s,box-shadow .1s}
 .gtile:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.10)}
@@ -721,10 +739,12 @@ function viewHub(k){
     const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
-  return `<div class="screen hubs">
+  const src=k==='proverb'?['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 학생용으로 골라 다듬은 속담 6,300여 개','초등학생 (교과서 속담부터 생활 속 속담까지)']:['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 골라 담은 고운 순우리말 390여 개','초등학생 (뜻과 쓰임을 쉽게 익히고 싶은 친구)'];
+  return `<div class="screen hubs hubfit">
     ${bar([['처음','home'],[m.short]],m.cls)}
     <div class="hubhead ${m.cls}"><h2>${m.icon} ${esc(m.title)}</h2><p>${esc(m.sub)}</p></div>
-    <div class="ggrid n${n}">${tiles}</div></div>`;
+    <div class="ggrid n${n}">${tiles}</div>
+    <div class="hsrc ${m.cls}"><div><i>📚 출처</i><span>${src[0]}</span></div><div><i>🎒 대상</i><span>${src[1]}</span></div></div></div>`;
 }
 
 const INTRO3=[
