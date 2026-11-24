@@ -897,6 +897,13 @@ html:has(.mscn){scroll-snap-type:y proximity}
 #mhd .mn i{font-style:normal;font-size:28px;line-height:1;flex:none;opacity:.95}
 #mhd .mn span{opacity:.88;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #mhd .mn:disabled{visibility:hidden}
+.fxc{padding:20px 14px 14px}
+.fxs{font-size:clamp(20px,5.6vw,24px);line-height:1.6;font-weight:700;word-break:keep-all;color:var(--ink)}
+.fxw{text-decoration:underline wavy #E0483A;text-underline-offset:6px;text-decoration-thickness:2px;color:#C23A2E;font-weight:800;background:linear-gradient(transparent 62%,#FFE3A0 62%)}
+.fxfix{margin:4px 0 6px;font-size:15px;line-height:1.55;color:#4a463e}.fxfix b.no{color:#C23A2E;text-decoration:line-through}
+.egans s{color:#C23A2E;font-size:.8em;opacity:.85}
+.fxls .tx{flex:1;min-width:0}.fxls .tx s{color:#C23A2E}
+.fxsrc{font-size:12px;color:var(--mute);text-align:center;margin-top:4px}
 </style>
 </head>
 <body>
@@ -949,7 +956,7 @@ const MENU = {
         {id:'w-f-cat', status:'done', render:()=>renderWcat(), init:()=>initWcat(), ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 순우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
       ]},
       {id:'w-right', title:'순우리말 바로 쓰기', note:'', items:[
-        {id:'w-fix', ic:'🔁', title:'꼭! 순우리말로 바꿔주세요', desc:'잘못 쓰는 외국어·파생어·신조어를 순우리말로 바꿔 봐요.', plan:['순화어 목록','바꿔 쓴 말 예문 살펴보기']},
+        {id:'w-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'🔁', title:'꼭! 순우리말로 바꿔주세요', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
         {id:'w-tricky', ic:'⚠️', title:'틀리기 쉬운 순우리말 모음', desc:'헷갈리기 쉬운 말을 바르게 익혀요.', plan:['혼동하기 쉬운 말 비교','꼭 외워 둘 말 카드']}
       ]},
       {id:'w-check', title:'순우리말 나의 실력 확인하기', note:'평가', items:[
@@ -1646,6 +1653,95 @@ function initEmoji(){
   intro();
 }
 
+
+/* ---------- 꼭! 순우리말로 바꿔주세요 (일본어 투·외래어를 알맞은 우리말로) ---------- */
+let FXB=null;
+function loadFix(){ if(!FXB) FXB=fetch('data/fix.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ FXB=null; throw e; }); return FXB; }
+const fxLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.fix')||'{}');}catch(e){return {};} };
+const fxSave=o=>{ try{localStorage.setItem('andamiro.fix',JSON.stringify(o));}catch(e){} };
+const fxSent=q=>esc(q.s).replace(/\[\[(.+?)\]\]/g,'<u class="fxw">$1</u>');
+function renderFix(){
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🔁</span><div><b>꼭! 순우리말로 바꿔주세요</b><small>잘못 쓰는 말을 알맞은 우리말로 바꿔 봐요</small></div></div><div id="eb"></div></div>`;
+}
+function initFix(){
+  const eb=document.getElementById('eb'); if(!eb) return;
+  const alive=()=>!!document.getElementById('gmz');
+  const G={n:0,total:0,res:[],combo:0,maxCombo:0};
+  function intro(){
+    const best=fxLoad().best;
+    eb.innerHTML=`<div class="gintro egintro"><div class="gi-ttl">🔁 꼭! 순우리말로 바꿔주세요</div>
+      <ol class="gi-ol"><li><i>1</i><span>일상 문장에서 <b>밑줄 친 말</b>을 살펴봐요. 일본어 투나 외래어가 섞여 있어요.</span></li>
+      <li><i>2</i><span>그 말을 대신할 <b>알맞은 우리말</b>을 4개 중에서 골라요. <small>(기회는 ❤️ 2번!)</small></span></li>
+      <li><i>3</i><span>한 번에 맞히면 <b>20점</b>, 두 번째에 맞히면 <b>10점</b>!</span></li>
+      <li><i>4</i><span>맞히고 나면 그 말이 <b>어디서 왔는지</b>도 알려 줘요.</span></li></ol>
+      <div class="gi-box">5문제 · <b>100점 만점</b><small>${best!==undefined?`내 최고 기록 ${best}점 · 할 때마다 새 문제`:'할 때마다 새로운 문제가 나와요'}</small></div>
+      <button class="cta pv gi-go" id="ego">🎮 시작하기</button><button class="gr-sub" data-go="w-right">‹ 바로 쓰기 메뉴</button>
+      <div class="fxsrc">자료: 국립국어원·서울특별시의 순화어 자료를 참고해 학생용으로 골랐어요.</div></div>`;
+    document.getElementById('ego').onclick=start;
+  }
+  function start(){
+    gmSnd('x'); G.n=0; G.total=0; G.res=[]; G.combo=0; G.maxCombo=0;
+    loadFix().then(bank=>{
+      const st=fxLoad(), seen=new Set(st.seen||[]);
+      let pool=bank.filter(q=>!seen.has(q.id)); if(pool.length<5) pool=bank.slice();
+      /* 일본어 투와 외래어가 골고루 섞이게 */
+      const jp=gmShuf(pool.filter(q=>q.k==='jp')), en=gmShuf(pool.filter(q=>q.k==='en'));
+      const nj=Math.min(jp.length,3), ne=Math.min(en.length,5-nj);
+      let set=jp.slice(0,nj).concat(en.slice(0,ne)); if(set.length<5) set=set.concat(gmShuf(pool.filter(q=>!set.includes(q))).slice(0,5-set.length));
+      G.set=gmShuf(set).slice(0,5); next();
+    }).catch(()=>{ eb.innerHTML='<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+  }
+  function next(){ if(G.n>=5) return result(); const q=G.set[G.n]; G.n++; question(q); window.scrollTo(0,0); }
+  function question(q){
+    const opts=gmShuf([{t:q.a,ok:1},...gmShuf(q.d.slice()).slice(0,3).map(t=>({t,ok:0}))]);
+    let tries=0, done=false;
+    eb.innerHTML=`<div class="egtop"><span class="gn">문제 <b>${G.n}</b>/5</span><span class="egheart" id="egh">❤️❤️</span><span class="gtot">누적 <b>${G.total}</b>점</span></div>
+      <div class="gprog">${[1,2,3,4,5].map(i=>`<i class="${i<G.n?'d':i===G.n?'c':''}"></i>`).join('')}</div>
+      ${G.combo>=2?`<div class="egcombo">🔥 ${G.combo}연속 정답 중!</div>`:''}
+      <div class="egcard fxc" id="egcard"><div class="fxs">${fxSent(q)}</div>
+        <div class="egq">밑줄 친 말을 알맞은 우리말로 바꿔 보세요</div></div>
+      <div class="egop">${opts.map((o,i)=>`<button type="button" class="eop" data-i="${i}"><i>${'①②③④'[i]}</i><span>${esc(o.t)}</span></button>`).join('')}</div><div id="egfb"></div>`;
+    const bs=[...eb.querySelectorAll('.eop')], fb=document.getElementById('egfb'), card=document.getElementById('egcard'), hh=document.getElementById('egh');
+    const fin=(pts,ok)=>{
+      done=true; G.total+=pts; G.res.push({q,pts});
+      if(pts===20){ G.combo++; G.maxCombo=Math.max(G.maxCombo,G.combo); } else if(!ok||pts===0) G.combo=0;
+      bs.forEach(b=>{ b.disabled=true; if(opts[+b.dataset.i].ok) b.classList.add('right'); });
+      card.classList.remove('shk','hop'); void card.offsetWidth; card.classList.add(ok?'hop':'shk');
+      const cm=ok&&pts===20&&G.combo>=2?`<div class="egcm">🔥 ${G.combo}연속 정답!</div>`:'';
+      fb.innerHTML=`<div class="egfb ${ok?'ok':'no'}"><div class="egfh">${ok?(pts===20?'🎉 딱 맞혔어요! <u>+20점</u>':'👍 두 번째에 맞혔어요! <u>+10점</u>'):'😮 아깝다! 알맞은 우리말은 이거예요.'}</div>${cm}
+        <div class="egans"><s>${esc(q.w)}</s> → ${esc(q.a)}</div>
+        <div class="fxfix">${esc(q.s.replace(/\[\[(.+?)\]\]/g,'$1')).replace(esc(q.w),`<b class="no">${esc(q.w)}</b>`)}</div>
+        <p>🔎 <b>어디서 왔을까?</b> ${esc(q.o)}</p><p>📖 <b>뜻</b> ${esc(q.m)}</p>
+        <button type="button" class="cta pv" id="enx">${G.n>=5?'🏆 결과 보기':'다음 문제 ›'}</button></div>`;
+      document.getElementById('enx').onclick=()=>{ gmSnd('x'); next(); };
+      const sc=eb.querySelector('.gtot b'); if(sc) sc.textContent=G.total;
+      if(ok){ egFx('⭕',pts===20?'정답! +20':'정답! +10','ok'); egBurst(pts===20?['🎉','⭐','✨','🎊','💮']:['⭐','✨'],pts===20?26:12); }
+      else egFx('❌','땡! 정답은…','no');
+      setTimeout(()=>{ if(alive()) fb.scrollIntoView({block:'center',behavior:'smooth'}); },700);
+    };
+    bs.forEach(b=>b.onclick=()=>{
+      if(done) return; const o=opts[+b.dataset.i];
+      if(o.ok){ b.classList.add('right'); gmSnd('ok'); try{navigator.vibrate&&navigator.vibrate(30);}catch(e){} fin(tries===0?20:10,true); }
+      else { tries++; b.classList.add('bad'); b.disabled=true; gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([40,40,40]);}catch(e){}
+        card.classList.remove('shk','hop'); void card.offsetWidth; card.classList.add('shk');
+        if(tries>=2){ hh.innerHTML='💔💔'; fin(0,false); }
+        else { hh.innerHTML='❤️<i class="brk">💔</i>'; egFx('💔','앗! 한 번 더!','try'); fb.innerHTML='<div class="egtry">🤔 아니에요! <b>한 번 더</b> 골라 봐요. (맞히면 10점)</div>'; } }
+    });
+  }
+  function result(){
+    const t=G.total, st=fxLoad(), prev=st.best;
+    fxSave({...st,best:Math.max(prev||0,t),tries:(st.tries||0)+1,seen:[...(st.seen||[]),...G.set.map(q=>q.id)].slice(-30)});
+    const T=t>=100?['🏆','우리말 지킴이','우리말 바로 쓰기 천재! 대단해요!']:t>=80?['🥇','우리말 파수꾼','거의 다 맞혔어요! 만점이 코앞이에요.']:t>=60?['🥈','우리말 탐정','알아채는 눈이 좋아요! 조금만 더!']:t>=40?['🥉','우리말 새싹','잘 자라고 있어요. 한 번 더 해 볼까요?']:['🌱','우리말 씨앗','처음에는 누구나 헷갈려요. 다시 도전!'];
+    const tease=prev===undefined?'':t>prev?`🎉 신기록! 이전 최고 ${prev}점을 넘었어요!`:t===prev?'최고 기록과 똑같아요!':`최고 기록 ${prev}점까지 ${prev-t}점!`;
+    eb.innerHTML=`<div class="egres"><div class="egrt"><span>${T[0]}</span><b>${T[1]}</b><small>${T[2]}</small></div>
+      <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>${tease?`<div class="egte">${tease}</div>`:''}${G.maxCombo>=2?`<div class="egte c">🔥 최고 ${G.maxCombo}연속 정답!</div>`:''}
+      <ul class="egls fxls">${G.res.map((r,i)=>`<li class="${r.pts?'y':'n'}"><span class="no">${i+1}</span><span class="tx"><s>${esc(r.q.w)}</s> → <b>${esc(r.q.a)}</b></span><span class="pt">${r.pts}점</span></li>`).join('')}</ul>
+      <div class="gr-bt"><button class="cta pv" id="eag">🔁 다시 하기 <small>(새로운 문제)</small></button><button class="gr-sub" data-go="w-right">‹ 바로 쓰기 메뉴</button></div></div>`;
+    gmSnd(t>=60?'end':'no'); window.scrollTo(0,0); if(t>=60) egBurst(['🎉','⭐','✨','🎊','🌟','💮'],t>=100?46:26);
+    document.getElementById('eag').onclick=start;
+  }
+  intro();
+}
 
 /* ---------- 속담 실력 평가 (시험지 · 색연필 채점) ---------- */
 const TXCFG={
