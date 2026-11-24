@@ -322,6 +322,29 @@ body:has(.hubfit){overflow:hidden}
 .gfb{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
 .gbig{font-family:var(--display);font-size:clamp(40px,7dvh,56px);color:#2FA093;text-shadow:0 3px 0 #14594F22}
 .gsub{font-size:15px;color:var(--mute)}
+.pqimg{flex:none;border-radius:16px;overflow:hidden;border:3px solid #fff;box-shadow:0 4px 0 #C9B18A,0 8px 14px rgba(0,0,0,.14);background:#EAF4EC;aspect-ratio:16/8.5;max-height:clamp(120px,25dvh,240px);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:center}
+.pqimg img{width:100%;height:100%;object-fit:cover;display:block}
+.pqimg.ph{flex-direction:column;gap:2px;text-align:center;padding:8px 14px;background:repeating-linear-gradient(45deg,#EEF6EE,#EEF6EE 12px,#E4F0E6 12px,#E4F0E6 24px);color:#3C6B5E}
+.pqimg.ph b{font-size:34px;line-height:1}.pqimg.ph span{font-weight:800;font-size:15px}.pqimg.ph small{font-size:12px;opacity:.85;line-height:1.35;word-break:keep-all}
+.pqtm{flex:none}
+.pqbar{position:relative;height:10px;border-radius:6px;background:linear-gradient(90deg,#BFE6D8 0 33.3%,#FFE3A3 33.3% 66.6%,#FFC7B8 66.6%);overflow:hidden}
+.pqbar i{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(15,64,58,.55);transition:width .2s linear}
+.pqbar u{position:absolute;top:0;bottom:0;width:2px;background:#fff}.pqbar u:nth-of-type(1){left:33.3%}.pqbar u:nth-of-type(2){left:66.6%}
+.pqlb{display:flex;margin-top:3px}.pqlb span{flex:1;text-align:center;font-size:12px;font-weight:700;color:#8a8a80}.pqlb span.on{color:#0F403A;font-size:13px}
+.pqhint{flex:none;min-height:clamp(54px,10dvh,86px);border-radius:14px;background:#FFF8E6;border:2px dashed #E4C879;padding:8px 10px;display:flex;flex-direction:column;justify-content:center;gap:5px;font-size:14px;color:#5a3d0c}
+.pqhint.pop{animation:pqpop .5s ease}@keyframes pqpop{0%{transform:scale(.94);opacity:.3}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
+.pqh0{text-align:center;font-weight:700}.pqh0 small{display:block;font-weight:500;opacity:.8;font-size:12px}
+.pqk{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.pqk b{font-size:13px;margin-right:2px}
+.pqk span{background:#FFE08A;color:#5a3d0c;font-weight:800;border-radius:12px;padding:2px 10px;font-size:14px}
+.pqm{line-height:1.4;word-break:keep-all}.pqm b{display:block;font-size:13px;color:#A86D0C}
+.pqopts{flex:none;display:flex;flex-direction:column;gap:6px}
+.pqopt{border:2px solid #CFE0D8;background:#fff;color:#1d3a33;border-radius:14px;padding:9px 12px;font:700 15px/1.3 inherit;font-family:inherit;text-align:center;word-break:keep-all;box-shadow:0 3px 0 #B8CFC5;cursor:pointer;min-height:42px}
+.pqopt:active{transform:translateY(2px);box-shadow:0 1px 0 #B8CFC5}
+.pqopt.dead{background:#EEE;color:#aaa;border-color:#ddd;box-shadow:none;text-decoration:line-through;pointer-events:none}
+.pqopt.shake{animation:pqsh .4s}@keyframes pqsh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pqopt.ok{background:#CFF3DD;border-color:#2FA093;color:#0F403A;box-shadow:0 3px 0 #2FA093;pointer-events:none}
+.pqopt.fade{opacity:.45;pointer-events:none}
+.pqfb{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.pqfb .gbig{font-size:clamp(30px,5dvh,42px)}.pqfb .cta{max-width:320px;width:100%}
 .gfb .cta{max-width:320px;width:100%}
 .gres{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;text-align:center}
 .gr-top{display:flex;flex-direction:column;align-items:center}
@@ -1009,7 +1032,7 @@ const MENU = {
         {id:'p-q-game', status:'done', to:'p-game', ic:'🎮', title:'재미있는 속담 게임', desc:'이모지 속담 게임 등 4가지 게임으로 즐겁게 놀며 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
         {id:'p-q-fill', status:'done', render:()=>renderFill(), init:()=>initFill(), ic:'🧩', title:'속담 완성하기', desc:'낱말 카드를 끌어다 놓아 속담을 완성해요. 5문제 · 100점 만점!', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
         {id:'p-q-test', status:'done', render:()=>renderTest('p'), init:()=>initTest('p'), ic:'📝', title:'속담 실력 평가', desc:'시험지로 10문제를 풀고 색연필로 채점해요. 100점 만점!', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']},
-        {id:'p-q-pic', ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요.', plan:['그림 보고 떠올리기','낱말 버튼을 눌러 속담 완성']}
+        {id:'p-q-pic', status:'done', render:()=>renderPic(), init:()=>initPic(), ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요. 5문제 · 100점 만점!', plan:[]}
       ]},
       {id:'p-game', hidden:true, parent:'p-quiz', title:'재미있는 속담 게임', note:'', items:[
         {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 게임', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
@@ -1630,6 +1653,111 @@ function initFill(){
   intro();
 }
 
+
+
+/* ---------- 재미있는 그림 퀴즈 ---------- */
+let PQD=null;
+function loadPic(){ if(!PQD) PQD=fetch('data/pic.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ PQD=null; throw e; }); return PQD; }
+function renderPic(){
+  return `<div class="leaf fitwrap ${curCls} gm" id="gp"><div class="fhead ${curCls}"><span class="fhe">🖼️</span><div><b>재미있는 그림 퀴즈</b><small>그림을 보고 알맞은 속담을 찾아요</small></div></div><div class="gbody" id="gpb"><div class="fmsg">불러오는 중…</div></div></div>`;
+}
+const PQ_BASE=[20,14,8];
+const pqPts=(stage,wrong)=>Math.max(2,PQ_BASE[stage]-wrong*4);
+function pqBig(p){ const t=p.replace(/\s/g,''), r=new Set(); for(let i=0;i<t.length-1;i++) r.add(t.slice(i,i+2)); return r; }
+function pqMake(pool,used){
+  const withImg=pool.filter(x=>x.i&&!used.has(x.id)), rest=pool.filter(x=>!x.i&&!used.has(x.id));
+  const src=withImg.length?withImg:rest; if(!src.length) return null;
+  const it=src[Math.random()*src.length|0], a=pqBig(it.p);
+  const sc=pool.filter(o=>o.id!==it.id).map(o=>{ let n=0; pqBig(o.p).forEach(b=>{ if(a.has(b)) n+=1; }); n+=o.k.filter(w=>it.k.includes(w)).length*3; return [o,n+Math.random()*1.5]; }).sort((x,y)=>y[1]-x[1]);
+  const top=gmShuf(sc.slice(0,12).map(x=>x[0])).slice(0,3);
+  return {it,opts:gmShuf([it,...top]),wrong:0,dead:new Set(),done:false};
+}
+function initPic(){
+  const gb=document.getElementById('gpb'); if(!gb) return;
+  const G={n:0,total:0,res:[],used:new Set(),tm:null,pool:null};
+  const say=h=>{ gb.innerHTML=h; };
+  function intro(){
+    clearInterval(G.tm);
+    say(`<div class="gintro"><div class="gi-ttl">🖼️ 재미있는 그림 퀴즈</div>
+      <ol class="gi-ol"><li><i>1</i><span>그림을 보고 어떤 <b>속담</b>인지 4개 중에서 골라요.</span></li>
+      <li><i>2</i><span><b>10초</b>까지는 힌트가 없어요. <b>10초</b> 뒤에 <b>🔑 주요 낱말</b>이 나와요.</span></li>
+      <li><i>3</i><span><b>20초</b> 뒤에는 <b>📖 속담의 뜻</b>이 나와요.</span></li>
+      <li><i>4</i><span>빨리 맞힐수록 <b>높은 점수</b>! 틀리면 점수가 깎여요.</span></li></ol>
+      <div class="gi-box">5문제 · 한 문제 20점 · <b>100점 만점</b><small>10초 안 <b>20점</b> · 20초 안 <b>14점</b> · 그 뒤 <b>8점</b></small></div>
+      <button class="cta pv gi-go" id="pgo">🎮 시작하기</button></div>`);
+    document.getElementById('pgo').onclick=start;
+  }
+  function start(){
+    gmSnd('x'); G.n=0; G.total=0; G.res=[]; G.used=new Set();
+    loadPic().then(a=>{ G.pool=a; next(); }).catch(()=>say('<div class="fmsg">문제를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
+  }
+  function next(){
+    clearInterval(G.tm);
+    if(G.n>=5) return result();
+    const q=pqMake(G.pool,G.used); if(!q) return say('<div class="fmsg">문제를 만들지 못했어요.</div>');
+    G.used.add(q.it.id); G.n++; q.t0=Date.now(); q.stage=0; question(q);
+  }
+  function question(q){
+    const it=q.it;
+    const pic=it.i?`<div class="pqimg"><img src="data/pic/${it.id}.webp" alt="속담 그림" draggable="false"></div>`:`<div class="pqimg ph"><b>🖼️</b><span>그림 준비 중</span><small>${esc(it.s)}</small></div>`;
+    say(`<div class="gtop"><span class="gn">문제 <b>${G.n}</b>/5</span><span class="gsc" id="pqsc">⭐ <b>20</b>점</span><span class="gtot">누적 <b>${G.total}</b>점</span></div>
+      <div class="gprog">${[1,2,3,4,5].map(i=>`<i class="${i<G.n?'d':i===G.n?'c':''}"></i>`).join('')}</div>
+      ${pic}
+      <div class="pqtm" id="pqtm"><div class="pqbar"><i id="pqfill"></i><u></u><u></u></div><div class="pqlb"><span class="on" id="pl0">20점</span><span id="pl1">14점</span><span id="pl2">8점</span></div></div>
+      <div class="pqhint" id="pqhint"><div class="pqh0">💭 그림을 잘 보고 떠올려 보세요 <small>(10초 동안은 힌트가 없어요)</small></div></div>
+      <div class="pqopts" id="pqopts">${q.opts.map((o,i)=>`<button class="pqopt" type="button" data-i="${i}">${esc(o.p)}</button>`).join('')}</div>
+      <div class="pqfb" id="pqfb"></div>`);
+    const img=gb.querySelector('.pqimg img'); if(img) img.onerror=()=>{ const f=img.parentNode; f.classList.add('ph'); f.innerHTML=`<b>🖼️</b><span>그림 준비 중</span><small>${esc(it.s)}</small>`; };
+    const hint=document.getElementById('pqhint'), fill=document.getElementById('pqfill'), sc=document.getElementById('pqsc');
+    const keyHtml=()=>`<div class="pqk"><b>🔑 주요 낱말</b>${it.k.map(w=>`<span>${esc(w)}</span>`).join('')}</div>`;
+    const setStage=st=>{
+      q.stage=st; [0,1,2].forEach(i=>document.getElementById('pl'+i).classList.toggle('on',i===st));
+      if(st===1) hint.innerHTML=keyHtml();
+      if(st===2) hint.innerHTML=keyHtml()+`<div class="pqm"><b>📖 이런 뜻이에요</b>${esc(it.m)}</div>`;
+      if(st>0){ hint.classList.remove('pop'); void hint.offsetWidth; hint.classList.add('pop'); gmSnd('x'); }
+    };
+    G.tm=setInterval(()=>{
+      if(!document.getElementById('gp')){ clearInterval(G.tm); return; }
+      if(q.done) return;
+      const t=(Date.now()-q.t0)/1000, st=t>=20?2:t>=10?1:0;
+      fill.style.width=Math.min(100,t/30*100)+'%';
+      if(st!==q.stage) setStage(st);
+      sc.innerHTML=`⭐ <b>${pqPts(q.stage,q.wrong)}</b>점`;
+    },200);
+    gb.querySelectorAll('.pqopt').forEach(b=>b.onclick=()=>{
+      if(q.done||q.dead.has(b)) return;
+      const o=q.opts[+b.dataset.i];
+      if(o.id===it.id) good(b); else bad(b);
+    });
+    function bad(b){
+      q.wrong++; q.dead.add(b); b.classList.add('dead','shake'); gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([40,30,40]);}catch(e){}
+      sc.innerHTML=`⭐ <b>${pqPts(q.stage,q.wrong)}</b>점`;
+    }
+    function good(b){
+      q.done=true; clearInterval(G.tm);
+      const sec=Math.round((Date.now()-q.t0)/1000), pts=pqPts(q.stage,q.wrong);
+      b.classList.add('ok'); gmSnd('ok'); try{navigator.vibrate&&navigator.vibrate(25);}catch(e){}
+      gb.querySelectorAll('.pqopt').forEach(x=>{ if(x!==b) x.classList.add('fade'); });
+      hint.classList.remove('pop'); hint.innerHTML=keyHtml()+`<div class="pqm"><b>📖 이런 뜻이에요</b>${esc(it.m)}</div>`;
+      G.total+=pts; G.res.push({t:it.p,pts,wrong:q.wrong,sec});
+      document.querySelector('#gp .gtot').innerHTML=`누적 <b>${G.total}</b>점`; sc.innerHTML=`⭐ <b>${pts}</b>점`;
+      document.getElementById('pqfb').innerHTML=`<div class="gbig">+${pts}점</div><div class="gsub">${q.wrong?`${q.wrong}번 틀렸어요`:'한 번에 맞혔어요! 👏'} · ${sec}초</div><button class="cta pv" id="pnx">${G.n>=5?'결과 보기 🏆':'다음 문제 ▶'}</button>`;
+      document.getElementById('pnx').onclick=next;
+      document.getElementById('pnx').scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
+  }
+  function result(){
+    const t=G.total, msg=t>=90?['🏆','속담 박사님!','거의 다 맞혔어요. 정말 대단해요!']:t>=70?['🥇','속담 달인!','아주 잘했어요. 조금만 더 하면 박사!']:t>=50?['🥈','속담 튼튼이','잘하고 있어요. 한 번 더 도전해요!']:['🌱','속담 새싹','괜찮아요. 하다 보면 쑥쑥 자라요!'];
+    gmSnd('end');
+    say(`<div class="gres"><div class="gr-top"><span>${msg[0]}</span><b>${msg[1]}</b><small>${msg[2]}</small></div>
+      <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>
+      <div class="gr-st">${[1,2,3,4,5].map((_,i)=>`<i class="${G.res[i]&&G.res[i].pts>=14?'on':''}">★</i>`).join('')}</div>
+      <ul class="gr-ls">${G.res.map((r,i)=>`<li><span class="no">${i+1}</span><span class="tx">${esc(r.t)}</span><span class="pt">${r.pts}점</span></li>`).join('')}</ul>
+      <div class="gr-bt"><button class="cta pv" id="pre">🔁 다시 하기 <small>(새로운 그림)</small></button><button class="gr-sub" data-go="p-quiz">‹ 실력 키우기 메뉴</button></div></div>`);
+    document.getElementById('pre').onclick=start;
+  }
+  intro();
+}
 
 /* ---------- 재미있는 속담 게임 : 이모지 속담 게임 ---------- */
 let EGB=null;
