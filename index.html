@@ -2028,10 +2028,10 @@ function renderWcat(){
   return fitShell('w-f-cat','🗂️','분류하여 찾기','궁금한 꾸러미를 열어 같은 종류의 순우리말을 모아 봐요','');
 }
 function initWcat(){
-  let T=null, by=null;
+  let T=null, by=null; const lists=[];
   const choose=()=>fitChoices(T,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`순우리말 ${x.ids.length}개`),3,i=>{
-    const x=T[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rW(null),list,{e:x.e,title:`${x.k} ${list.length}개`,ci:i,onBack:choose});
+    fitPager(T,i,rW(null),j=>lists[j]||(lists[j]=T[j].ids.map(id=>by[id]).filter(Boolean).sort(byKo)),
+      (x,j)=>({e:x.e,name:x.k,cnt:`순우리말 ${(lists[j]||[]).length}개`}),choose);
   });
   Promise.all([loadWtags(),loadWords()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
