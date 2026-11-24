@@ -368,6 +368,27 @@ body:has(.hubfit){overflow:hidden}
 .egls{width:100%;display:flex;flex-direction:column;gap:6px;margin:4px 0}
 .egls li{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:7px 10px;border-left:5px solid #3BA26A;text-align:left;font-size:14px}
 .egls li.n{border-left-color:#D9534F}.egls .no{font-weight:800;color:var(--pv-deep);flex:none}.egls .em{flex:none;font-size:18px}.egls .tx{flex:1;min-width:0}.egls .pt{flex:none;font-weight:800}
+.egheart{font-size:18px;letter-spacing:2px;position:relative}.egheart .brk{font-style:normal;display:inline-block;animation:egbrk .6s both}
+@keyframes egbrk{0%{transform:scale(1)}30%{transform:scale(1.7) rotate(-15deg)}100%{transform:scale(1) rotate(0)}}
+.egcombo,.egcm{text-align:center;font-weight:800;color:#D9342B;background:linear-gradient(90deg,#FFE9B8,#FFD0B0);border-radius:99px;padding:3px 12px;margin:2px auto 4px;width:fit-content;font-size:14.5px;animation:egcb .8s ease-in-out infinite alternate}
+@keyframes egcb{from{transform:scale(1)}to{transform:scale(1.07)}}
+.egcard.shk{animation:egshk .5s}.egcard.hop{animation:eghop .6s}
+@keyframes egshk{20%{transform:translateX(-9px) rotate(-1deg)}40%{transform:translateX(9px) rotate(1deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes eghop{30%{transform:scale(1.06) translateY(-8px)}60%{transform:scale(.98)}100%{transform:none}}
+.egcard.hop .egem span{animation:egdance .7s ease-in-out 2}
+@keyframes egdance{0%,100%{transform:none}25%{transform:translateY(-12px) rotate(-8deg)}75%{transform:translateY(-6px) rotate(8deg)}}
+.egcard.shk{box-shadow:0 0 0 3px #E85A4F,0 3px 0 #E85A4F}.egcard.hop{box-shadow:0 0 0 3px #3BA26A,0 3px 0 #3BA26A}
+.egfx{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;animation:egfxbg 1.2s both}
+.egfx b{font-size:min(46vw,200px);line-height:1;animation:egfxin .55s cubic-bezier(.2,1.7,.4,1) both;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.egfx span{margin-top:6px;font-family:var(--display);font-size:clamp(26px,8vw,40px);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.35),0 0 12px rgba(0,0,0,.35);animation:egfxin .55s .1s cubic-bezier(.2,1.7,.4,1) both}
+.egfx.ok{background:radial-gradient(circle,rgba(59,162,106,.32),rgba(59,162,106,0) 70%)}.egfx.no{background:radial-gradient(circle,rgba(217,83,79,.38),rgba(217,83,79,0) 70%)}.egfx.try{background:radial-gradient(circle,rgba(240,170,60,.38),rgba(240,170,60,0) 70%)}
+@keyframes egfxin{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes egfxbg{0%{opacity:0}12%{opacity:1}70%{opacity:1}100%{opacity:0}}
+.egfb{animation:egup .45s cubic-bezier(.2,1.4,.4,1)}@keyframes egup{from{transform:translateY(30px) scale(.94);opacity:0}to{transform:none;opacity:1}}
+.egfb.ok .egans{animation:egglow 1s ease-in-out 2}@keyframes egglow{50%{text-shadow:0 0 10px #FFD36B;transform:scale(1.04)}}
+.egfb #enx{animation:egpulse 1.2s ease-in-out infinite}@keyframes egpulse{50%{transform:scale(1.03)}}
+.egte.c{color:#E07A12}
+@media(prefers-reduced-motion:reduce){.egfx{animation-duration:1.3s}}
 .blk{display:inline-block;width:3.2em;height:1.1em;vertical-align:-.15em;border-bottom:3px solid #E5252A;margin:0 .15em}
 .ul{text-decoration:underline wavy #E5252A;text-underline-offset:4px;font-weight:800}
 .tqhint{margin:0 0 6px 42px;font-size:13px;color:#6b6556;line-height:1.45;word-break:keep-all}
@@ -851,10 +872,16 @@ const MENU = {
         {id:'p-video', status:'done', render:()=>renderVideo(), init:()=>initVideo(), ic:'🎬', title:'동영상 자료', desc:'속담 영상 40여 편을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
       {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임, 속담 완성하기, 실력 평가, 그림 퀴즈로 내 속담 실력을 키워요.', items:[
-        {id:'p-q-game', status:'done', render:()=>renderGames(), init:()=>initGames(), ic:'🎮', title:'재미있는 속담 게임', desc:'이모지 속담 게임 등 4가지 게임으로 즐겁게 놀며 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
+        {id:'p-q-game', status:'done', to:'p-game', ic:'🎮', title:'재미있는 속담 게임', desc:'이모지 속담 게임 등 4가지 게임으로 즐겁게 놀며 속담을 익혀요.', plan:['속담 게임 고르기','게임하며 속담 익히기']},
         {id:'p-q-fill', status:'done', render:()=>renderFill(), init:()=>initFill(), ic:'🧩', title:'속담 완성하기', desc:'낱말 카드를 끌어다 놓아 속담을 완성해요. 5문제 · 100점 만점!', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
         {id:'p-q-test', status:'done', render:()=>renderTest('p'), init:()=>initTest('p'), ic:'📝', title:'속담 실력 평가', desc:'시험지로 10문제를 풀고 색연필로 채점해요. 100점 만점!', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']},
         {id:'p-q-pic', ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요.', plan:['그림 보고 떠올리기','낱말 버튼을 눌러 속담 완성']}
+      ]},
+      {id:'p-game', hidden:true, parent:'p-quiz', title:'재미있는 속담 게임', note:'', items:[
+        {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 게임', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
+        {id:'p-g-2', ic:'🎲', title:'게임 2', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']},
+        {id:'p-g-3', ic:'🧩', title:'게임 3', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']},
+        {id:'p-g-4', ic:'🏁', title:'게임 4', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']}
       ]}
     ]
   },
@@ -887,7 +914,7 @@ const $app = document.getElementById('app');
 const leafIndex = {}, hubOf = {};
 Object.entries(MENU).forEach(([k,m])=>m.groups.forEach(g=>g.items.forEach(it=>{leafIndex[it.id]=it;hubOf[it.id]=k;it.status=it.status||'todo';})));
 const allLeaves = Object.values(leafIndex);
-const GIC={'p-intro':'📜','p-media':'🎬','p-find':'📖','p-quiz':'🏆','w-find':'🔤','w-right':'✏️','w-check':'🏆','w-media':'🎬'};
+const GIC={'p-intro':'📜','p-media':'🎬','p-find':'📖','p-quiz':'🏆','w-find':'🔤','w-right':'✏️','w-check':'🏆','w-media':'🎬','p-game':'🎮'};
 const groupIndex={}; Object.entries(MENU).forEach(([k,m])=>m.groups.forEach(g=>{ groupIndex[g.id]={k,g}; g.items.forEach(it=>{it.gid=g.id;}); }));
 const doneCount = a => a.filter(i=>i.status==='done').length;
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -919,8 +946,8 @@ function viewHome(){
 }
 
 function viewHub(k){
-  const m = MENU[k], n=m.groups.length;
-  const tiles = m.groups.map((g,i)=>{
+  const m = MENU[k], vg=m.groups.filter(g=>!g.hidden), n=vg.length;
+  const tiles = vg.map((g,i)=>{
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
     const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
@@ -950,8 +977,8 @@ const FCOL={
   pv:[['#E2603F','#8E2A1B'],['#E3A52F','#935C08'],['#2FA093','#14594F'],['#8070D4','#43308F']],
   wd:[['#35A89B','#14594F'],['#E2708F','#9A3355'],['#E3A52F','#935C08'],['#8070D4','#43308F']]
 };
-const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':['속','담','퀴','즈'],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인']};
-const FSRC={'p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
+const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':['속','담','퀴','즈'],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
+const FSRC={'p-game':'이모지 속담 게임을 비롯해 여러 가지 게임으로 속담을 놀이처럼 익혀요.','p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
 function viewFindHome(g,m,k){
   const n=g.items.length, pal=FCOL[m.cls];
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
@@ -961,7 +988,8 @@ function viewFindHome(g,m,k){
     const T=FHT[g.id]||['순','우','리','말'];
     const c2=g.items.map((it,i)=>{ const c=pal[i%pal.length];
       return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${i%2?'--pat-diaw':'--pat-dot'})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small>${it.status==='done'?'':'<span class="soon">준비 중</span>'}<span class="go fgfin"><i class="fg">👆</i><em>터치 하세요</em></span></button>`; }).join('');
-    return `<div class="screen fgs fg2 g${n}">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
+    const par=g.parent?groupIndex[g.parent].g:null;
+    return `<div class="screen fgs fg2 g${n}">${bar([['처음','home'],[m.short,k],...(par?[[par.title,par.id]]:[]),[g.title]],m.cls)}
     <div class="lbanner fhero ${m.cls}"><div class="fhart" aria-hidden="true">${T.map((t,x)=>`<i class="ft ${'abcd'[x]}">${t}</i>`).join('')}</div><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid f2 n${n}">${c2}</div></div>`;
   }
@@ -1450,43 +1478,40 @@ function initFill(){
 }
 
 
-/* ---------- 재미있는 속담 게임 (메뉴 + 이모지 속담 게임) ---------- */
-const EG_LIST=[
-  {id:'emoji',ic:'🎭',t:'이모지 속담 게임',d:'이모지를 보고 떠오르는 속담을 찾아요. 공통 낱말이 힌트예요!',on:1},
-  {id:'g2',ic:'🎲',t:'게임 2',d:'새로운 속담 게임이 곧 열려요.'},
-  {id:'g3',ic:'🧩',t:'게임 3',d:'새로운 속담 게임이 곧 열려요.'},
-  {id:'g4',ic:'🏁',t:'게임 4',d:'새로운 속담 게임이 곧 열려요.'}
-];
+/* ---------- 재미있는 속담 게임 : 이모지 속담 게임 ---------- */
 let EGB=null;
 function loadEmoji(){ if(!EGB) EGB=fetch('data/emoji.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ EGB=null; throw e; }); return EGB; }
 const egSplit=s=>{ try{ return Array.from(new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(s),x=>x.segment); }catch(e){ return Array.from(s); } };
 const egLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.emoji')||'{}');}catch(e){return {};} };
 const egSave=o=>{ try{localStorage.setItem('andamiro.emoji',JSON.stringify(o));}catch(e){} };
-function renderGames(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🎮</span><div><b>재미있는 속담 게임</b><small>게임으로 놀면서 속담을 익혀요</small></div></div><div id="eb"></div></div>`;
+function egFx(sym,txt,cls){
+  const d=document.createElement('div'); d.className='egfx '+cls; d.innerHTML=`<b>${sym}</b><span>${txt}</span>`; document.body.appendChild(d); setTimeout(()=>d.remove(),1300);
 }
-function initGames(){
+function egBurst(list,n){
+  const c=document.createElement('div'); c.className='cfx';
+  for(let i=0;i<n;i++){ const s=document.createElement('span'); s.textContent=list[i%list.length]; s.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*.5}s;animation-duration:${1.6+Math.random()*1.4}s;font-size:${18+Math.random()*18}px`; c.appendChild(s); }
+  document.body.appendChild(c); setTimeout(()=>c.remove(),3400);
+}
+function renderEmoji(){
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
+}
+function initEmoji(){
   const eb=document.getElementById('eb'); if(!eb) return;
-  const G={n:0,total:0,res:[],used:new Set()};
-  const hk=(t,k)=>esc(t).replace(new RegExp('(^|\\s)('+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')'),'$1<b class="hk">$2</b>');
-  function menu(){
-    eb.innerHTML=`<div class="egmenu"><p class="egmt">하고 싶은 게임을 골라 보세요</p>
-      ${EG_LIST.map(g=>`<button type="button" class="egm${g.on?'':' soon'}" data-g="${g.id}"><span class="egi">${g.ic}</span><span class="egx"><b>${g.t}</b><small>${g.d}</small></span>${g.on?'<span class="egg"><i class="fg">👆</i><em>터치 하세요</em></span>':'<span class="egs">준비 중</span>'}</button>`).join('')}</div>`;
-    eb.querySelector('.egm[data-g="emoji"]').onclick=intro;
-    eb.querySelectorAll('.egm.soon').forEach(b=>b.onclick=()=>{ b.classList.remove('wob'); void b.offsetWidth; b.classList.add('wob'); });
-  }
+  const alive=()=>!!document.getElementById('gmz');
+  const G={n:0,total:0,res:[],combo:0,maxCombo:0};
   function intro(){
     const best=egLoad().best;
     eb.innerHTML=`<div class="gintro egintro"><div class="gi-ttl">🎭 이모지 속담 게임</div>
       <ol class="gi-ol"><li><i>1</i><span><b>이모지</b>를 보고 어떤 속담일지 떠올려 봐요.</span></li>
-      <li><i>2</i><span>이모지에 나온 <b>공통 낱말</b>이 들어간 속담 <b>4개</b> 중에서 골라요.</span></li>
-      <li><i>3</i><span>한 번에 맞히면 <b>20점</b>, 두 번째에 맞히면 <b>10점</b>!</span></li></ol>
+      <li><i>2</i><span>어울리는 속담을 <b>4개</b> 중에서 골라요. <small>(기회는 ❤️ 2번!)</small></span></li>
+      <li><i>3</i><span>한 번에 맞히면 <b>20점</b>, 두 번째에 맞히면 <b>10점</b>!</span></li>
+      <li><i>4</i><span>연속으로 맞히면 <b>🔥 콤보</b>가 쌓여요.</span></li></ol>
       <div class="gi-box">5문제 · <b>100점 만점</b><small>${best!==undefined?`내 최고 기록 ${best}점 · 할 때마다 새 문제`:'할 때마다 새로운 문제가 나와요'}</small></div>
-      <button class="cta pv gi-go" id="ego">🎮 시작하기</button><button class="gr-sub" id="eback">‹ 게임 메뉴</button></div>`;
-    document.getElementById('ego').onclick=start; document.getElementById('eback').onclick=menu;
+      <button class="cta pv gi-go" id="ego">🎮 시작하기</button><button class="gr-sub" data-go="p-game">‹ 게임 메뉴</button></div>`;
+    document.getElementById('ego').onclick=start;
   }
   function start(){
-    gmSnd('x'); G.n=0; G.total=0; G.res=[];
+    gmSnd('x'); G.n=0; G.total=0; G.res=[]; G.combo=0; G.maxCombo=0;
     loadEmoji().then(bank=>{
       const st=egLoad(), seen=new Set(st.seen||[]);
       let pool=bank.filter(q=>!seen.has(q.id)); if(pool.length<5) pool=bank.slice();
@@ -1497,41 +1522,50 @@ function initGames(){
   function question(q){
     const opts=gmShuf([{t:q.t,ok:1},...gmShuf(q.d.slice()).slice(0,3).map(t=>({t,ok:0}))]);
     let tries=0, done=false;
-    eb.innerHTML=`<div class="egtop"><span class="gn">문제 <b>${G.n}</b>/5</span><span class="gtot">누적 <b>${G.total}</b>점</span></div>
+    eb.innerHTML=`<div class="egtop"><span class="gn">문제 <b>${G.n}</b>/5</span><span class="egheart" id="egh">❤️❤️</span><span class="gtot">누적 <b>${G.total}</b>점</span></div>
       <div class="gprog">${[1,2,3,4,5].map(i=>`<i class="${i<G.n?'d':i===G.n?'c':''}"></i>`).join('')}</div>
-      <div class="egcard"><div class="egem">${egSplit(q.e).map((x,i)=>`<span style="animation-delay:${i*.18}s">${x}</span>`).join('')}</div>
-        <div class="egq">이 이모지가 떠올리게 하는 속담은?</div><div class="egk">🔑 공통 낱말 <b>${esc(q.k)}</b></div></div>
-      <div class="egop">${opts.map((o,i)=>`<button type="button" class="eop" data-i="${i}"><i>${'①②③④'[i]}</i><span>${hk(o.t,q.k)}</span></button>`).join('')}</div><div id="egfb"></div>`;
-    const bs=[...eb.querySelectorAll('.eop')], fb=document.getElementById('egfb');
+      ${G.combo>=2?`<div class="egcombo">🔥 ${G.combo}연속 정답 중!</div>`:''}
+      <div class="egcard" id="egcard"><div class="egem">${egSplit(q.e).map((x,i)=>`<span style="animation-delay:${i*.18}s">${x}</span>`).join('')}</div>
+        <div class="egq">이 이모지가 떠올리게 하는 속담은?</div></div>
+      <div class="egop">${opts.map((o,i)=>`<button type="button" class="eop" data-i="${i}"><i>${'①②③④'[i]}</i><span>${esc(o.t)}</span></button>`).join('')}</div><div id="egfb"></div>`;
+    const bs=[...eb.querySelectorAll('.eop')], fb=document.getElementById('egfb'), card=document.getElementById('egcard'), hh=document.getElementById('egh');
     const fin=(pts,ok)=>{
       done=true; G.total+=pts; G.res.push({q,pts});
+      if(pts===20){ G.combo++; G.maxCombo=Math.max(G.maxCombo,G.combo); } else if(!ok||pts===0) G.combo=0;
       bs.forEach(b=>{ b.disabled=true; if(opts[+b.dataset.i].ok) b.classList.add('right'); });
-      fb.innerHTML=`<div class="egfb ${ok?'ok':'no'}"><div class="egfh">${ok?(pts===20?'🎉 딱 맞혔어요! <u>+20점</u>':'👍 두 번째에 맞혔어요! <u>+10점</u>'):'😮 아깝다! 정답은 이 속담이에요.'}</div>
+      card.classList.remove('shk','hop'); void card.offsetWidth; card.classList.add(ok?'hop':'shk');
+      const cm=ok&&pts===20&&G.combo>=2?`<div class="egcm">🔥 ${G.combo}연속 정답!</div>`:'';
+      fb.innerHTML=`<div class="egfb ${ok?'ok':'no'}"><div class="egfh">${ok?(pts===20?'🎉 딱 맞혔어요! <u>+20점</u>':'👍 두 번째에 맞혔어요! <u>+10점</u>'):'😮 아깝다! 정답은 이 속담이에요.'}</div>${cm}
         <div class="egans">${esc(q.t)}</div><p>🔎 <b>이모지 풀이</b> ${esc(q.r)}</p><p>📖 <b>뜻</b> ${esc(q.m)}</p>
         <button type="button" class="cta pv" id="enx">${G.n>=5?'🏆 결과 보기':'다음 문제 ›'}</button></div>`;
       document.getElementById('enx').onclick=()=>{ gmSnd('x'); next(); };
-      fb.scrollIntoView({block:'center',behavior:'smooth'});
+      const sc=eb.querySelector('.gtot b'); if(sc) sc.textContent=G.total;
+      if(ok){ egFx('⭕',pts===20?'정답! +20':'정답! +10','ok'); egBurst(pts===20?['🎉','⭐','✨','🎊','💮']:['⭐','✨'],pts===20?26:12); }
+      else egFx('❌','땡! 정답은…','no');
+      setTimeout(()=>{ if(alive()) fb.scrollIntoView({block:'center',behavior:'smooth'}); },700);
     };
     bs.forEach(b=>b.onclick=()=>{
       if(done) return; const o=opts[+b.dataset.i];
       if(o.ok){ b.classList.add('right'); gmSnd('ok'); try{navigator.vibrate&&navigator.vibrate(30);}catch(e){} fin(tries===0?20:10,true); }
       else { tries++; b.classList.add('bad'); b.disabled=true; gmSnd('no'); try{navigator.vibrate&&navigator.vibrate([40,40,40]);}catch(e){}
-        if(tries>=2) fin(0,false); else { fb.innerHTML='<div class="egtry">🤔 앗, 아니에요! <b>한 번 더</b> 골라 봐요. (맞히면 10점)</div>'; } }
+        card.classList.remove('shk','hop'); void card.offsetWidth; card.classList.add('shk');
+        if(tries>=2){ hh.innerHTML='💔💔'; fin(0,false); }
+        else { hh.innerHTML='❤️<i class="brk">💔</i>'; egFx('💔','앗! 한 번 더!','try'); fb.innerHTML='<div class="egtry">🤔 아니에요! <b>한 번 더</b> 골라 봐요. (맞히면 10점)</div>'; } }
     });
   }
   function result(){
     const t=G.total, st=egLoad(), prev=st.best;
-    egSave({...st,best:Math.max(prev||0,t),tries:(st.tries||0)+1,seen:[...(st.seen||[]),...G.set.map(q=>q.id)].slice(-30)});
+    egSave({...st,best:Math.max(prev||0,t),tries:(st.tries||0)+1,seen:[...(st.seen||[]),...G.set.map(q=>q.id)].slice(-60)});
     const T=t>=100?['🏆','속담 천재','이모지만 봐도 속담이 척척! 대단해요!']:t>=80?['🥇','속담 척척이','거의 다 맞혔어요! 만점이 코앞이에요.']:t>=60?['🥈','속담 눈치꾼','눈치가 빨라요! 조금만 더 하면 척척이!']:t>=40?['🌱','속담 새싹','좋아요! 속담이 쑥쑥 자라고 있어요.']:['🌰','속담 씨앗','괜찮아요! 다시 하면 더 잘할 수 있어요.'];
     const tease=prev===undefined?'':t>prev?`🎉 신기록! 이전 최고 ${prev}점을 넘었어요!`:t===prev?'최고 기록과 똑같아요!':`최고 기록 ${prev}점까지 ${prev-t}점!`;
     eb.innerHTML=`<div class="egres"><div class="egrt"><span>${T[0]}</span><b>${T[1]}</b><small>${T[2]}</small></div>
-      <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>${tease?`<div class="egte">${tease}</div>`:''}
+      <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>${tease?`<div class="egte">${tease}</div>`:''}${G.maxCombo>=2?`<div class="egte c">🔥 최고 ${G.maxCombo}연속 정답!</div>`:''}
       <ul class="egls">${G.res.map((r,i)=>`<li class="${r.pts?'y':'n'}"><span class="no">${i+1}</span><span class="em">${esc(r.q.e)}</span><span class="tx">${esc(r.q.t)}</span><span class="pt">${r.pts}점</span></li>`).join('')}</ul>
-      <div class="gr-bt"><button class="cta pv" id="eag">🔁 다시 하기 <small>(새로운 문제)</small></button><button class="gr-sub" id="ebk">‹ 게임 메뉴</button></div></div>`;
-    gmSnd(t>=60?'end':'no'); window.scrollTo(0,0);
-    document.getElementById('eag').onclick=start; document.getElementById('ebk').onclick=menu;
+      <div class="gr-bt"><button class="cta pv" id="eag">🔁 다시 하기 <small>(새로운 문제)</small></button><button class="gr-sub" data-go="p-game">‹ 게임 메뉴</button></div></div>`;
+    gmSnd(t>=60?'end':'no'); window.scrollTo(0,0); if(t>=60) egBurst(['🎉','⭐','✨','🎊','🌟','💮'],t>=100?46:26);
+    document.getElementById('eag').onclick=start;
   }
-  menu();
+  intro();
 }
 
 
@@ -1895,6 +1929,7 @@ function initWcat(){
 function route(){
   let h = (location.hash||'').slice(1) || 'home';
   if(h==='p-media') h='p-video'; if(h==='w-media') h='w-video';
+  if(leafIndex[h]&&leafIndex[h].to) h=leafIndex[h].to;
   let html;
   if(h==='home') html=viewHome();
   else if(MENU[h]) html=viewHub(h);
