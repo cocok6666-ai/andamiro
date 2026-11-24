@@ -150,6 +150,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .cpage{flex:0 0 100%;scroll-snap-align:start;display:grid;gap:8px;align-content:stretch;padding:2px 1px}
 .ftile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:18px;padding:6px 4px;background:linear-gradient(160deg,var(--c1),var(--c2));color:#2B2A28;box-shadow:0 4px 0 rgba(0,0,0,.1);min-width:0;transition:transform .08s}
 .vtile{display:flex;flex-direction:column;min-height:0;min-width:0;border-radius:14px;background:#fff;border:1px solid var(--line);overflow:hidden;color:var(--ink);text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.fitwrap.vid .fstage{background:#2B1F1B;background:color-mix(in srgb,var(--pv-deep) 38%,#0d0907);border-radius:18px;padding:8px}
+.fitwrap.vid .cpage{gap:7px;padding:0}
+.fitwrap.vid .vtile{background:rgba(255,255,255,.08);border:0;box-shadow:none;border-radius:12px;color:#fff}
+.fitwrap.vid .vtile .vth{border-radius:12px 12px 0 0}
+.fitwrap.vid .vtile b{color:#fff;font-weight:700}
+.fitwrap.vid .vtile small{color:rgba(255,255,255,.62)}
+.fitwrap.vid .eh{background:rgba(255,255,255,.22)}
 .vtile:active{transform:translateY(2px)}
 .vtile .vth{flex:1;min-height:0;position:relative;background:linear-gradient(150deg,#E5663F,#8E2A1B) center/cover no-repeat;display:block}
 .vtile .vpl{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:50%;background:rgba(200,30,30,.92);color:#fff;font-style:normal;font-size:11px;display:grid;place-items:center;padding-left:2px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
@@ -1185,6 +1192,7 @@ function renderVideo(w){
   return fitShell(w?'w-video':'p-video','🎬',w?'순우리말 동영상 자료':'속담 동영상 자료',`${w?'순우리말':'속담'}을 쉽게 배울 수 있는 영상 ${V.length}편이에요. 누르면 유튜브로 이동해요.`,'');
 }
 function initVideo(w){
+  fq('#fx').classList.add('vid');
   fitChoices(w?VID_W:VID_P,(v,i)=>`<a class="vtile" href="https://www.youtube.com/watch?v=${v[0]}" target="_blank" rel="noopener" data-i="${i}"><span class="vth" style="background-image:url(https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg),linear-gradient(150deg,#E5663F,#8E2A1B)"><i class="vpl">▶</i></span><b>${esc(v[1])}</b><small>${esc(v[2])}</small></a>`,2,()=>{},4);
 }
 function initZodiac(){
