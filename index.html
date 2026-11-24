@@ -211,6 +211,27 @@ body:has(.hubfit){overflow:hidden}
 .fother button{flex:1;min-width:0;height:36px;border-radius:99px;background:var(--paper2);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:3px;color:var(--ink)}
 .fother button i{font-style:normal;font-size:15px}
 /* 검색 첫 화면: 큰 카드 */
+/* 찾기 첫 화면(카드 2장): 큰 머리 그림 + 작은 카드 + 터치 손가락 */
+.screen.fg2 .lbanner.fhero{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:-12px -18px 0;padding:14px 22px 22px;border-radius:0 0 34px 34px;gap:10px}
+.fg2 .fhero h2{font-size:clamp(28px,4.6dvh,38px);margin:0}
+.fg2 .fhero .lead{font-size:clamp(14px,1.9dvh,16.5px);max-width:30em;word-break:keep-all}
+.fhart{display:flex;gap:2.4cqw;justify-content:center;margin-bottom:6px}
+.fhart .ft{font-style:normal;width:clamp(50px,9dvh,74px);height:clamp(50px,9dvh,74px);border-radius:24%;display:grid;place-items:center;font-family:var(--display);font-size:clamp(30px,5.6dvh,46px);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.28);background:linear-gradient(150deg,var(--t1),var(--t2));box-shadow:0 6px 0 var(--t3),0 12px 18px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.45);animation:ftb 3.2s ease-in-out infinite}
+.fhart .a{--t1:#F08A5D;--t2:#D4502F;--t3:#8E2A1B;transform:rotate(-6deg)}
+.fhart .b{--t1:#FFD76A;--t2:#D99A1C;--t3:#8A5A0A;animation-delay:-.8s;transform:rotate(4deg)}
+.fhart .c{--t1:#8FE0D3;--t2:#2FA394;--t3:#0F5F57;animation-delay:-1.6s;transform:rotate(-3deg)}
+.fhart .d{--t1:#B6A0F0;--t2:#7358CE;--t3:#43318F;animation-delay:-2.4s;transform:rotate(6deg)}
+@keyframes ftb{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.fg2 .fgrid.f2{flex:none;height:clamp(176px,30dvh,250px);margin:16px 0 18px;padding:0 2px;gap:12px}
+.fg2 .fgrid .fcard{border-radius:22px;gap:4px;padding:10px 6px 10px;outline-offset:-6px}
+.fg2 .fgrid.n2 .fcard .fico{width:clamp(52px,8.5dvh,68px);height:clamp(52px,8.5dvh,68px);font-size:clamp(28px,4.6dvh,37px);border-radius:20px}
+.fg2 .fgrid.n2 .fcard b{font-size:clamp(18px,2.7dvh,22px)}
+.fg2 .fcard small{display:none}
+.fcard .go.fgfin{width:auto;height:auto;background:none;box-shadow:none;border-radius:0;margin:2px 0 0;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1;color:#fff}
+.fcard .go .fg{font-style:normal;font-size:clamp(26px,4.2dvh,36px);display:inline-block;transform-origin:50% 90%;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));animation:tpFin 1.4s ease-in-out infinite}
+.fcard .go em{font-style:normal;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.45);animation:tpTxt 1.4s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.fhart .ft,.fcard .go .fg,.fcard .go em{animation:none}}
+@media(max-height:700px){.fg2 .fhero .lead{display:none}.fg2 .fcard small{display:none}}
 .screen.fgs{margin-bottom:-40px}
 .fgrid{display:grid;gap:6px;margin:0 -18px;height:calc(100dvh - 62px);min-height:360px}
 .fgrid.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
@@ -775,6 +796,13 @@ function viewFindHome(g,m,k){
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
     const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
     return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
+  if(n===2){
+    const c2=g.items.map((it,i)=>{ const c=pal[i%pal.length];
+      return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${i%2?'--pat-diaw':'--pat-dot'})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go fgfin"><i class="fg">👆</i><em>터치 하세요</em></span></button>`; }).join('');
+    return `<div class="screen fgs fg2">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
+    <div class="lbanner fhero ${m.cls}"><div class="fhart" aria-hidden="true"><i class="ft a">순</i><i class="ft b">우</i><i class="ft c">리</i><i class="ft d">말</i></div><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
+    <div class="fgrid n2 f2">${c2}</div></div>`;
+  }
   return `<div class="screen fgs">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
     <div class="lbanner ${m.cls}"><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid n${n}">${cards}</div></div>`;
