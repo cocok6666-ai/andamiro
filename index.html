@@ -274,6 +274,17 @@ body:has(.hubfit){overflow:hidden}
 .fg2 .fgrid.n4 .fcard .go em{font-size:11px}
 .fg2 .fgrid.n1 .fcard .fico{width:clamp(64px,10dvh,84px);height:clamp(64px,10dvh,84px);font-size:clamp(34px,5.4dvh,46px);border-radius:24px}
 .fg2 .fgrid.n1 .fcard b{font-size:clamp(20px,3dvh,25px)}
+/* 하위2 타일이 5~6개 이상으로 늘어나도 같은 모양 유지: 2열 × 3줄(5개면 마지막 칸은 가로로 길게), 7개 이상은 아래로 스크롤 */
+.fg2 .fgrid.f2.n5,.fg2 .fgrid.f2.n6{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:10px;padding:2.4dvh 6px 2.8dvh}
+.fg2 .fgrid.f2.n5 .fcard:last-child{grid-column:span 2}
+.fg2.g5 .lbanner.fhero,.fg2.g6 .lbanner.fhero{flex-grow:4}.fg2.g5 .fgrid.f2,.fg2.g6 .fgrid.f2{flex-grow:7}
+.fg2 .fgrid.n5 .fcard,.fg2 .fgrid.n6 .fcard{padding:6px 6px;gap:2px}
+.fg2 .fgrid.n5 .fcard .fico,.fg2 .fgrid.n6 .fcard .fico{width:clamp(34px,5.2dvh,46px);height:clamp(34px,5.2dvh,46px);font-size:clamp(19px,2.9dvh,26px);border-radius:14px}
+.fg2 .fgrid.n5 .fcard b,.fg2 .fgrid.n6 .fcard b{font-size:clamp(14px,2dvh,17px)}
+.fg2 .fgrid.n5 .fcard small,.fg2 .fgrid.n6 .fcard small{display:none}
+.fg2 .fgrid.n5 .fcard .go .fg,.fg2 .fgrid.n6 .fcard .go .fg{font-size:clamp(18px,2.6dvh,24px)}
+.fg2 .fgrid.n5 .fcard .go em,.fg2 .fgrid.n6 .fcard .go em{font-size:10.5px}
+.fg2 .fgrid.f2:not(.n1):not(.n2):not(.n3):not(.n4):not(.n5):not(.n6){grid-template-columns:1fr 1fr;grid-auto-rows:minmax(112px,auto);flex:none;overflow:visible}
 .fg2.g3 .lbanner.fhero{flex-grow:5}.fg2.g3 .fgrid.f2{flex-grow:6}
 .fg2 .fgrid.f2.n3{grid-template-columns:1fr;grid-template-rows:repeat(3,1fr);gap:10px;padding:2.6dvh 6px 3dvh}
 .fg2 .fgrid.n3 .fcard{flex-direction:row;justify-content:flex-start;gap:12px;padding:6px 16px;text-align:left}
@@ -1172,6 +1183,12 @@ function applyTint(h){
 }
 const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
 const FSRC={'p-game':'이모지 속담 게임을 비롯해 여러 가지 게임으로 속담을 놀이처럼 익혀요.','p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
+/* ===== 화면 단계 규칙 (내용이 바뀌거나 메뉴가 늘어나도 자동으로 같은 모양) =====
+   메인   : 그림 머리 + 큰 세로 카드 2장                         → viewHome
+   하위1  : 이름 띠 + 연한 색 2×2 카드(완성 표시)                → viewHub
+   하위2  : 글자 블록 큰 배너 + 반짝이는 타일(1~6개, 7개 이상은 스크롤) → viewFindHome
+   하위3  : 작은 제목 카드 + 가로 띠 목록(번호·그림·제목·설명)     → viewSub3  (메뉴 데이터에서 parent 가 있는 묶음)
+   새 메뉴를 넣을 때는 MENU 데이터만 고치면 단계에 맞는 모양이 저절로 적용된다. */
 function viewSub3(g,m,k){
   const pal=FCOL[m.cls], par=groupIndex[g.parent].g;
   const rows=g.items.map((it,i)=>{ const c=pal[i%pal.length], done=it.status==='done';
