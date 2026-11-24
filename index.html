@@ -882,6 +882,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .mpg{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .mpg::-webkit-scrollbar{display:none}
 .mpg{touch-action:pan-x pan-y;cursor:grab}
+.mpp .rl{overscroll-behavior-x:auto;overscroll-behavior-y:contain;touch-action:pan-x pan-y}
 .mpg.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}
 .mpp{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;min-height:0;min-width:0;position:relative}
 .mpg{}
@@ -1875,8 +1876,12 @@ function fitPager(items,start,R,listOf,info,onBack){
   mp.addEventListener('pointermove',e=>{ if(dx0===null||pt!=='mouse') return; const d=e.clientX-dx0; if(Math.abs(d)>6&&!mp.classList.contains('drag')){ mp.classList.add('drag'); try{ mp.setPointerCapture(e.pointerId); }catch(_){} } if(mp.classList.contains('drag')){ mv=d; mp.scrollLeft=sl0-d; } });
   const end=e=>{ if(dx0===null) return; const d=e.clientX-dx0, dy=e.clientY-dy0, w=mp.clientWidth, drag=mp.classList.contains('drag'), p0=pt; dx0=null; mp.classList.remove('drag');
     if(drag){ const t=Math.abs(d)>w*.18?(d<0?id0+1:id0-1):id0; go(Math.max(0,Math.min(N-1,t))); setTimeout(()=>{mv=0;},0); return; }
-    if(p0!=='mouse'&&Math.abs(d)>50&&Math.abs(d)>Math.abs(dy)*1.5){ setTimeout(()=>{ if(idx()===id0&&Math.abs(mp.scrollLeft-id0*w)<8) go(Math.max(0,Math.min(N-1,d<0?id0+1:id0-1))); },280); } };
-  mp.addEventListener('pointerup',end); mp.addEventListener('pointercancel',e=>{ if(dx0!==null){ dx0=null; mp.classList.remove('drag'); go(idx()); } });
+  };
+  let tx=0,ty=0,ti=0;
+  mp.addEventListener('touchstart',e=>{ const t=e.touches[0]; tx=t.clientX; ty=t.clientY; ti=idx(); },{passive:true});
+  mp.addEventListener('touchend',e=>{ const t=e.changedTouches[0], d=t.clientX-tx, dy=t.clientY-ty, w=mp.clientWidth;
+    if(Math.abs(d)>50&&Math.abs(d)>Math.abs(dy)*1.3){ setTimeout(()=>{ if(idx()===ti&&Math.abs(mp.scrollLeft-ti*w)<10) go(Math.max(0,Math.min(N-1,d<0?ti+1:ti-1))); },320); } },{passive:true});
+  mp.addEventListener('pointerup',end); mp.addEventListener('pointercancel',e=>{ if(pt==='mouse'&&dx0!==null){ dx0=null; mp.classList.remove('drag'); go(idx()); } });
   mp.addEventListener('click',e=>{ if(Math.abs(mv)>6){ e.stopPropagation(); e.preventDefault(); mv=0; } },true);
   mp.addEventListener('mouseleave',()=>{ if(dx0!==null&&pt==='mouse'&&mp.classList.contains('drag')){ dx0=null; mp.classList.remove('drag'); go(idx()); } });
   mp.addEventListener('scroll',upd,{passive:true});
@@ -1940,10 +1945,10 @@ function renderNature(){
 }
 function initNature(){
   let T=null, by=null, kind='an';
-  const choose=()=>fitChoices(T[kind],(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
-    const x=T[kind][i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,ci:i,onBack:choose});
-  });
+  const choose=()=>{ const lists=[]; fitChoices(T[kind],(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
+    fitPager(T[kind],i,rP([]),j=>lists[j]||(lists[j]=T[kind][j].ids.map(id=>by[id]).filter(Boolean).sort(byKo)),
+      (x,j)=>({e:x.e,name:x.k,cnt:`속담 ${(lists[j]||[]).length}개`}),choose);
+  }); };
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
   fq('#natseg').onclick=e=>{ const b=e.target.closest('button'); if(!b||!T) return; kind=b.dataset.k; fq('#natseg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); choose(); };
 }
@@ -1981,8 +1986,9 @@ function initVideo(w){
 function initZodiac(){
   let T=null, by=null;
   const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),3,pick);
-  const pick=i=>{ const x=T.zo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rP([]),list,{e:x.e,title:`${x.k}띠 · 속담 ${list.length}개`,ci:i,onBack:choose}); };
+  const lists=[];
+  const pick=i=>fitPager(T.zo,i,rP([]),j=>lists[j]||(lists[j]=T.zo[j].ids.map(id=>by[id]).filter(Boolean).sort(byKo)),
+      (x,j)=>({e:x.e,name:x.k+'띠',cnt:`속담 ${(lists[j]||[]).length}개`}),choose);
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
   const go=()=>{ const y=parseInt(fq('#zy').value,10); if(!T) return;
     if(!(y>=1900&&y<=2100)){ fitMsg('<span class="em">🔢</span><b>태어난 해를 숫자 네 자리로 넣어 주세요</b>예) 2014'); return; }
