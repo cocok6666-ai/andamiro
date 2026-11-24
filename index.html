@@ -511,6 +511,11 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .gscn .gdesc p{font-size:14px;line-height:1.35;margin-top:1px}
 @media(max-height:720px){.gscn .gdesc p{display:none}}
 .pgm{flex:1;text-align:center;min-width:0}
+.ev{position:absolute;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;background:rgba(40,30,20,.18);border-radius:10px;padding:2px 12px;animation:ehb 1.2s ease-in-out infinite}
+.ev i{display:block;font-style:normal;font-size:30px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4);transform:rotate(90deg)}
+.ev[hidden]{display:none}
+.ev.fx{position:fixed;z-index:40}
+.ev.fx.u{top:52px}.ev.fx.d{bottom:58px}
 .eh{position:absolute;z-index:5;transform:translateY(-50%);font-size:34px;font-weight:700;line-height:1;color:#fff;background:rgba(40,30,20,.18);padding:12px 3px;border-radius:10px;pointer-events:none;animation:ehb 1.2s ease-in-out infinite;text-shadow:0 1px 3px rgba(0,0,0,.4)}
 .eh.l{left:2px}.eh.r{right:2px}.eh[hidden]{display:none}
 @keyframes ehb{0%,100%{opacity:.25}50%{opacity:.8}}
@@ -984,6 +989,32 @@ function edgeHints(sl,idx,n){
   par.append(L,R);
   return ()=>{ const i=idx(), t=(sl.offsetTop+(sl.classList.contains('slider')?Math.min(48,sl.offsetHeight/2):sl.offsetHeight/2))+'px'; L.style.top=R.style.top=t; L.hidden=i<=0; R.hidden=i>=n-1; };
 }
+/* 세로 넘김 표시: 위에 더 있으면 ∧, 아래에 더 있으면 ∨ (반투명, 깜빡임) */
+function mkEv(host,fixed){
+  const U=document.createElement('span'),D=document.createElement('span');
+  U.className='ev u'+(fixed?' fx':'');D.className='ev d'+(fixed?' fx':'');
+  U.innerHTML='<i>《</i>';D.innerHTML='<i>》</i>';U.hidden=D.hidden=true;
+  host.append(U,D); return [U,D];
+}
+function vHints(sc){
+  const host=sc.parentElement; if(!host) return;
+  if(getComputedStyle(host).position==='static') host.style.position='relative';
+  host.querySelectorAll(':scope>.ev').forEach(e=>e.remove());
+  const [U,D]=mkEv(host,false);
+  const upd=()=>{ U.style.top=(sc.offsetTop+2)+'px'; D.style.top=(sc.offsetTop+sc.offsetHeight-34)+'px';
+    U.hidden=sc.scrollTop<=8; D.hidden=sc.scrollTop+sc.clientHeight>=sc.scrollHeight-8; };
+  sc.addEventListener('scroll',upd,{passive:true}); upd(); setTimeout(upd,300);
+  return upd;
+}
+(function(){
+  let U,D;
+  const upd=()=>{ if(!U) return; const de=document.documentElement, fit=getComputedStyle(de).overflow==='hidden';
+    const y=window.scrollY, tot=de.scrollHeight, vh=window.innerHeight;
+    U.hidden=fit||y<=8; D.hidden=fit||y+vh>=tot-8; };
+  window.addEventListener('DOMContentLoaded',()=>{ [U,D]=mkEv(document.body,true); upd(); });
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); window.addEventListener('hashchange',()=>{ setTimeout(upd,60); setTimeout(upd,400); });
+  window.pageHints=upd;
+})();
 function initMeaning(){ setupPager('m'); }
 /* 속담의 유래 */
 function renderOrigin(){
@@ -1113,6 +1144,7 @@ function fitResults(R,list,o){
   const box=fq('#rl'); let shown=0, open=-1;
   const more=()=>{ const end=Math.min(n,shown+60); let h=''; for(let k=shown;k<end;k++) h+=`<button class="ri" data-i="${k}" aria-expanded="false"><span class="rn">${k+1}</span><span class="rt">${R.t(list[k],k)}</span></button>`; box.insertAdjacentHTML('beforeend',h); shown=end; };
   more();
+  const vu=vHints(box);
   const close=()=>{ const b=box.querySelector('.rbub'); if(b) b.remove(); box.querySelectorAll('.ri.on').forEach(x=>{ x.classList.remove('on'); x.setAttribute('aria-expanded','false'); }); open=-1; };
   box.addEventListener('click',e=>{
     const it=e.target.closest('.ri'); if(!it){ if(e.target.closest('.rbub')) close(); return; }
@@ -1121,7 +1153,8 @@ function fitResults(R,list,o){
     it.insertAdjacentHTML('afterend',`<div class="rbub" role="note">${R.b(list[k],k)}<span class="rx">닫기</span></div>`);
     const b=it.nextElementSibling; box.scrollTo({top:Math.max(0,it.offsetTop-box.offsetTop-6),behavior:'smooth'});
   });
-  box.addEventListener('scroll',()=>{ if(shown<n && box.scrollTop+box.clientHeight>box.scrollHeight-160) more(); },{passive:true});
+  box.addEventListener('scroll',()=>{ if(shown<n && box.scrollTop+box.clientHeight>box.scrollHeight-160){ more(); vu&&vu(); } },{passive:true});
+  box.addEventListener('click',()=>setTimeout(()=>vu&&vu(),60));
   if(o.onBack) fq('#rback').onclick=o.onBack;
 }
 const hlP=(text,toks)=>{
@@ -1283,6 +1316,7 @@ function route(){
   $app.innerHTML = html;
   window.scrollTo(0,0);
   const lf=leafIndex[h]; if(lf && lf.status==='done' && lf.init) lf.init();
+  setTimeout(()=>window.pageHints&&window.pageHints(),80);
 }
 function go(id){ if(location.hash==='#'+id) route(); else location.hash = id; }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
