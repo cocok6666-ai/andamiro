@@ -149,6 +149,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .cp::-webkit-scrollbar{display:none}
 .cpage{flex:0 0 100%;scroll-snap-align:start;display:grid;gap:8px;align-content:stretch;padding:2px 1px}
 .ftile{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:18px;padding:6px 4px;background:linear-gradient(160deg,var(--c1),var(--c2));color:#2B2A28;box-shadow:0 4px 0 rgba(0,0,0,.1);min-width:0;transition:transform .08s}
+.vtile{display:flex;flex-direction:column;min-height:0;min-width:0;border-radius:14px;background:#fff;border:1px solid var(--line);overflow:hidden;color:var(--ink);text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.vtile:active{transform:translateY(2px)}
+.vtile .vth{flex:1;min-height:0;position:relative;background:linear-gradient(150deg,#E5663F,#8E2A1B) center/cover no-repeat;display:block}
+.vtile .vpl{position:absolute;right:6px;bottom:6px;width:26px;height:26px;border-radius:50%;background:rgba(200,30,30,.92);color:#fff;font-style:normal;font-size:11px;display:grid;place-items:center;padding-left:2px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.vtile b{flex:none;font-size:12.3px;line-height:1.25;padding:4px 7px 0;word-break:keep-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vtile small{flex:none;font-size:10.5px;color:var(--mute);padding:1px 7px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ftile:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.1)}
 .ftile .te{font-size:clamp(26px,4.4dvh,38px);line-height:1.1}
 .ftile b{font-size:14.5px;margin-top:2px;line-height:1.25;word-break:keep-all}
@@ -620,7 +626,7 @@ const MENU = {
         {id:'p-g6', ic:'6️⃣', title:'6학년 교과 내용', desc:'6학년 교과에 나오는 속담을 단원별로 배워요.', plan:['교과 단원 안내','설명 자료 · 이미지 · 멀티미디어 학습 화면']}
       ]},
       {id:'p-media', title:'속담 자료 모음', note:'', items:[
-        {id:'p-video', ic:'🎬', title:'동영상 자료', desc:'30여 편의 속담 영상을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
+        {id:'p-video', status:'done', render:()=>renderVideo(), init:()=>initVideo(), ic:'🎬', title:'동영상 자료', desc:'속담 영상 40여 편을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
       {id:'p-use', title:'속담 활용', note:'속담으로 표현하기', items:[
         {id:'p-family', ic:'🏠', title:'속담으로 가훈 만들기', desc:'속담을 골라 우리 집 가훈을 만들어 봐요.', plan:['예시 가훈 살펴보기','속담 고르기 → 가훈 꾸미기','완성한 가훈 공유하며 다짐하기']},
@@ -757,7 +763,7 @@ function viewLeaf(id){
   const it = leafIndex[id], k = hubOf[id], m = MENU[k];
   if(it.status==='done' && typeof it.render==='function'){
     curCls=m.cls;
-    return `<div class="screen">${bar([['처음','home'],[m.short,k],[groupIndex[it.gid].g.title,it.gid],[it.title]],m.cls)}${it.render()}</div>`;
+    return `<div class="screen">${bar([['처음','home'],[m.short,k],...(it.gid==='p-media'?[]:[[groupIndex[it.gid].g.title,it.gid]]),[it.title]],m.cls)}${it.render()}</div>`;
   }
   const g = m.groups.find(g=>g.items.includes(it));
   return `<div class="screen leaf">${bar([['처음','home'],[m.short,k],[g.title,g.id],[it.title]],m.cls)}
@@ -1041,22 +1047,22 @@ const FIT_OTHERS={
 const fq=s=>document.querySelector(s);
 const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>자료를 불러오지 못했어요</b>인터넷 연결을 확인하고 다시 열어 주세요.</div></div>';
 function fitShell(id,ic,title,desc,ctl){
-  const gid=leafIndex[id].gid, others=FIT_OTHERS[gid].filter(o=>o[0]!==id);
+  const gid=leafIndex[id].gid, others=(FIT_OTHERS[gid]||[]).filter(o=>o[0]!==id), solo=!FIT_OTHERS[gid];
   return `<div class="leaf fitwrap ${curCls}" id="fx">
     <div class="fhead ${curCls}"><span class="fhe">${ic}</span><div><b>${title}</b><small>${desc}</small></div></div>
     ${ctl?`<div class="fctl">${ctl}</div>`:''}
     <div class="fstage" id="fst"><div class="fmsg">불러오는 중…</div></div>
     <div class="fpg" id="fpg"></div>
-    <div class="fother"><small>다른 검색</small>${others.map(o=>`<button data-go="${o[0]}"><i>${o[1]}</i>${o[2]}</button>`).join('')}<button data-go="${gid}"><i>🏠</i>메뉴</button></div></div>`;
+    ${solo?`<div class="fother"><button data-go="${hubOf[id]}"><i>🏠</i>속담 메뉴로</button></div>`:`<div class="fother"><small>다른 검색</small>${others.map(o=>`<button data-go="${o[0]}"><i>${o[1]}</i>${o[2]}</button>`).join('')}<button data-go="${gid}"><i>🏠</i>메뉴</button></div>`}</div>`;
 }
 function fitMsg(h){ fq('#fst').innerHTML=`<div class="fmsg">${h}</div>`; fq('#fpg').innerHTML=''; }
 function fitOne(label,html){ fq('#fst').innerHTML=`<div class="rhd"><span>${label}</span></div><div class="rpv"><div class="rcard">${html}</div></div>`; fq('#fpg').innerHTML=''; }
 /* 선택지: 한 화면에 맞는 만큼 타일을 놓고 가로로 넘김 */
-function fitChoices(items,tileFn,cols,pick){
+function fitChoices(items,tileFn,cols,pick,fixRows){
   const st=fq('#fst'), pg=fq('#fpg'); st.innerHTML='<div class="cp" id="cp"></div>';
   const H=st.clientHeight||320, minH=cols>=4?84:92;
-  let rows=Math.max(2,Math.floor((H+8)/(minH+8))), per=cols*rows;
-  if(items.length<=per){ rows=Math.ceil(items.length/cols); per=cols*rows; }
+  let rows=fixRows||Math.max(2,Math.floor((H+8)/(minH+8))), per=cols*rows;
+  if(!fixRows&&items.length<=per){ rows=Math.ceil(items.length/cols); per=cols*rows; }
   const rowH=Math.floor((H-(rows-1)*8)/rows), np=Math.ceil(items.length/per);
   let h='';
   for(let p=0;p<np;p++) h+=`<div class="cpage" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${items.slice(p*per,(p+1)*per).map((x,k)=>tileFn(x,p*per+k)).join('')}</div>`;
@@ -1172,6 +1178,13 @@ function renderZodiac(){
   return fitShell('p-f-zodiac','🐯','나의 띠로 찾기','태어난 해를 넣거나 띠를 눌러요 (음력 설 기준)',
    `<div class="fin"><input id="zy" type="number" inputmode="numeric" min="1950" max="2035" placeholder="태어난 해 (예: 2014)" aria-label="태어난 해"><button class="fgo" id="zgo">내 띠 찾기</button></div>`);
 }
+const VIDS=[["wgiaKO1v1P8", "교과서 속 속담 탐험 1강 · 백지장도 맞들면 낫다 외", "번데기학교"], ["GcwuPQK1QN0", "교과서 속 속담 탐험 3강 · 소 잃고 외양간 고친다 외", "번데기학교"], ["ia35cAXJoUU", "6학년 국어 5. 속담을 활용해요 (3~4차시)", "초등 수업"], ["rQE_4XXnzqY", "6학년 국어 5단원 · 상황에 쓰이는 속담의 뜻", "온라인 수업"], ["ixORHYx1nZA", "6학년 1학기 국어 5단원 속담을 활용해요", "초등 수업"], ["dTOjGGzl9sI", "초등 6학년 · 속담의 뜻과 속담을 쓰는 까닭", "밀크T 홈스쿨링"], ["i23NF3xpmjc", "속담을 활용해요 수업 이야기", "초등교사 수업기록"], ["0JKDGnqluaY", "3-1 수록 · 바르고 고운 말 (속담 모음)", "교과 수록 동화"], ["PCp6OD9OLYs", "세 살 버릇 여든까지 간다", "깨비키즈 속담과격언"], ["rnCr2pENQDI", "사공이 많으면 배가 산으로 간다", "깨비키즈 속담과격언"], ["7kTTmjg7b_w", "우물 안 개구리", "깨비키즈 속담과격언"], ["DKUzCscb0Aw", "개구리 올챙이 적 생각 못 한다", "깨비키즈 속담과격언"], ["8-Ko-2yJ08E", "똥 누러 갈 적 다르고 올 적 다르다", "깨비키즈 속담과격언"], ["_vEHEb-6NO8", "티끌 모아 태산", "깨비키즈 속담과격언"], ["95_IiCs2wWA", "호랑이는 죽어서 가죽을 남기고 사람은 죽어서 이름을 남긴다", "깨비키즈 속담과격언"], ["pWFqIzhZ54M", "간에 붙었다 쓸개에 붙었다 한다", "깨비키즈 속담과격언"], ["KeQN7mipdsM", "남의 밥그릇이 더 커 보인다", "깨비키즈 속담과격언"], ["-uRsukPo_xM", "그림의 떡", "EBS 속담이 야호"], ["Y-6c-VIZVDk", "소 잃고 외양간 고친다", "EBS 속담이 야호"], ["7PBUi3XmUiA", "열 번 찍어 안 넘어가는 나무가 없다", "EBS 속담이 야호"], ["UHODKnDaHH0", "좋은 약은 입에 쓰다", "EBS 속담이 야호"], ["Fq3yK1Lo28c", "발 없는 말이 천 리 간다", "EBS 속담이 야호"], ["p2PURCp-xYw", "하늘이 무너져도 솟아날 구멍이 있다", "EBS 속담이 야호"], ["BLwu-6JNj2o", "천리 길도 한 걸음부터", "EBS 속담이 야호"], ["E9fm5VMj6jE", "까마귀 날자 배 떨어진다", "EBS 속담이 야호"], ["ASRjRSpziIQ", "티끌 모아 태산", "EBS 속담이 야호"], ["gJG-0SkV6z8", "가는 말이 고와야 오는 말이 곱다", "EBS 속담이 야호"], ["K6_cZUEMq0I", "가는 말이 고와야 오는 말이 곱다 · 유래", "똑똑동화"], ["ln4Zquw4bzA", "속담동화 · 가는 말이 고와야 오는 말이 곱다", "어린이 속담동화"], ["u7iLTeHX70w", "재밌는 속담 이야기 읽어주기", "뭉이모TV"], ["KKQLaF_du2Q", "어린이 연극 · 속담 고개", "EBS 클립뱅크"], ["jQEppvB0PWA", "소와 관련된 속담으로 배우는 이야기", "어린이경제신문"], ["UWIvrzgJ1VA", "초등학생이 알아야 할 속담 1 · 초성퀴즈", "속담 퀴즈"], ["G2D-T56WkGY", "초성으로 속담 맞히기 2편 (10문제)", "속담 퀴즈"], ["6HbPaN3BTXM", "키워드를 잡아라 · 초등 6학년 속담 퀴즈", "속담 퀴즈"], ["81u-1Xrn1Pw", "키워드를 잡아라 · 초등 1학년 속담 퀴즈", "속담 퀴즈"], ["yylB57jiYqc", "자주 쓰는 속담 100가지 퀴즈", "속담 퀴즈"], ["NHLRpe_PrLU", "속담 130가지 · 우리 속담 배워봐요", "속담 모음"], ["JaiJLob4NjU", "초등학생도 알기 쉬운 속담 모음 200 (1부)", "속담 모음"], ["ADB3xMzbdDQ", "초등학생도 알기 쉬운 속담 모음 200 (2부)", "속담 모음"], ["CIlvnd3pJoU", "초등 필수 속담 알아보기 (짧은 영상)", "아소비"]];
+function renderVideo(){
+  return fitShell('p-video','🎬','속담 동영상 자료',`속담을 쉽게 배울 수 있는 영상 ${VIDS.length}편이에요. 누르면 유튜브로 이동해요.`,'');
+}
+function initVideo(){
+  fitChoices(VIDS,(v,i)=>`<a class="vtile" href="https://www.youtube.com/watch?v=${v[0]}" target="_blank" rel="noopener" data-i="${i}"><span class="vth" style="background-image:url(https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg),linear-gradient(150deg,#E5663F,#8E2A1B)"><i class="vpl">▶</i></span><b>${esc(v[1])}</b><small>${esc(v[2])}</small></a>`,2,()=>{},4);
+}
 function initZodiac(){
   let T=null, by=null;
   const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),3,pick);
@@ -1226,7 +1239,8 @@ function initWcat(){
 
 /* ---------- 라우팅 (#이름) ---------- */
 function route(){
-  const h = (location.hash||'').slice(1) || 'home';
+  let h = (location.hash||'').slice(1) || 'home';
+  if(h==='p-media') h='p-video';
   let html;
   if(h==='home') html=viewHome();
   else if(MENU[h]) html=viewHub(h);
