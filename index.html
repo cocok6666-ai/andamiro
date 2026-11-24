@@ -75,6 +75,17 @@ body:has(.hubfit){overflow:hidden}
 .ghead .te{font-size:40px;line-height:1}
 .ghead h2{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.2}
 .ghead p{font-size:14px;color:#3f4a47;margin-top:2px}
+/* 탭 카드: 카드마다 다른 색, 선택하면 아래 내용 띠와 같은 색 */
+.tabs.o3 .chip{background:color-mix(in srgb,var(--cm) 13%,#fff);border:2px solid color-mix(in srgb,var(--cm) 38%,#fff);color:#3a342a;transition:transform .1s,box-shadow .1s}
+.tabs.o3 .chip.on{background:linear-gradient(135deg,var(--c1),var(--c2));border-color:var(--c2);color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.2);transform:translateY(-1px);text-shadow:0 1px 1px rgba(0,0,0,.25)}
+.tabs.o3 .chip.on .gn{color:var(--c2);background:rgba(255,255,255,.88);text-shadow:none}
+#obody .story,#gbody .story{border:2px solid var(--cm)}
+#obody .gdesc b,#gbody .gdesc b{color:var(--c2)}
+.rhd.rhc{padding:7px 8px 7px 14px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;min-height:40px}
+.rhd.rhc b{color:#fff;font-size:16px}
+.rhd.rhc button{background:rgba(255,255,255,.88);color:var(--c2)}
+#fst[style] .ri .rn{background:color-mix(in srgb,var(--pv) 16%,#fff);color:var(--pv-deep)}
+#fst[style] .ri.on .rn{background:var(--pv);color:#fff}
 /* 속담의 유래: 탭 고정 */
 .otw{position:sticky;top:44px;z-index:25;margin:-12px -18px 10px;padding:8px 18px 8px;background:rgba(251,246,234,.97);box-shadow:0 1px 0 var(--line)}
 .otw.gtw{margin:0 -18px 10px}
@@ -1089,8 +1100,8 @@ const PAL = [
   ['#FFE9C6','#F7C98B'], ['#D5EBE7','#9ED3CB'], ['#F6DDD3','#EDAF9B'],
   ['#E4E0F7','#BDB4EC'], ['#FFF3B8','#F2D95F'], ['#DDF0D6','#A9D79A']
 ];
-function scene(emo, i, big){
-  const c = PAL[(i||0) % PAL.length];
+function scene(emo, i, big, col){
+  const c = col || PAL[(i||0) % PAL.length];
   return `<div class="scene${big?' big':''}" style="background:linear-gradient(160deg,${c[0]},${c[1]})" aria-hidden="true">
     <i class="sp s1">✦</i><i class="sp s2">✦</i>
     ${emo.map((e,k)=>`<span class="se se${k}">${e}</span>`).join('')}</div>`;
@@ -1197,6 +1208,10 @@ const LES = {
   }
 };
 
+/* ===== 선택 카드 색 = 아래 내용 띠 색 (탭형 화면 공통) ===== */
+const TC=i=>FAMD[((i%6)+6)%6];
+const tcVars=i=>{ const c=TC(i); return `--c1:${c[0]};--c2:${c[1]};--cm:${c[2]}`; };
+function tcApply(el,i){ const c=TC(i); el.style.cssText=`--c1:${c[0]};--c2:${c[1]};--cm:${c[2]};--pv:${c[2]};--pv-deep:${c[1]};--pv-soft:color-mix(in srgb,${c[2]} 14%,#fff)`; }
 let curCls='pv';
 function head(ic,t,d){ return `<div class="lbanner ${curCls}"><h2>${ic} ${esc(t)}</h2><p class="lead">${esc(d)}</p></div>`; }
 
@@ -1266,16 +1281,16 @@ function initMeaning(){ setupPager('m'); }
 /* 속담의 유래 */
 function renderOrigin(){
   const OS=['역사·인물','옛이야기·우화','생활·풍속','종교·믿음','한자 성어','말놀이'];
-  return `<div class="leaf les o-wrap"><div class="otw"><div class="tabs o3" id="otabs">${LES.origin.map((g,i)=>`<button class="chip${i?'':' on'}" data-t="${i}"><span class="ti">${g.ic}</span><span>${OS[i]||esc(g.t)}</span></button>`).join('')}</div></div>
+  return `<div class="leaf les o-wrap"><div class="otw"><div class="tabs o3" id="otabs">${LES.origin.map((g,i)=>`<button class="chip${i?'':' on'}" data-t="${i}" style="${tcVars(i)}"><span class="ti">${g.ic}</span><span>${OS[i]||esc(g.t)}</span></button>`).join('')}</div></div>
     <div id="obody"></div>
     <button class="cta nx pv" data-go="p-good">속담의 좋은 점 보러 가기 ›</button></div>`;
 }
 function initOrigin(){
   const body=document.getElementById('obody');
   const draw=t=>{
-    const g=LES.origin[t];
+    const g=LES.origin[t]; tcApply(body,t);
     body.innerHTML=`<div class="gdesc"><b>${g.ic} ${esc(g.t)} <small>${g.items.length}가지</small></b><p>${esc(g.d)}</p></div>
-    <div class="slider" id="osl">`+g.items.map((x,i)=>`<article class="story">${scene(x.e,t+i,false)}<div class="sb"><div class="sn">${i+1} / ${g.items.length}</div><h4>${esc(x.p)}</h4>
+    <div class="slider" id="osl">`+g.items.map((x,i)=>`<article class="story">${scene(x.e,t+i,false,TC(t))}<div class="sb"><div class="sn">${i+1} / ${g.items.length}</div><h4>${esc(x.p)}</h4>
       <div class="ob"><b>유래</b> ${esc(x.o)}</div>${x.n?`<div class="hint">※ ${esc(x.n)}</div>`:''}<div class="sm"><b>뜻</b> ${esc(x.m)}</div></div></article>`).join('')+`</div>`+pagerBar('o',g.items.length);
     setupPager('o');
   };
@@ -1295,14 +1310,14 @@ function renderGood(){
     ${G.five.map((f,i)=>`<div class="cmp"><div class="ch"><span class="fi">${f[0]}</span><div><b>${i+1}. ${esc(f[1])}</b><p>${esc(f[2])}</p></div></div>
       ${f[4]?`<div class="vs"><div class="v1"><small>보통 말로 하면</small>${esc(f[3])}</div><div class="v2"><small>속담으로 하면</small><b>${esc(f[4])}</b></div></div>`:`<div class="eg">${esc(f[3])}</div>`}</div>`).join('')}
     <div class="mscn gscn"><h3 class="sec">상황별로 쓰기 좋은 속담 30가지</h3>
-    <div class="otw gtw"><div class="tabs o3 c2" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}"><span class="ti">${c.ic}</span><span>${esc(c.t)} <small class="gn">${c.items.length}가지</small></span></button>`).join('')}</div></div>
+    <div class="otw gtw"><div class="tabs o3 c2" id="gtabs">${G.cats.map((c,i)=>`<button class="chip${i?'':' on'}" data-t="${i}" style="${tcVars(i)}"><span class="ti">${c.ic}</span><span>${esc(c.t)} <small class="gn">${c.items.length}가지</small></span></button>`).join('')}</div></div>
     <div id="gbody"></div></div></div>`;
 }
 function initGood(){
   const body=document.getElementById('gbody'), C=LES.good.cats;
   const draw=t=>{
-    const c=C[t];
-    body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} </b><p>${esc(c.d)}</p></div>`+`<div class="slider" id="gsl">`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false)}<div class="sb"><div class="sn">${i+1} / ${c.items.length}</div><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('')+`</div>`+pagerBar('g',c.items.length);
+    const c=C[t]; tcApply(body,t);
+    body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} </b><p>${esc(c.d)}</p></div>`+`<div class="slider" id="gsl">`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false,TC(t))}<div class="sb"><div class="sn">${i+1} / ${c.items.length}</div><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('')+`</div>`+pagerBar('g',c.items.length);
     setupPager('g');
   };
   draw(0);
@@ -1791,7 +1806,8 @@ function fitChoices(items,tileFn,cols,pick,fixRows){
 /* 결과: 목록으로 보여 주고, 하나를 누르면 설명이 말풍선으로 떴다가 다른 것을 누르면 사라짐 */
 function fitResults(R,list,o){
   const st=fq('#fst'), pg=fq('#fpg'), n=list.length; pg.innerHTML='';
-  const head=`<div class="rhd"><span>${o.e||''} <b>${esc(o.title||'')}</b></span>${o.onBack?`<button id="rback">↩ ${o.back||'다시 고르기'}</button>`:''}</div>`;
+  const hasC=o.ci!==undefined; if(hasC) tcApply(st,o.ci); else st.style.cssText='';
+  const head=`<div class="rhd${hasC?' rhc':''}"><span>${o.e||''} <b>${esc(o.title||'')}</b></span>${o.onBack?`<button id="rback">↩ ${o.back||'다시 고르기'}</button>`:''}</div>`;
   if(!n){ st.innerHTML=head+`<div class="fmsg"><span class="em">🔍</span><b>찾는 것이 없어요</b>다른 말로 찾아보세요.</div>`; if(o.onBack) fq('#rback').onclick=o.onBack; return; }
   st.innerHTML=head+'<div class="rl" id="rl"></div>';
   const box=fq('#rl'); let shown=0, open=-1;
@@ -1860,7 +1876,7 @@ function initNature(){
   let T=null, by=null, kind='an';
   const choose=()=>fitChoices(T[kind],(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
     const x=T[kind][i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,onBack:choose});
+    fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,ci:i,onBack:choose});
   });
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
   fq('#natseg').onclick=e=>{ const b=e.target.closest('button'); if(!b||!T) return; kind=b.dataset.k; fq('#natseg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); choose(); };
@@ -1876,7 +1892,7 @@ function initMoral(){
   const q=fq('#morq');
   const choose=()=>fitChoices(T.mo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`속담 ${x.ids.length}개`),3,i=>{
     const x=T.mo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    q.value=''; fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,onBack:choose});
+    q.value=''; fitResults(rP([]),list,{e:x.e,title:`${x.k} 속담 ${list.length}개`,ci:i,onBack:choose});
   });
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; all=a; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
   q.addEventListener('input',()=>{
@@ -1906,7 +1922,7 @@ function initZodiac(){
   let T=null, by=null;
   const choose=()=>fitChoices(T.zo,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k+'띠','속담 '+x.ids.length),3,pick);
   const pick=i=>{ const x=T.zo[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rP([]),list,{e:x.e,title:`${x.k}띠 · 속담 ${list.length}개`,onBack:choose}); };
+    fitResults(rP([]),list,{e:x.e,title:`${x.k}띠 · 속담 ${list.length}개`,ci:i,onBack:choose}); };
   Promise.all([loadTags(),loadProverbs()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
   const go=()=>{ const y=parseInt(fq('#zy').value,10); if(!T) return;
     if(!(y>=1900&&y<=2100)){ fitMsg('<span class="em">🔢</span><b>태어난 해를 숫자 네 자리로 넣어 주세요</b>예) 2014'); return; }
@@ -1949,7 +1965,7 @@ function initWcat(){
   let T=null, by=null;
   const choose=()=>fitChoices(T,(x,i)=>tileHtml(x,i,PALT[i%6],x.e,x.k,`순우리말 ${x.ids.length}개`),3,i=>{
     const x=T[i], list=x.ids.map(id=>by[id]).filter(Boolean).sort(byKo);
-    fitResults(rW(null),list,{e:x.e,title:`${x.k} ${list.length}개`,onBack:choose});
+    fitResults(rW(null),list,{e:x.e,title:`${x.k} ${list.length}개`,ci:i,onBack:choose});
   });
   Promise.all([loadWtags(),loadWords()]).then(([t,a])=>{ T=t; by=byIdMap(a); choose(); }).catch(()=>fitMsg(LOADFAIL));
 }
