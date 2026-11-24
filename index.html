@@ -56,7 +56,7 @@ body:has(.hubfit){overflow:hidden}
 .hsrc i{flex:none;font-style:normal;font-weight:800;font-size:12px;color:#fff;background:var(--pv);border-radius:99px;padding:1px 9px;margin-top:1px}
 .hsrc.wd i{background:var(--wd)}
 .hsrc span{word-break:keep-all}
-@media(max-height:720px){.hubfit .gtile small{display:none}.hubfit .hubhead p{display:none}.hsrc{font-size:11.5px;padding:8px 10px}}
+@media(max-height:720px){.hubfit .gtile small{font-size:11px;line-height:1.3}.hubfit .hubhead p{display:none}.hsrc{font-size:11.5px;padding:8px 10px}}
 .ggrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
 .gtile{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;border-radius:22px;padding:16px 14px 14px;color:#2B2A28;background:linear-gradient(160deg,var(--c1),var(--c2));min-height:150px;box-shadow:0 5px 0 rgba(0,0,0,.10);transition:transform .1s,box-shadow .1s}
 .gtile:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.10)}
@@ -665,21 +665,21 @@ const MENU = {
     cls:'pv', title:'재미있는 속담이야기', short:'속담', icon:'📜',
     sub:'삶의 지혜가 담긴 속담을 읽고, 찾고, 활용해 보아요',
     groups:[
-      {id:'p-intro', title:'속담이란?', note:'속담 알아보기', items:[
+      {id:'p-intro', title:'속담이란?', note:'속담의 뜻과 유래, 속담을 쓰면 좋은 점을 재미있는 예화와 그림으로 알아봐요.', items:[
         {id:'p-meaning', status:'done', render:()=>renderMeaning(), init:()=>initMeaning(), ic:'💬', title:'속담의 뜻', desc:'재미있는 예화와 삽화로 속담의 뜻을 쉽게 이해해요.', plan:['짧은 예화(그림 + 글)로 속담의 뜻 알기','‘속’은 세상, ‘담’은 이야기라는 낱말 풀이','대표 속담 예화 카드 넘겨 보기']},
         {id:'p-origin', status:'done', render:()=>renderOrigin(), init:()=>initOrigin(), ic:'🏺', title:'속담의 유래', desc:'속담이 만들어진 다양한 이야기를 공부해요.', plan:['유래가 재미있는 속담 이야기','유래 이야기 읽고 뜻 맞혀 보기']},
         {id:'p-good', status:'done', render:()=>renderGood(), init:()=>initGood(), ic:'✨', title:'속담의 좋은 점', desc:'속담을 쓰면 말이 어떻게 달라지는지 알아봐요.', plan:['간결한 · 비유적인 · 다채로운 · 교훈적인 · 통속적인 표현','같은 상황을 속담으로 말했을 때와 보통 말로 했을 때 비교']}
       ]},
-      {id:'p-find', title:'속담 사전', note:'속담 6,300여 개', items:[
+      {id:'p-find', title:'속담 찾기', note:'속담사전의 6,300여 개 속담을 낱말, 동식물, 교훈, 띠로 쉽게 찾아볼 수 있어요.', items:[
         {id:'p-f-word', status:'done', render:()=>renderFind(), init:()=>initFind(), ic:'🔤', title:'낱말로 찾기', desc:'속담 속 낱말만 입력해도 찾아져요.', plan:['검색어 입력','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-nature', status:'done', render:()=>renderNature(), init:()=>initNature(), ic:'🌿', title:'동식물로 찾기', desc:'동물·식물 이름으로 속담을 찾아요.', plan:['동식물 이름 입력 또는 고르기','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-moral', status:'done', render:()=>renderMoral(), init:()=>initMoral(), ic:'🧭', title:'교훈으로 찾기', desc:'교훈·덕목·상징하는 낱말로 찾아요.', plan:['교훈/덕목 고르기','검색 결과 목록 → 속담 뜻풀이']},
         {id:'p-f-zodiac', status:'done', render:()=>renderZodiac(), init:()=>initZodiac(), ic:'🐯', title:'나의 띠로 속담 찾기', desc:'내 띠 동물이 나오는 속담을 찾아요.', plan:['띠 고르기','띠 동물 속담 목록 → 속담 뜻풀이']}
       ]},
-      {id:'p-media', title:'속담 관련 영상자료', note:'교육용 영상 모음', items:[
+      {id:'p-media', title:'속담 관련 영상자료', note:'속담을 쉽게 이해할 수 있는 교육용 영상 40여 편을 모아 두었어요.', items:[
         {id:'p-video', status:'done', render:()=>renderVideo(), init:()=>initVideo(), ic:'🎬', title:'동영상 자료', desc:'속담 영상 40여 편을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
-      {id:'p-quiz', title:'속담 실력 키우기', note:'퀴즈로 실력 확인', items:[
+      {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임, 퀴즈, 시험 보기 등으로 내 속담 실력을 키워요.', items:[
         {id:'p-q-fill', ic:'🧩', title:'속담 완성하기', desc:'빈칸을 채워 속담을 완성해요.', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
         {id:'p-q-test', ic:'📝', title:'시험지 형식으로 알아보기', desc:'문제은행에서 뽑은 문제로 실력을 확인해요.', plan:['교과 기반 문제 풀기','결과 화면 + 공유(피드백)']},
         {id:'p-q-pic', ic:'🖼️', title:'그림퀴즈 형식으로 알아보기', desc:'그림을 보고 낱말 버튼으로 속담을 만들어요.', plan:['그림 보고 떠올리기','낱말 버튼을 눌러 속담 완성']}
