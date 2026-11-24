@@ -472,10 +472,12 @@ body:has(#gmz.res){overflow:hidden;overscroll-behavior:none}
 .egte.c{color:#E07A12}
 /* 하위3 화면: 가로 띠 목록형(하위2의 배너+2×2 타일과 구분) */
 .screen.sg3{padding-bottom:16px}
-.sg3 .s3head{margin:10px 0 14px;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px;color:#fff;background:var(--pat-sg),linear-gradient(135deg,var(--h1,#E2603F),var(--h2,#8E2A1B));box-shadow:0 5px 0 rgba(0,0,0,.18)}
-.sg3 .s3ic{flex:none;width:54px;height:54px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:30px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.1)}
-.sg3 .s3head h2{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.2;margin:0;color:#FFF6DC;text-shadow:0 2px 0 rgba(60,12,6,.3);word-break:keep-all}
-.sg3 .s3head p{margin:3px 0 0;font-size:13px;line-height:1.35;opacity:.95;word-break:keep-all}
+.sg3 .s3head{margin:12px 0 6px;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px;color:var(--h2,#8E2A1B);background:color-mix(in srgb,var(--h1,#E2603F) 14%,#fff);border:3px solid var(--h1,#E2603F);box-shadow:none}
+.sg3 .s3ic{flex:none;width:54px;height:54px;border-radius:50%;background:#fff;border:3px solid var(--h1,#E2603F);display:grid;place-items:center;font-size:28px}
+.sg3 .s3head h2{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.2;margin:0;color:var(--h2,#8E2A1B);word-break:keep-all}
+.sg3 .s3head p{margin:3px 0 0;font-size:13px;line-height:1.35;color:#5A4524;word-break:keep-all}
+.sg3 .s3pick{margin:0 0 10px;text-align:center;font-size:14px;font-weight:800;color:#6b5230}
+.sg3 .s3pick::before{content:'';display:block;width:2px;height:12px;margin:0 auto 3px;background:#C9B18A}
 .s3list{display:flex;flex-direction:column;gap:12px}
 .s3row{flex:none;height:clamp(78px,12dvh,108px);display:flex;align-items:center;gap:12px;padding:10px 14px;border:0;border-radius:22px;text-align:left;color:#fff;font-family:inherit;cursor:pointer;background:var(--pat-diaw),linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 0 rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.35)}
 .s3row:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
@@ -1195,6 +1197,7 @@ function viewSub3(g,m,k){
     return `<button class="s3row${done?'':' s3wait'}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]}"><i class="n">${i+1}</i><span class="e">${it.ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(done?it.desc:'곧 만날 수 있어요')}</small></span><span class="a">${done?'›':'🔒'}</span></button>`; }).join('');
   return `<div class="screen sg3">${bar([['처음','home'],[m.short,k],[par.title,par.id],[g.title]],m.cls)}
     <div class="s3head ${m.cls}"><span class="s3ic">${GIC[g.id]||'🎮'}</span><div><h2>${esc(g.title)}</h2><p>${esc(FSRC[g.id]||g.note||'')}</p></div></div>
+    <div class="s3pick">👇 하고 싶은 것을 골라요</div>
     <div class="s3list n${g.items.length}">${rows}</div></div>`;
 }
 function viewFindHome(g,m,k){
