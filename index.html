@@ -459,6 +459,22 @@ body:has(#gmz.res){overflow:hidden;overscroll-behavior:none}
 .egfb.ok .egans{animation:egglow 1s ease-in-out 2}@keyframes egglow{50%{text-shadow:0 0 10px #FFD36B;transform:scale(1.04)}}
 .egfb #enx{animation:egpulse 1.2s ease-in-out infinite}@keyframes egpulse{50%{transform:scale(1.03)}}
 .egte.c{color:#E07A12}
+/* 하위3 화면: 가로 띠 목록형(하위2의 배너+2×2 타일과 구분) */
+.screen.sg3{padding-bottom:16px}
+.sg3 .s3head{margin:10px 0 14px;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:12px;color:#fff;background:var(--pat-sg),linear-gradient(135deg,var(--h1,#E2603F),var(--h2,#8E2A1B));box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.sg3 .s3ic{flex:none;width:54px;height:54px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:30px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.1)}
+.sg3 .s3head h2{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.2;margin:0;color:#FFF6DC;text-shadow:0 2px 0 rgba(60,12,6,.3);word-break:keep-all}
+.sg3 .s3head p{margin:3px 0 0;font-size:13px;line-height:1.35;opacity:.95;word-break:keep-all}
+.s3list{display:flex;flex-direction:column;gap:12px}
+.s3row{flex:none;height:clamp(78px,12dvh,108px);display:flex;align-items:center;gap:12px;padding:10px 14px;border:0;border-radius:22px;text-align:left;color:#fff;font-family:inherit;cursor:pointer;background:var(--pat-diaw),linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 0 rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.35)}
+.s3row:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.s3row .n{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.3);font:800 14px/26px inherit;font-style:normal;text-align:center}
+.s3row .e{flex:none;width:50px;height:50px;border-radius:15px;background:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.s3row .t{flex:1;min-width:0}
+.s3row .t b{display:block;font-family:var(--display);font-weight:400;font-size:19px;line-height:1.2;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+.s3row .t small{display:block;margin-top:2px;font-size:13px;line-height:1.3;opacity:.95;word-break:keep-all}
+.s3row .a{flex:none;font-size:28px;line-height:1;opacity:.95}
+.s3row.s3wait{filter:saturate(.55) brightness(1.05);opacity:.8}
 .screen .lbanner.tint,.screen .fhead.tint{background:linear-gradient(112deg,transparent 0 70%,rgba(0,0,0,.16) 70% 100%),radial-gradient(circle at 90% 10%,rgba(255,240,200,.38),transparent 48%),var(--pat-sg),linear-gradient(135deg,var(--h1),var(--h2))}
 .screen[style] .nav .cur,.screen[style] .nav.wd .cur{background:var(--pv)}
 .gtile{box-shadow:0 5px 0 var(--m,rgba(0,0,0,.10))}.gtile b{color:var(--m,inherit)}.gtile .gar{background:var(--m,rgba(255,255,255,.55));color:#fff}
@@ -1152,11 +1168,20 @@ function applyTint(h){
   const t=tintOf(h); if(!t) return; const sc=$app.querySelector('.screen'); if(!sc) return;
   sc.style.setProperty('--pv',t[2]); sc.style.setProperty('--wd',t[2]); sc.style.setProperty('--pv-deep',t[1]);
   sc.style.setProperty('--pv-soft','color-mix(in srgb,'+t[2]+' 16%,#fff)');
-  const hd=$app.querySelector('.fhead,.lbanner'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
+  const hd=$app.querySelector('.fhead,.lbanner,.s3head'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
 }
 const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
 const FSRC={'p-game':'이모지 속담 게임을 비롯해 여러 가지 게임으로 속담을 놀이처럼 익혀요.','p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
+function viewSub3(g,m,k){
+  const pal=FCOL[m.cls], par=groupIndex[g.parent].g;
+  const rows=g.items.map((it,i)=>{ const c=pal[i%pal.length], done=it.status==='done';
+    return `<button class="s3row${done?'':' s3wait'}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]}"><i class="n">${i+1}</i><span class="e">${it.ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(done?it.desc:'곧 만날 수 있어요')}</small></span><span class="a">${done?'›':'🔒'}</span></button>`; }).join('');
+  return `<div class="screen sg3">${bar([['처음','home'],[m.short,k],[par.title,par.id],[g.title]],m.cls)}
+    <div class="s3head ${m.cls}"><span class="s3ic">${GIC[g.id]||'🎮'}</span><div><h2>${esc(g.title)}</h2><p>${esc(FSRC[g.id]||g.note||'')}</p></div></div>
+    <div class="s3list n${g.items.length}">${rows}</div></div>`;
+}
 function viewFindHome(g,m,k){
+  if(g.parent) return viewSub3(g,m,k);
   const n=g.items.length, pal=FCOL[m.cls];
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
     const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
