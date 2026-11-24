@@ -863,6 +863,22 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .wcat .tile.on{outline:3px solid #1B625C;outline-offset:1px}
 .wcat .rhead{background:#23766F}
 .foot{margin-top:28px;text-align:center;font-size:13.8px;color:var(--mute)}
+/* ===== 첫 화면 입체 효과: 헤더 이미지 · 주제 이미지 · 주제 카드 ===== */
+.screen.home .hero{position:relative;padding:0 0 14px}
+.screen.home .hero-art{filter:none;box-shadow:0 7px 0 #0A4A44,0 15px 20px rgba(6,50,45,.38),inset 0 -6px 12px rgba(0,0,0,.18)}
+.screen.home .hero::before{content:"";position:absolute;left:-18px;right:-18px;top:0;height:44%;border-radius:0;background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.06) 60%,rgba(255,255,255,0));pointer-events:none;z-index:1}
+.screen.home .mains{margin:2px -8px 0;gap:14px;padding:4px 0 12px;perspective:900px}
+.screen.home .mains .main{border-radius:28px;min-height:0;box-shadow:0 9px 0 var(--slab),0 18px 22px rgba(0,0,0,.32),inset 0 2px 0 rgba(255,255,255,.55),inset 0 -8px 14px rgba(0,0,0,.20);transition:transform .12s,box-shadow .12s,filter .1s}
+.screen.home .mains .main.pv{--slab:#6A1B10}
+.screen.home .mains .main.wd{--slab:#08413B}
+.screen.home .mains .main::after{content:"";position:absolute;left:0;right:0;top:0;height:42%;border-radius:28px 28px 60% 60%/28px 28px 24px 24px;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0));pointer-events:none;z-index:0}
+.screen.home .mains .main:active{transform:translateY(6px);box-shadow:0 3px 0 var(--slab),0 6px 10px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -8px 14px rgba(0,0,0,.2);filter:none}
+.screen.home .mains .main .ico{transform:perspective(420px) rotateX(10deg) rotateY(-10deg);box-shadow:0 1px 0 #D9A53C,0 2px 0 #CE9A32,0 3px 0 #C28F2B,0 4px 0 #B78425,0 5px 0 #AC7A20,0 6px 0 #A06E1A,0 7px 0 #946414,0 18px 20px rgba(0,0,0,.42),inset 0 3px 0 #fff,inset 0 -5px 9px rgba(168,109,12,.3);animation:icoF 3.2s ease-in-out infinite}
+.screen.home .mains .main.wd .ico{transform:perspective(420px) rotateX(10deg) rotateY(10deg);box-shadow:0 1px 0 #3FA99B,0 2px 0 #35A092,0 3px 0 #2B9789,0 4px 0 #228E80,0 5px 0 #1A8577,0 6px 0 #127C6E,0 7px 0 #0B7365,0 18px 20px rgba(0,0,0,.42),inset 0 3px 0 #fff,inset 0 -5px 9px rgba(11,90,82,.26);animation-delay:-1.6s}
+.screen.home .mains .main .mc{box-shadow:0 1px 0 #B78425,0 2px 0 #A8751C,0 3px 0 #986714,0 9px 10px rgba(0,0,0,.4),inset 0 2px 0 #fff}
+.screen.home .mains .main.wd .mc{box-shadow:0 1px 0 #1F8F82,0 2px 0 #167F73,0 3px 0 #0F6E63,0 9px 10px rgba(0,0,0,.4),inset 0 2px 0 #fff}
+@keyframes icoF{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media (prefers-reduced-motion:reduce){.screen.home .mains .main .ico{animation:none}}
 </style>
 </head>
 <body>
