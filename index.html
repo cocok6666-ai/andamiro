@@ -1185,26 +1185,65 @@ function renderFill(){
   return `<div class="leaf fitwrap ${curCls} gm" id="gm"><div class="fhead ${curCls}"><span class="fhe">🧩</span><div><b>속담 완성하기</b><small>빈칸에 알맞은 낱말 카드를 끌어다 놓아요</small></div></div><div class="gbody" id="gb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
 let GMP=null;
+const GM_J=c=>{const k=c.charCodeAt(0)-0xAC00;return k>=0&&k<11172?k%28:0;};
+const GM_ADJ=/(답다|롭다|스럽다|같다|없다|있다|많다|적다|크다|작다|높다|낮다|좋다|나쁘다|곱다|깊다|얕다|길다|짧다|넓다|좁다|밝다|어둡다|가볍다|무겁다|쉽다|어렵다|맵다|짜다|싱겁다|달다|차다|덥다|춥다|뜨겁다|예쁘다|고프다|아프다|슬프다|기쁘다|빠르다|느리다|다르다|옳다|그르다|착하다|가깝다|멀다|두껍다|얇다|굵다|가늘다|곧다|약하다|강하다|똑똑하다|부지런하다|게으르다|어리다|늙다|젊다|힘들다|고되다|헛되다|귀하다|흔하다|무섭다|두렵다|반갑다|고맙다|밉다|아깝다|부럽다|서럽다|섭섭하다|우습다|부끄럽다|조용하다|시끄럽다|바쁘다|한가하다|비싸다|싸다)$/;
+/* 낱말의 짜임(명사+조사 / 형용사 / 동사 …)을 어림해서 같은 종류끼리만 카드로 묶는다. 확실하지 않으면 null */
+function gmCls(w){
+  if(!/^[가-힣]+$/.test(w)||w.length<2||w.length>6) return null;
+  const L=w[w.length-1], P=w[w.length-2], jl=GM_J(L), jp=GM_J(P);
+  if(/(보다|마다|에다)$/.test(w)) return 'n-misc';
+  if(L==='다'){
+    if(w.endsWith('이다')) return 'cop';
+    if(jp===20) return 'v-past';
+    if(jp===4) return 'v-pres';
+    return GM_ADJ.test(w)?'adj':'pred';
+  }
+  if('냐까요'.includes(L)) return 'end-'+L;
+  if(L==='라') return w.endsWith('이라')?'end-이라':'end-라';
+  if(/(에서|에게|한테|께)$/.test(w)||L==='에') return 'n-loc';
+  if(/(으로)$/.test(w)||(L==='로'&&jp===0)) return 'n-to';
+  if(/(처럼|보다|까지|마저|조차)$/.test(w)||L==='만') return 'n-misc';
+  if(L==='를') return 'n-obj';
+  if(L==='의') return 'n-gen';
+  if(L==='와'||L==='과') return 'n-with';
+  if(L==='도'){ const b=w.slice(0,-1); if(b.length===1) return 'n-also'; return ['n-bare','n-subj','n-loc','n-obj','n-gen','n-to','n-with','n-misc'].includes(gmCls(b))&&!/[아어여해져려쳐와워빠]$/.test(b)?'n-also':null; }
+  if('은는을'.includes(L)) return null;
+  if(/(듯이|듯)$/.test(w)) return 'cn-듯';
+  const m=w.match(/(다가|도록|거든|지만|더니)$/); if(m) return 'cn-'+m[1];
+  if(w.endsWith('하고')) return null;
+  if(L==='고'){ return /(창고|차고)$/.test(w)?'n-bare':'cn-고'; }
+  if(L==='며'||L==='면') return 'cn-'+L;
+  if(L==='서') return /(아서|어서|여서|해서|와서|워서|려서|면서|라서)$/.test(w)?'cn-서':null;
+  if(L==='야') return /[아어여해와워]야$/.test(w)?'cn-야':null;
+  if(L==='니') return /(으니|하니|보니|가니|오니|나니)$/.test(w)?'cn-니':/머니$/.test(w)?'n-bare':null;
+  if('아어여게히지나데자려러져록쳐'.includes(L)) return null;
+  if(jl===4||jl===8||L==='랴') return null;
+  if(L==='이'||L==='가') return 'n-subj';
+  return 'n-bare';
+}
 function gmPool(a){
   if(GMP) return GMP;
   const ok=a.filter(p=>p.lv==='A'&&/^[가-힣 ]+$/.test(p.t)&&p.t.length<=24);
-  ok.forEach(p=>{p.w=p.t.split(' ');});
-  GMP=ok.filter(p=>p.w.length>=3&&p.w.length<=6&&p.w.some(w=>w.length>=2&&w.length<=5));
-  GMP.all=[...new Set(ok.flatMap(p=>p.w).filter(w=>w.length>=2&&w.length<=5))];
+  ok.forEach(p=>{p.w=p.t.split(' '); p.cl=p.w.map(gmCls);});
+  GMP=ok.filter(p=>p.w.length>=3&&p.w.length<=6&&p.w.some((w,i)=>p.cl[i]&&w.length<=5));
+  const by={}; ok.forEach(p=>p.w.forEach((w,i)=>{ const c=p.cl[i]; if(c&&w.length<=5){ (by[c]=by[c]||new Set()).add(w); } }));
+  GMP.by={}; Object.keys(by).forEach(k=>{GMP.by[k]=[...by[k]];});
   return GMP;
 }
 function gmShuf(a){ for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; }
 function gmMake(pool,used){
-  for(let t=0;t<400;t++){
+  for(let t=0;t<600;t++){
     const p=pool[Math.random()*pool.length|0]; if(used.has(p.id)) continue;
-    const ws=p.w, cand=ws.map((w,i)=>[w,i]).filter(x=>x[0].length>=2&&x[0].length<=5);
+    const ws=p.w, cand=ws.map((w,i)=>[w,i]).filter(x=>p.cl[x[1]]&&x[0].length<=5);
     if(!cand.length) continue;
-    const mx=Math.max(...cand.map(x=>x[0].length)), top=cand.filter(x=>x[0].length===mx);
+    const mx=Math.max(...cand.map(x=>x[0].length)), top=cand.filter(x=>x[0].length>=mx-0&&x[0].length===mx);
     const [ans,idx]=top[Math.random()*top.length|0];
     if(ws.filter(w=>w===ans).length>1) continue;
-    const L=ans.length, set=new Set(ws);
-    const ds=gmShuf(pool.all.filter(w=>!set.has(w)&&Math.abs(w.length-L)<=1&&!w.includes(ans)&&!ans.includes(w))).slice(0,9);
+    const L=ans.length, set=new Set(ws), pl=pool.by[p.cl[idx]]||[];
+    let ds=pl.filter(w=>!set.has(w)&&Math.abs(w.length-L)<=1&&!w.includes(ans)&&!ans.includes(w)&&w.slice(-2)!==ans.slice(-2));
+    if(ds.length<9) ds=pl.filter(w=>!set.has(w)&&Math.abs(w.length-L)<=2&&!w.includes(ans)&&!ans.includes(w));
     if(ds.length<9) continue;
+    ds=gmShuf(ds).slice(0,9);
     return {p,idx,ans,cards:gmShuf([ans,...ds]),wrong:0,dead:new Set(),done:false};
   }
   return null;
