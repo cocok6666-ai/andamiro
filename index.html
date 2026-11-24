@@ -152,10 +152,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .vtile{display:flex;flex-direction:column;min-height:0;min-width:0;border-radius:14px;background:#fff;border:1px solid var(--line);overflow:hidden;color:var(--ink);text-decoration:none;box-shadow:0 2px 0 rgba(0,0,0,.06)}
 .fitwrap.vid .fstage{background:#2B1F1B;background:color-mix(in srgb,var(--pv-deep) 38%,#0d0907);border-radius:18px;padding:8px}
 .fitwrap.vid .cpage{gap:7px;padding:0}
-.fitwrap.vid .vtile{background:rgba(255,255,255,.08);border:0;box-shadow:none;border-radius:12px;color:#fff}
+.fitwrap.vid .vtile{background:var(--vc);border:0;box-shadow:none;border-radius:12px;color:#fff}
 .fitwrap.vid .vtile .vth{border-radius:12px 12px 0 0}
-.fitwrap.vid .vtile b{color:#fff;font-weight:700}
-.fitwrap.vid .vtile small{color:rgba(255,255,255,.62)}
+.fitwrap.vid .vtile b{color:#fff;font-weight:800}
+.fitwrap.vid .vtile small{color:rgba(255,255,255,.85)}
 .fitwrap.vid .eh{background:rgba(255,255,255,.22)}
 .vtile:active{transform:translateY(2px)}
 .vtile .vth{flex:1;min-height:0;position:relative;background:linear-gradient(150deg,#E5663F,#8E2A1B) center/cover no-repeat;display:block}
@@ -1187,13 +1187,14 @@ function renderZodiac(){
 }
 const VID_P=[["wgiaKO1v1P8", "교과서 속 속담 탐험 1강 · 백지장도 맞들면 낫다 외", "번데기학교"], ["GcwuPQK1QN0", "교과서 속 속담 탐험 3강 · 소 잃고 외양간 고친다 외", "번데기학교"], ["ia35cAXJoUU", "6학년 국어 5. 속담을 활용해요 (3~4차시)", "초등 수업"], ["rQE_4XXnzqY", "6학년 국어 5단원 · 상황에 쓰이는 속담의 뜻", "온라인 수업"], ["ixORHYx1nZA", "6학년 1학기 국어 5단원 속담을 활용해요", "초등 수업"], ["dTOjGGzl9sI", "초등 6학년 · 속담의 뜻과 속담을 쓰는 까닭", "밀크T 홈스쿨링"], ["i23NF3xpmjc", "속담을 활용해요 수업 이야기", "초등교사 수업기록"], ["0JKDGnqluaY", "3-1 수록 · 바르고 고운 말 (속담 모음)", "교과 수록 동화"], ["PCp6OD9OLYs", "세 살 버릇 여든까지 간다", "깨비키즈 속담과격언"], ["rnCr2pENQDI", "사공이 많으면 배가 산으로 간다", "깨비키즈 속담과격언"], ["7kTTmjg7b_w", "우물 안 개구리", "깨비키즈 속담과격언"], ["DKUzCscb0Aw", "개구리 올챙이 적 생각 못 한다", "깨비키즈 속담과격언"], ["8-Ko-2yJ08E", "똥 누러 갈 적 다르고 올 적 다르다", "깨비키즈 속담과격언"], ["_vEHEb-6NO8", "티끌 모아 태산", "깨비키즈 속담과격언"], ["95_IiCs2wWA", "호랑이는 죽어서 가죽을 남기고 사람은 죽어서 이름을 남긴다", "깨비키즈 속담과격언"], ["pWFqIzhZ54M", "간에 붙었다 쓸개에 붙었다 한다", "깨비키즈 속담과격언"], ["KeQN7mipdsM", "남의 밥그릇이 더 커 보인다", "깨비키즈 속담과격언"], ["-uRsukPo_xM", "그림의 떡", "EBS 속담이 야호"], ["Y-6c-VIZVDk", "소 잃고 외양간 고친다", "EBS 속담이 야호"], ["7PBUi3XmUiA", "열 번 찍어 안 넘어가는 나무가 없다", "EBS 속담이 야호"], ["UHODKnDaHH0", "좋은 약은 입에 쓰다", "EBS 속담이 야호"], ["Fq3yK1Lo28c", "발 없는 말이 천 리 간다", "EBS 속담이 야호"], ["p2PURCp-xYw", "하늘이 무너져도 솟아날 구멍이 있다", "EBS 속담이 야호"], ["BLwu-6JNj2o", "천리 길도 한 걸음부터", "EBS 속담이 야호"], ["E9fm5VMj6jE", "까마귀 날자 배 떨어진다", "EBS 속담이 야호"], ["ASRjRSpziIQ", "티끌 모아 태산", "EBS 속담이 야호"], ["gJG-0SkV6z8", "가는 말이 고와야 오는 말이 곱다", "EBS 속담이 야호"], ["K6_cZUEMq0I", "가는 말이 고와야 오는 말이 곱다 · 유래", "똑똑동화"], ["ln4Zquw4bzA", "속담동화 · 가는 말이 고와야 오는 말이 곱다", "어린이 속담동화"], ["u7iLTeHX70w", "재밌는 속담 이야기 읽어주기", "뭉이모TV"], ["KKQLaF_du2Q", "어린이 연극 · 속담 고개", "EBS 클립뱅크"], ["jQEppvB0PWA", "소와 관련된 속담으로 배우는 이야기", "어린이경제신문"], ["UWIvrzgJ1VA", "초등학생이 알아야 할 속담 1 · 초성퀴즈", "속담 퀴즈"], ["G2D-T56WkGY", "초성으로 속담 맞히기 2편 (10문제)", "속담 퀴즈"], ["6HbPaN3BTXM", "키워드를 잡아라 · 초등 6학년 속담 퀴즈", "속담 퀴즈"], ["81u-1Xrn1Pw", "키워드를 잡아라 · 초등 1학년 속담 퀴즈", "속담 퀴즈"], ["yylB57jiYqc", "자주 쓰는 속담 100가지 퀴즈", "속담 퀴즈"], ["NHLRpe_PrLU", "속담 130가지 · 우리 속담 배워봐요", "속담 모음"], ["JaiJLob4NjU", "초등학생도 알기 쉬운 속담 모음 200 (1부)", "속담 모음"], ["ADB3xMzbdDQ", "초등학생도 알기 쉬운 속담 모음 200 (2부)", "속담 모음"], ["CIlvnd3pJoU", "초등 필수 속담 알아보기 (짧은 영상)", "아소비"]];
 const VID_W=[["ARY8CarHLFQ", "말도 뜻도 너무 예쁜 순우리말", "국립국어원 우리말글 기자단"], ["G7AM_MxYtGA", "아름다운 순우리말 맞히기 10가지", "한글날 · 또딴"], ["p_BxrRCuOvw", "아름다운 순우리말 100가지", "순우리말 모음"], ["saqVPIS-EMM", "도담도담 우리말 (1)", "플레이런TV"], ["nkkdpLsLMII", "도담도담 우리말 (2)", "플레이런TV"], ["AX4cFzv4RGk", "도담도담 우리말 (3)", "플레이런TV"], ["Ez3blDRrOQ4", "도담도담 우리말 (4)", "플레이런TV"], ["N6IcZ1xHat0", "도담도담 우리말 (5)", "플레이런TV"], ["AlLsmlUCKus", "예쁜 순우리말 손글씨로 써보기", "또딴"], ["-cZcdo7JWZ4", "예쁜 순우리말 3가지 · 달보드레, 윤슬, 산돌림", "손글씨 짧은 영상"], ["eUylUut1Y6o", "예쁜 순우리말 모음 · 문장을 만들어 익혀요", "순우리말 모음"], ["uoN3ZlKGpAo", "예쁜 순우리말 단어 손글씨", "순우리말 모음"], ["bTxl4ce0WrA", "예쁘고 아름다운 순우리말 모음", "순우리말 모음"], ["Bx8z6UT6Iao", "예쁘고 고운 순우리말 111", "순우리말 모음"], ["IVSeDDf6qU4", "한글날 기념 순우리말 영상", "충북대학교"], ["VK6XN6qZ93M", "[시나브로 우리말] 한글날 특집 순우리말", "채널A 뉴스"], ["exwp1hcKT8M", "순우리말의 하루 · 날씨와 계절 낱말", "3D 영상"], ["tgB35R6SR_k", "2026 말모이 · 아름다운 순우리말 100", "SK텔레콤"], ["MfohlPACG_4", "순 우리말 사전 · 잣대", "EBS"], ["Nl012BapRbA", "순 우리말 사전 · 별", "EBS"], ["T6VoafoJC3k", "우리말 우리글 · 순우리말로 바꾼 외국어", "EBS"], ["GMR-1u0neB4", "순우리말 맞히기 종합편 (초성퀴즈)", "수업짬놀이"], ["7dUz9gCJ21o", "한글날 맞이 순우리말 초성퀴즈놀이", "옆반수업"], ["vuuydSqRCE8", "순우리말 능력테스트 25문제", "우리말 퀴즈"], ["eKU2OicZN-I", "순우리말 퀴즈 4편", "우리말 퀴즈"], ["sHsAWOVQoW4", "[우리말 나들이] 순우리말 퀴즈 · 띠앗", "MBC"], ["iHSU4aL0_zc", "[우리말 나들이] 순우리말 퀴즈 · 말모이", "MBC"], ["aXDHJ2BZzyw", "[우리말 나들이] 순우리말 퀴즈 · 차반", "MBC"], ["TYs4PoGPjqU", "예쁜 우리말은 무엇일까요? · 한알방송", "국립국어원"], ["lokcgk6Exg4", "쉬운 우리말 · 우리 새말 6화", "국립국어원"]];
+const VCOL=["#D4502F","#B9770C","#1E8579","#6A52C4","#2C68AD","#BE3F76"];
 function renderVideo(w){
   const V=w?VID_W:VID_P;
   return fitShell(w?'w-video':'p-video','🎬',w?'순우리말 동영상 자료':'속담 동영상 자료',`${w?'순우리말':'속담'}을 쉽게 배울 수 있는 영상 ${V.length}편이에요. 누르면 유튜브로 이동해요.`,'');
 }
 function initVideo(w){
   fq('#fx').classList.add('vid');
-  fitChoices(w?VID_W:VID_P,(v,i)=>`<a class="vtile" href="https://www.youtube.com/watch?v=${v[0]}" target="_blank" rel="noopener" data-i="${i}"><span class="vth" style="background-image:url(https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg),linear-gradient(150deg,#E5663F,#8E2A1B)"><i class="vpl">▶</i></span><b>${esc(v[1])}</b><small>${esc(v[2])}</small></a>`,2,()=>{},4);
+  fitChoices(w?VID_W:VID_P,(v,i)=>`<a class="vtile" style="--vc:${VCOL[i%6]}" href="https://www.youtube.com/watch?v=${v[0]}" target="_blank" rel="noopener" data-i="${i}"><span class="vth" style="background-image:url(https://i.ytimg.com/vi/${v[0]}/mqdefault.jpg),linear-gradient(150deg,#E5663F,#8E2A1B)"><i class="vpl">▶</i></span><b>${esc(v[1])}</b><small>${esc(v[2])}</small></a>`,2,()=>{},4);
 }
 function initZodiac(){
   let T=null, by=null;
