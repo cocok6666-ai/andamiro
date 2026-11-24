@@ -881,6 +881,8 @@ html:has(.mscn){scroll-snap-type:y proximity}
 @media (prefers-reduced-motion:reduce){.screen.home .mains .main .ico{animation:none}}
 .mpg{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .mpg::-webkit-scrollbar{display:none}
+.mpg{touch-action:pan-x pan-y;cursor:grab}
+.mpg.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}
 .mpp{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;min-height:0;min-width:0;position:relative}
 .mpg{}
 #mhd.rhd{display:grid;grid-template-columns:1fr 1.25fr 1fr;align-items:center;gap:6px;padding:6px 6px;min-height:58px}
@@ -1867,6 +1869,16 @@ function fitPager(items,start,R,listOf,info,onBack){
     hd.innerHTML=`<button class="mn l" ${pv?'':'disabled'} aria-label="이전">${pv?`<i>‹</i><span>${esc(pv.name)}</span>`:''}</button><div class="mcn"><span class="mce">${inf.e}</span><b>${esc(inf.name)}</b><small>${inf.cnt}</small></div><button class="mn r" ${nx?'':'disabled'} aria-label="다음">${nx?`<span>${esc(nx.name)}</span><i>›</i>`:''}</button>`;
     hd.querySelector('.l').onclick=()=>pv&&go(i-1); hd.querySelector('.r').onclick=()=>nx&&go(i+1);
     cn.textContent=(i+1)+' / '+N; dots.forEach((d,k)=>d.classList.toggle('on',k===i)); };
+  /* 끌어서 넘기기: 마우스는 끌기, 터치는 기본 밀기가 안 먹었을 때 보조로 넘김 */
+  let dx0=null, dy0=0, sl0=0, mv=0, id0=0, pt='';
+  mp.addEventListener('pointerdown',e=>{ if(e.pointerType==='mouse'&&e.button!==0) return; dx0=e.clientX; dy0=e.clientY; sl0=mp.scrollLeft; mv=0; id0=idx(); pt=e.pointerType; });
+  mp.addEventListener('pointermove',e=>{ if(dx0===null||pt!=='mouse') return; const d=e.clientX-dx0; if(Math.abs(d)>6&&!mp.classList.contains('drag')){ mp.classList.add('drag'); try{ mp.setPointerCapture(e.pointerId); }catch(_){} } if(mp.classList.contains('drag')){ mv=d; mp.scrollLeft=sl0-d; } });
+  const end=e=>{ if(dx0===null) return; const d=e.clientX-dx0, dy=e.clientY-dy0, w=mp.clientWidth, drag=mp.classList.contains('drag'), p0=pt; dx0=null; mp.classList.remove('drag');
+    if(drag){ const t=Math.abs(d)>w*.18?(d<0?id0+1:id0-1):id0; go(Math.max(0,Math.min(N-1,t))); setTimeout(()=>{mv=0;},0); return; }
+    if(p0!=='mouse'&&Math.abs(d)>50&&Math.abs(d)>Math.abs(dy)*1.5){ setTimeout(()=>{ if(idx()===id0&&Math.abs(mp.scrollLeft-id0*w)<8) go(Math.max(0,Math.min(N-1,d<0?id0+1:id0-1))); },280); } };
+  mp.addEventListener('pointerup',end); mp.addEventListener('pointercancel',e=>{ if(dx0!==null){ dx0=null; mp.classList.remove('drag'); go(idx()); } });
+  mp.addEventListener('click',e=>{ if(Math.abs(mv)>6){ e.stopPropagation(); e.preventDefault(); mv=0; } },true);
+  mp.addEventListener('mouseleave',()=>{ if(dx0!==null&&pt==='mouse'&&mp.classList.contains('drag')){ dx0=null; mp.classList.remove('drag'); go(idx()); } });
   mp.addEventListener('scroll',upd,{passive:true});
   mp.scrollLeft=start*mp.clientWidth; upd(); setTimeout(()=>{ mp.scrollLeft=start*mp.clientWidth; upd(); },60);
 }
