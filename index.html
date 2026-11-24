@@ -909,6 +909,35 @@ html:has(.mscn){scroll-snap-type:y proximity}
 #mhd .mn i{font-style:normal;font-size:28px;line-height:1;flex:none;opacity:.95}
 #mhd .mn span{opacity:.88;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #mhd .mn:disabled{visibility:hidden}
+
+/* 학습 코너(바꿔 쓰기·틀리기 쉬운 말) */
+.lxg{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:6px 2px 14px}
+.lxt{position:relative;border:0;border-radius:20px;padding:16px 8px 12px;color:#fff;text-align:center;background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:0 4px 0 rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.35);display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
+.lxt:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.lxt .i{font-size:38px;line-height:1.1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.lxt b{font-family:var(--display);font-weight:400;font-size:18px;color:#FFF6DC;line-height:1.2;word-break:keep-all}
+.lxt small{font-size:12.5px;opacity:.95;line-height:1.3;word-break:keep-all}
+.lxt em{font-style:normal;margin-top:3px;background:rgba(255,255,255,.25);border-radius:99px;padding:1px 10px;font-size:12px;font-weight:700}
+#lxr.lxd .fhead{background:linear-gradient(135deg,var(--c1),var(--c2))!important}
+.lxbar{display:flex;align-items:center;gap:8px;margin:2px 0 10px}
+.lxbk{border:0;background:var(--paper2);border-radius:12px;padding:7px 12px;font-size:14px;font-weight:700;color:var(--pv-deep);font-family:inherit}
+.lxpg{flex:1;height:10px;border-radius:99px;background:var(--paper2);overflow:hidden}.lxpg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:99px;transition:width .4s}
+.lxn{font-size:13px;font-weight:800;color:var(--pv-deep);flex:none}
+.lxc{background:#fff;border-radius:18px;border:2px solid color-mix(in srgb,var(--cm) 30%,#fff);padding:14px 14px 12px;margin-bottom:12px;box-shadow:0 3px 0 color-mix(in srgb,var(--cm) 30%,#fff)}
+.lxl{display:inline-block;font-size:12.5px;font-weight:800;border-radius:99px;padding:2px 10px;background:#FFE7E3;color:#C23A2E;margin-bottom:6px}.lxl.ok{background:#E3F6E9;color:#23804A}
+.lxs{font-size:clamp(18px,5vw,21px);line-height:1.65;font-weight:700;word-break:keep-all;color:var(--ink)}
+.lxs mark{background:linear-gradient(transparent 55%,#BDEBC8 55%);color:#1E7A45;font-weight:800;padding:0 1px}
+.lxb{width:100%;margin-top:10px;border:0;border-radius:14px;padding:11px;font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(160deg,var(--c1),var(--c2));font-family:inherit;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.lxfx{margin-top:8px;animation:egup .45s cubic-bezier(.2,1.4,.4,1)}
+.lxfx .arr{margin:8px 0 4px;font-size:16px}.lxfx .arr s{color:#C23A2E}.lxfx .arr b{color:#1E7A45;font-size:18px}
+.lxfx p{margin:3px 0;font-size:14.5px;line-height:1.55;color:#4a463e;word-break:keep-all}
+.lxdone{text-align:center;font-family:var(--display);font-size:20px;color:var(--pv-deep);padding:10px 0 20px}
+.lxch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.lxch button{border:2px solid color-mix(in srgb,var(--cm) 35%,#fff);background:#fff;border-radius:14px;padding:12px 6px;font-size:17px;font-weight:800;color:var(--ink);font-family:inherit}
+.lxch button.no{background:#FFF0EC;border-color:#E0483A;color:#C23A2E;animation:egshk .4s}
+.lxch button.ok{background:#E3F6E9;border-color:#2FA06A;color:#1E7A45}
+.lxblank{display:inline-block;min-width:3.2em;border-bottom:3px dashed var(--cm);text-align:center;color:var(--cm)}
+.lxtick{position:absolute;top:8px;right:10px;font-size:18px}
 .fxc{padding:20px 14px 14px}
 .fxs{font-size:clamp(20px,5.6vw,24px);line-height:1.6;font-weight:700;word-break:keep-all;color:var(--ink)}
 .fxw{text-decoration:underline wavy #E0483A;text-underline-offset:6px;text-decoration-thickness:2px;color:#C23A2E;font-weight:800;background:linear-gradient(transparent 62%,#FFE3A0 62%)}
@@ -968,8 +997,8 @@ const MENU = {
         {id:'w-f-cat', status:'done', render:()=>renderWcat(), init:()=>initWcat(), ic:'🗂️', title:'분류하여 찾기', desc:'분류를 한 번 눌러 관련 순우리말을 모아 봐요.', plan:['분류 고르기(예: 날씨)','분류별 낱말 목록 → 낱말 뜻풀이']}
       ]},
       {id:'w-right', title:'순우리말 바로 쓰기', note:'', items:[
-        {id:'w-learn', ic:'📚', title:'바꿔 쓰면 좋은 말 공부하기', desc:'수집한 일본어 투·외래어를 알맞은 우리말과 함께 살펴보며 공부해요.', plan:['바꿔 써야 할 말 목록','알맞은 우리말과 뜻·유래','갈래별로 모아 보기']},
-        {id:'w-tricky', ic:'⚠️', title:'틀리기 쉬운 순우리말 모음', desc:'헷갈리기 쉬운 말을 바르게 익혀요.', plan:['혼동하기 쉬운 말 비교','꼭 외워 둘 말 카드']}
+        {id:'w-learn', status:'done', render:()=>renderLearn(), init:()=>initLearn(), ic:'📖', title:'꼭! 순우리말로 바꿔주세요', desc:'잘못 쓰는 말을 갈래별 예화로 보고 아름다운 우리말로 고쳐 봐요.', plan:[]},
+        {id:'w-tricky', status:'done', render:()=>renderTricky(), init:()=>initTricky(), ic:'⚠️', title:'틀리기 쉬운 순우리말', desc:'헷갈리는 말을 장면별로 골라 보며 바르게 익혀요.', plan:[]}
       ]},
       {id:'w-check', title:'순우리말 나의 실력 확인하기', note:'평가', items:[
         {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
@@ -1666,6 +1695,95 @@ function initEmoji(){
   intro();
 }
 
+
+
+/* ---------- 학습 코너: 꼭! 순우리말로 바꿔주세요 / 틀리기 쉬운 순우리말 ---------- */
+const lxStore=k=>({get(){try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];}},add(id){try{const a=this.get();if(!a.includes(id)){a.push(id);localStorage.setItem(k,JSON.stringify(a));}}catch(e){}}});
+const jong=w=>{const c=w.charCodeAt(w.length-1)-0xAC00; return (c<0||c>11171)?0:c%28;};
+function josaFix(s,w,a){
+  const jg=jong(a);
+  const re=new RegExp('\\[\\['+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\]\\](이었|였|이에요|예요|으로|로|이|가|을|를|은|는|와|과)?');
+  return s.replace(re,(m,j)=>{
+    let t=j||'';
+    if(/^(이|가)$/.test(t)) t=jg?'이':'가';
+    else if(/^(을|를)$/.test(t)) t=jg?'을':'를';
+    else if(/^(은|는)$/.test(t)) t=jg?'은':'는';
+    else if(/^(와|과)$/.test(t)) t=jg?'과':'와';
+    else if(/^(으로|로)$/.test(t)) t=(jg===0||jg===8)?'로':'으로';
+    else if(/^(이었|였)$/.test(t)) t=jg?'이었':'였';
+    else if(/^(이에요|예요)$/.test(t)) t=jg?'이에요':'예요';
+    return a+t;
+  }).replace(/\[\[(.+?)\]\]/g,'$1')
+   .replace('올리기했어요','올렸어요').replace('내려받기했어요','내려받았어요').replace('괴롭힘하면','괴롭히면').replace('다걸기했어요','다걸기를 했어요');
+}
+const LXG=[['food','🍱','밥상·먹거리','음식과 식사 이야기'],['thing','✏️','학교·집 물건','쓰는 물건 이야기'],['cloth','👕','옷차림','입는 옷 이야기'],['web','📱','인터넷·누리집','컴퓨터·휴대 전화 이야기'],['video','🎬','영화·방송','보고 듣는 이야기'],['town','🏙️','거리·마을','길과 가게 이야기'],['people','🤝','사람과 마음','일과 사람 이야기'],['move','🏃','몸짓·모양 말','모양을 흉내 내는 말']];
+function renderLearn(){
+  return `<div class="leaf ${curCls}" id="lxr"><div class="fhead ${curCls}" id="lxh"><span class="fhe">📖</span><div><b>꼭! 순우리말로 바꿔주세요</b><small>잘못 쓰는 말을 아름다운 우리말로 고쳐 봐요</small></div></div><div id="lxb"></div></div>`;
+}
+function initLearn(){
+  const box=document.getElementById('lxb'), root=document.getElementById('lxr'); if(!box) return;
+  const St=lxStore('andamiro.learn');
+  const reset=()=>{ root.classList.remove('lxd'); root.style.cssText=''; document.querySelector('#lxh b').textContent='꼭! 순우리말로 바꿔주세요'; document.querySelector('#lxh small').textContent='잘못 쓰는 말을 아름다운 우리말로 고쳐 봐요'; document.querySelector('#lxh .fhe').textContent='📖'; };
+  loadFix().then(bank=>{
+    const home=()=>{
+      reset(); const done=new Set(St.get());
+      box.innerHTML=`<div class="egmt" style="text-align:center;font-weight:700;color:var(--pv-deep);margin:4px 0 10px">어떤 이야기에서 잘못 쓰고 있을까요? 하나를 골라요.</div><div class="lxg">${LXG.map((g,i)=>{const L=bank.filter(q=>q.g===g[0]);const n=L.filter(q=>done.has(q.id)).length;return `<button class="lxt" data-g="${g[0]}" style="--c1:${TC(i)[0]};--c2:${TC(i)[1]}"><span class="i">${g[1]}</span><b>${g[2]}</b><small>${g[3]}</small><em>${n}/${L.length} 고쳐 봤어요</em></button>`;}).join('')}</div>`;
+      box.querySelectorAll('.lxt').forEach(b=>b.onclick=()=>topic(b.dataset.g)); window.scrollTo(0,0);
+    };
+    const topic=gk=>{
+      const gi=LXG.findIndex(g=>g[0]===gk), g=LXG[gi], L=bank.filter(q=>q.g===gk);
+      tcApply(root,gi); root.classList.add('lxd');
+      document.querySelector('#lxh .fhe').textContent=g[1]; document.querySelector('#lxh b').textContent=g[2]; document.querySelector('#lxh small').textContent='밑줄 친 말을 아름다운 우리말로 고쳐 봐요';
+      const done=new Set(St.get());
+      box.innerHTML=`<div class="lxbar"><button class="lxbk">‹ 이야기 고르기</button><div class="lxpg"><i id="lxp"></i></div><span class="lxn" id="lxn"></span></div>`+
+        L.map((q,i)=>`<div class="lxc" data-id="${q.id}"><span class="lxl">${i+1}. 잘못 쓴 말 😟</span><div class="lxs">${fxSent(q)}</div><button class="lxb">✨ 아름다운 우리말로 고쳐 볼까요?</button><div class="lxfx" hidden><span class="lxl ok">고쳐 쓴 말 😊</span><div class="lxs">${esc(josaFix(q.s,q.w,q.a)).replace(esc(q.a),'<mark>'+esc(q.a)+'</mark>')}</div><div class="arr"><s>${esc(q.w)}</s> → <b>${esc(q.a)}</b></div><p>🔎 ${esc(q.o)}</p><p>💡 뜻: ${esc(q.m)}</p></div></div>`).join('')+`<div class="lxdone" id="lxd" hidden>🎉 모두 아름다운 말로 고쳤어요!</div>`;
+      const upd=()=>{ const n=box.querySelectorAll('.lxc.open').length; document.getElementById('lxn').textContent=n+'/'+L.length; document.getElementById('lxp').style.width=(n/L.length*100)+'%'; document.getElementById('lxd').hidden=n<L.length; };
+      box.querySelectorAll('.lxc').forEach(c=>{
+        const open=()=>{ c.classList.add('open'); c.querySelector('.lxb').hidden=true; c.querySelector('.lxfx').hidden=false; St.add(c.dataset.id); upd(); };
+        c.querySelector('.lxb').onclick=()=>{ open(); gmSnd&&gmSnd('ok'); };
+        if(done.has(c.dataset.id)) open();
+      });
+      upd(); box.querySelector('.lxbk').onclick=home; window.scrollTo(0,0);
+    };
+    home();
+  }).catch(()=>{ box.innerHTML='<div class="fmsg">자료를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+}
+
+let TRB=null;
+function loadTricky(){ if(!TRB) TRB=fetch('data/tricky.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ TRB=null; throw e; }); return TRB; }
+function renderTricky(){
+  return `<div class="leaf ${curCls}" id="lxr"><div class="fhead ${curCls}" id="lxh"><span class="fhe">⚠️</span><div><b>틀리기 쉬운 순우리말</b><small>장면마다 알맞은 말을 골라 익혀요</small></div></div><div id="lxb"></div></div>`;
+}
+function initTricky(){
+  const box=document.getElementById('lxb'), root=document.getElementById('lxr'); if(!box) return;
+  const St=lxStore('andamiro.tricky');
+  const H=document.getElementById('lxh');
+  const reset=()=>{ root.classList.remove('lxd'); root.style.cssText=''; H.querySelector('.fhe').textContent='⚠️'; H.querySelector('b').textContent='틀리기 쉬운 순우리말'; H.querySelector('small').textContent='장면마다 알맞은 말을 골라 익혀요'; };
+  loadTricky().then(D=>{
+    const home=()=>{
+      reset(); const done=new Set(St.get());
+      box.innerHTML=`<div style="text-align:center;font-weight:700;color:var(--pv-deep);margin:4px 0 10px">어떤 장면에서 헷갈릴까요? 하나를 골라요.</div><div class="lxg">${D.map((sc,i)=>{const n=sc.items.filter((_,k)=>done.has(sc.id+k)).length;return `<button class="lxt" data-i="${i}" style="--c1:${TC(i)[0]};--c2:${TC(i)[1]}"><span class="i">${sc.ic}</span><b>${sc.name}</b><small>${sc.intro}</small><em>${n}/${sc.items.length} 익혔어요</em></button>`;}).join('')}</div>`;
+      box.querySelectorAll('.lxt').forEach(b=>b.onclick=()=>scene(+b.dataset.i)); window.scrollTo(0,0);
+    };
+    const scene=i=>{
+      const sc=D[i]; tcApply(root,i); root.classList.add('lxd');
+      H.querySelector('.fhe').textContent=sc.ic; H.querySelector('b').textContent=sc.name; H.querySelector('small').textContent='알맞은 말을 골라 빈칸을 채워 봐요';
+      const done=new Set(St.get());
+      box.innerHTML=`<div class="lxbar"><button class="lxbk">‹ 장면 고르기</button><div class="lxpg"><i id="lxp"></i></div><span class="lxn" id="lxn"></span></div>`+
+        sc.items.map((q,k)=>{const o=gmShuf([{t:q.a,ok:1},{t:q.b,ok:0}]);return `<div class="lxc" data-k="${k}"><span class="lxl" style="background:var(--pv-soft);color:var(--pv-deep)">${k+1}. 알맞은 말은?</span><div class="lxs">${esc(q.s).replace('[[]]','<span class="lxblank">　?　</span>')}</div><div class="lxch">${o.map(x=>`<button type="button" data-ok="${x.ok}">${esc(x.t)}</button>`).join('')}</div><div class="lxfx" hidden><p>💡 ${esc(q.w)}</p></div></div>`;}).join('')+`<div class="lxdone" id="lxd" hidden>🎉 이 장면의 말을 모두 익혔어요!</div>`;
+      const upd=()=>{ const n=box.querySelectorAll('.lxc.open').length; document.getElementById('lxn').textContent=n+'/'+sc.items.length; document.getElementById('lxp').style.width=(n/sc.items.length*100)+'%'; document.getElementById('lxd').hidden=n<sc.items.length; };
+      box.querySelectorAll('.lxc').forEach(c=>{
+        const q=sc.items[+c.dataset.k];
+        const fill=()=>{ c.classList.add('open'); c.querySelector('.lxblank').outerHTML='<mark>'+esc(q.a)+'</mark>'; c.querySelectorAll('.lxch button').forEach(b=>{b.disabled=true; if(b.dataset.ok==='1') b.classList.add('ok');}); c.querySelector('.lxfx').hidden=false; St.add(sc.id+c.dataset.k); upd(); };
+        c.querySelectorAll('.lxch button').forEach(b=>b.onclick=()=>{ if(c.classList.contains('open')) return;
+          if(b.dataset.ok==='1'){ fill(); gmSnd&&gmSnd('ok'); } else { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); gmSnd&&gmSnd('no'); b.disabled=true; } });
+        if(done.has(sc.id+c.dataset.k)) fill();
+      });
+      upd(); box.querySelector('.lxbk').onclick=home; window.scrollTo(0,0);
+    };
+    home();
+  }).catch(()=>{ box.innerHTML='<div class="fmsg">자료를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'; });
+}
 
 /* ---------- 순우리말로 바꾸기 (일본어 투·외래어를 알맞은 우리말로) ---------- */
 let FXB=null;
