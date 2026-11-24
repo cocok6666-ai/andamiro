@@ -388,6 +388,9 @@ body:has(.hubfit){overflow:hidden}
 .egfb.ok .egans{animation:egglow 1s ease-in-out 2}@keyframes egglow{50%{text-shadow:0 0 10px #FFD36B;transform:scale(1.04)}}
 .egfb #enx{animation:egpulse 1.2s ease-in-out infinite}@keyframes egpulse{50%{transform:scale(1.03)}}
 .egte.c{color:#E07A12}
+.screen .lbanner.tint,.screen .fhead.tint{background:linear-gradient(112deg,transparent 0 70%,rgba(0,0,0,.16) 70% 100%),radial-gradient(circle at 90% 10%,rgba(255,240,200,.38),transparent 48%),var(--pat-sg),linear-gradient(135deg,var(--h1),var(--h2))}
+.screen[style] .nav .cur,.screen[style] .nav.wd .cur{background:var(--pv)}
+.gtile{box-shadow:0 5px 0 var(--m,rgba(0,0,0,.10))}.gtile b{color:var(--m,inherit)}.gtile .gar{background:var(--m,rgba(255,255,255,.55));color:#fff}
 @media(prefers-reduced-motion:reduce){.egfx{animation-duration:1.3s}}
 .blk{display:inline-block;width:3.2em;height:1.1em;vertical-align:-.15em;border-bottom:3px solid #E5252A;margin:0 .15em}
 .ul{text-decoration:underline wavy #E5252A;text-underline-offset:4px;font-weight:800}
@@ -950,7 +953,7 @@ function viewHub(k){
   const tiles = vg.map((g,i)=>{
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
     const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
-    return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
+    return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
   const src=k==='proverb'?['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 학생용으로 골라 다듬은 속담 6,300여 개','초등학생 (교과서 속담부터 생활 속 속담까지)']:['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 골라 담은 고운 순우리말 390여 개','초등학생 (뜻과 쓰임을 쉽게 익히고 싶은 친구)'];
   return `<div class="screen hubs hubfit">
@@ -977,6 +980,25 @@ const FCOL={
   pv:[['#E2603F','#8E2A1B'],['#E3A52F','#935C08'],['#2FA093','#14594F'],['#8070D4','#43308F']],
   wd:[['#35A89B','#14594F'],['#E2708F','#9A3355'],['#E3A52F','#935C08'],['#8070D4','#43308F']]
 };
+/* ===== 색상 연결 규칙 =====
+   누른 카드의 색 = 다음 화면 머리띠(헤더) 색. 허브 타일(연한 색) → 하위 메인 머리띠(같은 색 계열의 진한 색),
+   하위 메인의 카드 → 그 카드가 여는 화면의 머리띠, 그 안의 카드 → 다음 화면 … 로 계속 이어진다. */
+const FAMD=[['#E3A52F','#935C08','#A66A0B'],['#2FA093','#14594F','#1B7A6F'],['#E2603F','#8E2A1B','#B9482F'],['#8070D4','#43308F','#5E4DB3'],['#D9B72A','#7D6508','#92750A'],['#6BB45A','#2E6A25','#3F8A34']];
+const MIDOF={'#E2603F':'#B9482F','#E3A52F':'#A66A0B','#2FA093':'#1B7A6F','#8070D4':'#5E4DB3','#35A89B':'#1B7A6F','#E2708F':'#C04A70'};
+function tintOf(id){
+  if(groupIndex[id]){ const {k,g}=groupIndex[id];
+    if(g.parent){ const it=groupIndex[g.parent].g.items.find(x=>x.to===id); return it?tintOf(it.id):null; }
+    const vg=MENU[k].groups.filter(x=>!x.hidden); return FAMD[Math.max(0,vg.indexOf(g))%FAMD.length]; }
+  const it=leafIndex[id]; if(!it) return null;
+  const m=MENU[hubOf[id]], g=groupIndex[it.gid].g, pal=FCOL[m.cls], c=pal[Math.max(0,g.items.indexOf(it))%pal.length];
+  return [c[0],c[1],MIDOF[c[0]]||c[1]];
+}
+function applyTint(h){
+  const t=tintOf(h); if(!t) return; const sc=$app.querySelector('.screen'); if(!sc) return;
+  sc.style.setProperty('--pv',t[2]); sc.style.setProperty('--wd',t[2]); sc.style.setProperty('--pv-deep',t[1]);
+  sc.style.setProperty('--pv-soft','color-mix(in srgb,'+t[2]+' 16%,#fff)');
+  const hd=$app.querySelector('.fhead,.lbanner'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
+}
 const FHT={'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':['속','담','퀴','즈'],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인'],'p-game':['속','담','게','임']};
 const FSRC={'p-game':'이모지 속담 게임을 비롯해 여러 가지 게임으로 속담을 놀이처럼 익혀요.','p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
 function viewFindHome(g,m,k){
@@ -1939,6 +1961,7 @@ function route(){
   else if(h==='status') html=viewStatus();
   else html=viewHome();
   $app.innerHTML = html;
+  if(!MENU[h]&&h!=='home') applyTint(h);
   window.scrollTo(0,0);
   const lf=leafIndex[h]; if(lf && lf.status==='done' && lf.init) lf.init();
   setTimeout(()=>window.pageHints&&window.pageHints(),80);
