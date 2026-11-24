@@ -296,7 +296,10 @@ body:has(.fgs),body:has(.fitwrap),body:has(.i3wrap),body:has(.o-wrap){overflow:h
 .tl .f{display:grid;place-items:center;backface-visibility:hidden;background:linear-gradient(150deg,var(--c1),var(--c2));font-family:Jua,'Gowun Dodum','Noto Sans KR',sans-serif;font-size:calc(var(--s)*.7);color:#fff;text-shadow:0 .035em 0 rgba(0,0,0,.28),0 0 .12em rgba(255,255,255,.4);box-shadow:inset 0 0 0 .05em rgba(255,255,255,.35),inset 0 -.1em .18em rgba(0,0,0,.2);line-height:1}
 .tl .fr{transform:translateZ(calc(var(--s)*.14))}
 .tl .bk{transform:rotateY(180deg) translateZ(calc(var(--s)*.14))}
-.tl .l{background:linear-gradient(150deg,var(--c1),var(--c2));filter:brightness(.74);transform:translateZ(calc(var(--s)*var(--k)))}
+.tl .l{background:linear-gradient(100deg,#6b4608 0%,#c58f2a 14%,#fff4c4 26%,#e0aa3c 38%,#7d5210 52%,#f4d176 66%,#fffbe0 74%,#b98122 86%,#6b4608 100%);background-size:260% 100%;animation:mtl 2.6s linear infinite;transform:translateZ(calc(var(--s)*var(--k)))}
+.t2 .l{animation-delay:-.7s}.t3 .l{animation-delay:-1.4s}.t4 .l{animation-delay:-2s}
+@keyframes mtl{from{background-position:0 0}to{background-position:260% 0}}
+@media (prefers-reduced-motion:reduce){.tl .l{animation:none}}
 .t1 .tb{animation:sp1 4.6s ease-in-out -.4s infinite}
 .t2 .tb{animation:sp2 3.7s cubic-bezier(.5,0,.3,1) -2.1s infinite}
 .t3 .tb{animation:sp3 5.5s ease-in-out -3.3s infinite}
