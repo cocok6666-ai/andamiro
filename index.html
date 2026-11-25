@@ -379,7 +379,7 @@ body:has(.hubfit){overflow:hidden}
 .sb-hr{display:flex;gap:1px;font-size:15px}.sb-hr i{font-style:normal;transition:.25s}.sb-hr i:not(.on){filter:grayscale(1);opacity:.3;transform:scale(.8)}
 .sb-hint{background:#FFF3C9;border:1.5px solid #E5B93C;border-radius:14px;padding:4px 11px;font-weight:700;font-size:14px;color:#7A5200}.sb-hint:disabled{opacity:.4}
 .sb-mean{background:#fff;border-radius:14px;padding:9px 13px;font-size:15px;line-height:1.45;box-shadow:inset 0 0 0 1px var(--line);word-break:keep-all}.sb-mean small{display:block;font-size:12px;font-weight:700;color:var(--pv);margin-bottom:2px}
-.sb-river{position:relative;border-radius:18px;padding:36px 8px 12px;background:linear-gradient(#BFE6F5,#8CCDE8);box-shadow:inset 0 0 0 2px #6DB9D8,0 3px 0 #4F9DBF;overflow:hidden}
+.sb-river{position:relative;border-radius:18px;padding:50px 8px 12px;background:linear-gradient(#BFE6F5,#8CCDE8);box-shadow:inset 0 0 0 2px #6DB9D8,0 3px 0 #4F9DBF;overflow:hidden}
 .sb-wv{position:absolute;inset:0;background:repeating-linear-gradient(100deg,transparent 0 22px,rgba(255,255,255,.22) 22px 26px);animation:sbwv 6s linear infinite;pointer-events:none}
 @keyframes sbwv{to{background-position:104px 0}}
 .sb-track{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 8px}
@@ -388,9 +388,9 @@ body:has(.hubfit){overflow:hidden}
 .sb-sl.on{background:linear-gradient(#F4EEE0,#D9CFB9);border:2px solid #A39578;color:#4A3F2A;font-weight:800;box-shadow:0 3px 0 #8C7F62}
 .sb-sl b{font-weight:800}
 .sb-fg{position:absolute;left:0;top:0;width:0;height:0;z-index:3;transition:left .38s cubic-bezier(.3,.7,.4,1),top .38s cubic-bezier(.3,.7,.4,1)}
-.sb-fg span{position:absolute;left:0;top:0;font-size:30px;line-height:1;transform:translate(-50%,-88%);filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
-.sb-fg.hop span{animation:sbhop .38s ease-out}@keyframes sbhop{0%{transform:translate(-50%,-88%) scale(1)}45%{transform:translate(-50%,-190%) scale(1.25,.85)}100%{transform:translate(-50%,-88%) scale(1)}}
-.sb-fg.sp span{animation:sbsp .5s}@keyframes sbsp{0%,100%{transform:translate(-50%,-88%) rotate(0)}25%{transform:translate(-50%,-60%) rotate(-25deg)}60%{transform:translate(-50%,-100%) rotate(20deg)}}
+.sb-fg span{position:absolute;left:0;top:0;width:52px;height:46px;line-height:0;transform:translate(-50%,-92%);filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.sb-fg.hop span{animation:sbhop .38s ease-out}@keyframes sbhop{0%{transform:translate(-50%,-92%) scale(1)}45%{transform:translate(-50%,-190%) scale(1.25,.85)}100%{transform:translate(-50%,-92%) scale(1)}}
+.sb-fg.sp span{animation:sbsp .5s}@keyframes sbsp{0%,100%{transform:translate(-50%,-92%) rotate(0)}25%{transform:translate(-50%,-60%) rotate(-25deg)}60%{transform:translate(-50%,-100%) rotate(20deg)}}
 .sb-pn{display:flex;flex-direction:column;gap:6px}
 .sb-tray{display:flex;flex-wrap:wrap;justify-content:center;gap:9px 8px;padding:4px 2px}
 .sb-st{min-width:58px;padding:10px 14px;border-radius:50% / 40%;background:linear-gradient(#F4EEE0,#D3C8AE);border:2px solid #A39578;box-shadow:0 4px 0 #8C7F62;font-size:clamp(16px,2.6dvh,19px);font-weight:800;color:#4A3F2A;word-break:keep-all;transition:transform .15s}
@@ -1974,7 +1974,7 @@ function initStep(){
       <div class="sb-mean"><small>📖 이 속담의 뜻</small>${esc(q.p.m)}</div>
       <div class="sb-river" id="sbr"><div class="sb-wv"></div>
         <div class="sb-track" id="sbt"><span class="sb-sl bank">🏕️</span>${tk.map((w,i)=>`<span class="sb-sl" data-i="${i}"><b>?</b></span>`).join('')}<span class="sb-sl bank">🏠</span></div>
-        <i class="sb-fg" id="sfg"><span>🐸</span></i></div>
+        <i class="sb-fg" id="sfg"><span><svg viewBox="0 0 64 56" width="52" height="46" aria-hidden="true"><ellipse cx="32" cy="53" rx="20" ry="2.6" fill="rgba(0,0,0,.18)"/><path d="M13 38C4 38 2 49 6 52c5 2 11 0 14-3z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.6" stroke-linejoin="round"/><path d="M51 38c9 0 11 11 7 14-5 2-11 0-14-3z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 51l-3 2M9 52l-2 3M13 52l-1 3M59 51l3 2M55 52l2 3M51 52l1 3" stroke="#2F7D2E" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="32" cy="35" rx="19" ry="15" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><ellipse cx="32" cy="40" rx="11" ry="8.5" fill="#EAF7C8"/><path d="M22 47c-1 3-1 5 1 6h5c1-2 0-4-1-6zM42 47c1 3 1 5-1 6h-5c-1-2 0-4 1-6z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.5" stroke-linejoin="round"/><circle cx="21" cy="17" r="8" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><circle cx="43" cy="17" r="8" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><circle cx="21" cy="17" r="5.2" fill="#fff"/><circle cx="43" cy="17" r="5.2" fill="#fff"/><circle cx="22.2" cy="17.6" r="2.7" fill="#2A2A2A"/><circle cx="44.2" cy="17.6" r="2.7" fill="#2A2A2A"/><circle cx="23" cy="16.5" r=".9" fill="#fff"/><circle cx="45" cy="16.5" r=".9" fill="#fff"/><path d="M24 32q8 7 16 0" fill="none" stroke="#2F7D2E" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="30" r="2.6" fill="#F59BA0" opacity=".7"/><circle cx="45" cy="30" r="2.6" fill="#F59BA0" opacity=".7"/></svg></span></i></div>
       <div class="sb-pn" id="spn"><div class="sb-tray" id="str">${stones.map((s,i)=>`<button class="sb-st" data-w="${esc(s.w)}" data-d="${s.d}">${esc(s.w)}</button>`).join('')}</div>${q.dec.length?`<div class="sb-warn">⚠️ 가짜 돌 ${q.dec.length}개가 숨어 있어요!</div>`:''}</div>`);
     setTimeout(()=>place(0),30);
     document.getElementById('shint').onclick=useHint;
@@ -1985,7 +1985,7 @@ function initStep(){
     const fg=document.getElementById('sfg'), rv=document.getElementById('sbr'); if(!fg||!rv) return;
     const el=i<0?document.querySelector('#sbt .sb-sl'):i>=S.q.p.tk.length?document.querySelector('#sbt .sb-sl:last-child'):slot(i);
     const r=el.getBoundingClientRect(), v=rv.getBoundingClientRect();
-    fg.style.left=(r.left-v.left+r.width/2)+'px'; fg.style.top=(r.top-v.top+2)+'px';
+    fg.style.left=(r.left-v.left+r.width/2)+'px'; fg.style.top=(r.top-v.top+3)+'px';
     if(jump){ fg.classList.remove('hop'); void fg.offsetWidth; fg.classList.add('hop'); }
   }
   function useHint(){
