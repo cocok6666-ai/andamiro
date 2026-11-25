@@ -1107,7 +1107,7 @@ const MENU = {
         {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
         {id:'w-q-pic', ic:'🖼️', title:'그림보고 순우리말 맞추기', desc:'그림으로 순우리말의 뜻을 짐작해 맞혀요.', plan:['그림 보고 낱말 고르기','정답과 뜻 확인']},
         {id:'w-q-test', status:'done', render:()=>renderTest('w'), init:()=>initTest('w'), ic:'🏅', title:'나의 순우리말 실력은?', desc:'10문제 시험지를 풀고 내 순우리말 실력을 확인해 봐요.', plan:['종합 평가 20문항','평가 결과 화면']},
-        {id:'w-q-match', status:'done', render:()=>renderMatch(), init:()=>initMatch(), ic:'🧩', title:'낱말 조각 짝 맞추기', desc:'뒤집어서 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
+        {id:'w-q-match', status:'done', render:()=>renderMatch(), init:()=>initMatch(), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
       ]},
       {id:'w-media', title:'순우리말 영상', note:'', items:[
         {id:'w-video', status:'done', render:()=>renderVideo(true), init:()=>initVideo(true), ic:'🎬', title:'순우리말 영상 자료 보기', desc:'순우리말 영상 30편을 모아서 보아요.', plan:['영상 목록','영상 시청 후 한 줄 생각 남기기']}
@@ -1730,9 +1730,9 @@ function initFill(){
 
 
 
-/* ---------- 순우리말 나의 실력 확인하기 : 낱말 조각 짝 맞추기 ---------- */
+/* ---------- 순우리말 나의 실력 확인하기 : 말딱지 뒤집기 ---------- */
 function renderMatch(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="gmt"><div class="fhead ${curCls}"><span class="fhe">🧩</span><div><b>낱말 조각 짝 맞추기</b><small>뒤집어서 낱말과 뜻의 짝을 찾아요</small></div></div><div class="gbody" id="gmb"><div class="fmsg">불러오는 중…</div></div></div>`;
+  return `<div class="leaf fitwrap ${curCls} gm" id="gmt"><div class="fhead ${curCls}"><span class="fhe">🧩</span><div><b>말딱지 뒤집기</b><small>딱지를 뒤집어 낱말과 뜻의 짝을 찾아요</small></div></div><div class="gbody" id="gmb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
 function initMatch(){
   const gb=document.getElementById('gmb'); if(!gb) return;
@@ -1740,9 +1740,9 @@ function initMatch(){
   const say=h=>{ gb.innerHTML=h; };
   function intro(){
     clearInterval(G.tm);
-    say(`<div class="gintro"><div class="gi-ttl">🧩 낱말 조각 짝 맞추기</div>
-      <ol class="gi-ol"><li><i>1</i><span>엎어진 <b>조각 12개</b>가 있어요. <b>낱말 조각</b> 6개와 <b>뜻 조각</b> 6개예요.</span></li>
-      <li><i>2</i><span>조각을 <b>두 개씩 뒤집어서</b> 낱말과 뜻이 맞는 <b>짝</b>을 찾아요.</span></li>
+    say(`<div class="gintro"><div class="gi-ttl">🧩 말딱지 뒤집기</div>
+      <ol class="gi-ol"><li><i>1</i><span>엎어진 <b>딱지 12개</b>가 있어요. <b>낱말 딱지</b> 6개와 <b>뜻 딱지</b> 6개예요.</span></li>
+      <li><i>2</i><span>딱지를 <b>두 개씩 뒤집어서</b> 낱말과 뜻이 맞는 <b>짝</b>을 찾아요.</span></li>
       <li><i>3</i><span><b>맞으면 그대로</b> 남고, <b>틀리면 다시 뒤집혀요.</b></span></li>
       <li><i>4</i><span>적게 틀리고 빨리 끝낼수록 <b>높은 점수</b>예요.</span></li></ol>
       <div class="gi-box">6쌍 · <b>100점 만점</b><small>틀릴 때마다 -5점 · 1분이 지나면 점수가 조금씩 깎여요</small></div>
@@ -1771,7 +1771,7 @@ function initMatch(){
     const tiles=gmShuf(set.flatMap(x=>[{k:x.id,t:'w',x:x.w},{k:x.id,t:'m',x:x.m}]));
     const st={found:0,wrong:0,open:[],lock:false,t0:0,sec:0};
     say(`<div class="gtop"><span class="gn">짝 <b id="mfound">0</b>/6</span><span class="gsc">⏱ <b id="mtime">0</b>초</span><span class="gtot">틀림 <b id="mwrong">0</b></span></div>
-      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="조각 ${i+1}"><span class="mi"><i class="mb">?</i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
+      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb">?</i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
     const els=[...gb.querySelectorAll('.mt')], $=id=>document.getElementById(id);
     G.tm=setInterval(()=>{ if(!document.getElementById('gmt')){ clearInterval(G.tm); return; } if(st.t0){ st.sec=Math.floor((Date.now()-st.t0)/1000); $('mtime').textContent=st.sec; } },500);
     els.forEach(b=>b.onclick=()=>{
