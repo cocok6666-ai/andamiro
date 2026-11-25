@@ -1889,7 +1889,7 @@ function initCho(){
     clearInterval(G.tm); const b=best();
     say(`<div class="gintro cqi"><div class="gi-ttl">🔠 순우리말 초성놀이</div>
       <ol class="gi-ol"><li><i>1</i><span><b>뜻풀이</b>와 <b>초성</b>(ㅅㅂㅇ…)을 보고 어떤 낱말인지 떠올려요.</span></li>
-      <li><i>2</i><span>초성이 같은 <b>보기 4개</b> 중에서 뜻에 맞는 낱말을 골라요.</span></li>
+      <li><i>2</i><span>초성이 같은 <b>보기 4개</b> 중에서 뜻에 맞는 낱말을 골라요. 시간이 지나면 <b>힌트</b>가 나와요.</span></li>
       <li><i>3</i><span>연속으로 맞히면 점수가 <b>×2 ×3 ×4</b>! <b>황금 낱말</b>은 2배예요.</span></li>
       <li><i>4</i><span>한 문제에서 <b>2번 틀리거나</b> 시간이 끝나면 <b>하트</b>가 깨져요. 하트 3개가 모두 깨지면 끝!</span></li></ol>
       <div class="gi-box">10문제 · 하트 3개 · <b>${b?'내 최고 '+b+'점':'첫 기록에 도전!'}</b><small>5연속 맞히면 💖 하트가 하나 돌아와요</small></div>
@@ -1898,19 +1898,23 @@ function initCho(){
   }
   function start(){
     gmSnd('ok');
-    loadWords().then(a=>{
-      G.pool=a.filter(x=>!x.x&&/^[가-힣]{2,4}$/.test(x.w)&&x.m[0]&&!/[()（）]/.test(x.m[0])).map(x=>({id:x.id,w:x.w,p:x.p||'',m:x.m[0].trim(),e:(x.e||'').trim()})).filter(x=>x.m.length>=6&&x.m.length<=46&&!x.m.includes(x.w));
-      G.all=a.filter(x=>!x.x&&/^[가-힣]{2,4}$/.test(x.w)).map(x=>x.w);
+    Promise.all([loadWords(),fetch('data/cho.json').then(r=>{ if(!r.ok) throw 0; return r.json(); })]).then(([a,cho])=>{
+      G.cho=cho;
+      G.pool=a.filter(x=>!x.x&&/^[가-힣]{2,4}$/.test(x.w)&&x.m[0]&&!/[()（）]/.test(x.m[0])).map(x=>({id:x.id,w:x.w,p:x.p||'',m:x.m[0].trim(),e:(x.e||'').trim()})).filter(x=>x.m.length>=6&&x.m.length<=46&&!x.m.includes(x.w)&&cho[x.w]);
       play();
     }).catch(()=>say('<div class="fmsg">낱말을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
   }
   function pickWords(){
-    const by=n=>gmShuf(G.pool.filter(x=>x.w.length===n)), gold=3+(Math.random()*7|0);
-    return [...by(2).slice(0,3),...by(3).slice(0,4),...by(4).slice(0,3)].map((x,i)=>({...x,gold:i===gold}));
+    const by=n=>gmShuf(G.pool.filter(x=>x.w.length===n));
+    let r=[...by(2).slice(0,3),...by(3).slice(0,4),...by(4).slice(0,3)];
+    if(r.length<10){ const have=new Set(r.map(x=>x.w)); r=r.concat(gmShuf(G.pool.filter(x=>!have.has(x.w))).slice(0,10-r.length)); }
+    const gold=3+(Math.random()*7|0);
+    return r.map((x,i)=>({...x,gold:i===gold}));
   }
+  /* 보기: 초성이 완전히 같은 다른 낱말을 우선(2개 이상), 모자라면 초성이 하나만 다른 낱말 1개까지 */
   function makeOpts(w){
-    const sc=o=>[...w].reduce((n,c,i)=>n+(choI(c)===choI(o[i])?1:0),0)+Math.random()*1.2;
-    const ds=G.all.filter(o=>o.length===w.length&&o!==w).map(o=>[sc(o),o]).sort((x,y)=>y[0]-x[0]).slice(0,3).map(x=>x[1]);
+    const [e,n]=G.cho[w]; let ds=gmShuf(e.slice(0,8)).slice(0,3);
+    if(ds.length<3) ds=ds.concat(gmShuf(n.slice()).slice(0,3-ds.length));
     return gmShuf([w,...ds]);
   }
   const hearts=()=>'❤️'.repeat(S.hp)+'🖤'.repeat(3-S.hp);
@@ -1963,13 +1967,13 @@ function initCho(){
     const el=Date.now()-S.t0+S.pen, left=S.lim-el, pc=Math.max(0,left/S.lim*100);
     $('cqbar').style.width=pc+'%'; $('cqtm').className='cqtm'+(pc<25?' low':pc<55?' mid':'');
     if(!S.ex&&el>=S.lim*.4){ S.ex=true; showEx(); }
-    if(!S.el&&el>=S.lim*.7){ S.el=true; elim(1,true); }
+    if(!S.el&&el>=S.lim*.7){ S.el=true; if(elim(1,true)) flt($('cqcard'),'💡 보기 하나를 지웠어요','good',-6); }
     if(left<=0) lose(true);
   }
   function showEx(){
     const w=S.cur; let t=w.e; const e=$('cqex'); if(!e) return;
     if(t){ const st=w.w.endsWith('다')?w.w.slice(0,-1):null; t=t.split(w.w).join('○'.repeat(w.w.length)); if(st&&st.length>=2) t=t.split(st).join('○'.repeat(st.length)); e.textContent='💡 예문: '+t; e.classList.add('on'); }
-    else elim(1,true);
+    else if(elim(1,true)) flt($('cqcard'),'💡 보기 하나를 지웠어요','good',-6);
   }
   function elim(n,auto){
     const live=[...document.querySelectorAll('#cqopts .cqo:not(:disabled)')].filter(b=>b.dataset.s!==S.cur.w);
