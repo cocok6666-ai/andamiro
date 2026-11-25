@@ -376,6 +376,7 @@ body:has(.hubfit){overflow:hidden}
 .mt.w .mf.lg{font-size:clamp(15px,2.3dvh,20px)}
 .mt.m .mf{background:linear-gradient(160deg,#EAF8F2,#BFE6D8);color:#0F403A;font-size:clamp(11px,1.65dvh,13px);font-weight:700;line-height:1.3;word-break:keep-all;box-shadow:0 4px 0 #2B8076,0 7px 9px rgba(0,0,0,.16)}
 .mt.m .mf::before{border-color:rgba(20,90,80,.35)}
+.mt .mf.pp{font-family:var(--sans);font-weight:800;font-size:clamp(13px,2.15dvh,16px);line-height:1.3;word-break:keep-all}
 .mt.ok .mf{border-color:#3FBF8B;box-shadow:0 0 0 3px rgba(63,191,139,.55),0 0 16px rgba(63,191,139,.7),0 4px 0 #1E8F63;animation:mtglow 1.2s ease-out}
 @keyframes mtglow{0%{filter:brightness(1.6)}40%{filter:brightness(1.15)}100%{filter:none}}
 .mt.pop{animation:mtpop2 .6s cubic-bezier(.3,1.6,.5,1)}
@@ -1143,7 +1144,7 @@ const MENU = {
       ]},
       {id:'p-game', hidden:true, parent:'p-quiz', title:'재미있는 속담 게임', note:'', items:[
         {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 게임', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
-        {id:'p-g-2', ic:'🎲', title:'게임 2', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']},
+        {id:'p-g-2', status:'done', render:()=>renderMatch('p'), init:()=>initMatch('p'), ic:'🧩', title:'속담딱지 뒤집기', desc:'딱지를 뒤집어 속담의 앞뒤 짝을 찾아요. 100점 만점!', plan:[]},
         {id:'p-g-3', ic:'🧩', title:'게임 3', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']},
         {id:'p-g-4', ic:'🏁', title:'게임 4', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']}
       ]}
@@ -1165,7 +1166,7 @@ const MENU = {
         {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
         {id:'w-q-cho', status:'done', render:()=>renderCho(), init:()=>initCho(), ic:'🔠', title:'순우리말 초성놀이', desc:'초성과 뜻을 보고 낱말을 완성해요. 하트 3개로 도전!', plan:[]},
         {id:'w-q-test', status:'done', render:()=>renderTest('w'), init:()=>initTest('w'), ic:'🏅', title:'나의 순우리말 실력은?', desc:'10문제 시험지를 풀고 내 순우리말 실력을 확인해 봐요.', plan:['종합 평가 20문항','평가 결과 화면']},
-        {id:'w-q-match', status:'done', render:()=>renderMatch(), init:()=>initMatch(), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
+        {id:'w-q-match', status:'done', render:()=>renderMatch('w'), init:()=>initMatch('w'), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
       ]},
       {id:'w-media', title:'순우리말 영상', note:'', items:[
         {id:'w-video', status:'done', render:()=>renderVideo(true), init:()=>initVideo(true), ic:'🎬', title:'순우리말 영상 자료 보기', desc:'순우리말 영상 30편을 모아서 보아요.', plan:['영상 목록','영상 시청 후 한 줄 생각 남기기']}
@@ -1774,6 +1775,7 @@ function initFill(){
   }
   function result(){
     const t=GM.total, msg=t>=90?['🏆','속담 박사님!','거의 다 맞혔어요. 정말 대단해요!']:t>=70?['🥇','속담 달인!','아주 잘했어요. 조금만 더 하면 박사!']:t>=50?['🥈','속담 튼튼이','잘하고 있어요. 한 번 더 도전해 볼까요?']:['🌱','속담 새싹','괜찮아요! 하다 보면 쑥쑥 자라요.'];
+    if(P) msg[1]=msg[1].replace('순우리말','속담');
     gmSnd('end');
     say(`<div class="gres"><div class="gr-top"><span>${msg[0]}</span><b>${msg[1]}</b><small>${msg[2]}</small></div>
       <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>
@@ -1788,33 +1790,38 @@ function initFill(){
 
 
 
-/* ---------- 순우리말 나의 실력 확인하기 : 말딱지 뒤집기 ---------- */
-function renderMatch(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="gmt"><div class="fhead ${curCls}"><span class="fhe">🧩</span><div><b>말딱지 뒤집기</b><small>딱지를 뒤집어 낱말과 뜻의 짝을 찾아요</small></div></div><div class="gbody" id="gmb"><div class="fmsg">불러오는 중…</div></div></div>`;
+/* ---------- 말딱지 뒤집기(순우리말) · 속담딱지 뒤집기(속담 게임 2): 같은 방식 ---------- */
+const PV_PAIRS=[["가는 말이 고와야","오는 말이 곱다"],["낮말은 새가 듣고","밤말은 쥐가 듣는다"],["구슬이 서 말이라도","꿰어야 보배"],["사공이 많으면","배가 산으로 간다"],["서당 개 삼 년이면","풍월을 읊는다"],["아니 땐 굴뚝에","연기 나랴"],["윗물이 맑아야","아랫물이 맑다"],["콩 심은 데 콩 나고","팥 심은 데 팥 난다"],["고래 싸움에","새우 등 터진다"],["소 잃고","외양간 고친다"],["쥐구멍에도","볕 들 날 있다"],["천 리 길도","한 걸음부터"],["꿩 먹고","알 먹는다"],["눈 가리고","아웅 한다"],["닭 쫓던 개","지붕 쳐다본다"],["되로 주고","말로 받는다"],["뛰는 놈 위에","나는 놈 있다"],["말 한마디에","천 냥 빚도 갚는다"],["바늘 도둑이","소 도둑 된다"],["발 없는 말이","천 리 간다"],["배보다","배꼽이 더 크다"],["백지장도","맞들면 낫다"],["불난 집에","부채질한다"],["비 온 뒤에","땅이 굳어진다"],["아는 길도","물어 가라"],["우물에 가","숭늉 찾는다"],["입에 쓴 약이","몸에 좋다"],["작은 고추가","더 맵다"],["지렁이도 밟으면","꿈틀한다"],["하룻강아지","범 무서운 줄 모른다"],["목마른 사람이","우물 판다"],["믿는 도끼에","발등 찍힌다"],["벼는 익을수록","고개를 숙인다"],["소문난 잔치에","먹을 것 없다"],["세 살 버릇","여든까지 간다"],["쇠뿔도","단김에 빼라"],["열 번 찍어","안 넘어가는 나무 없다"],["우는 아이","젖 준다"],["자라 보고 놀란 가슴","솥뚜껑 보고 놀란다"],["하나를 보면","열을 안다"],["꼬리가 길면","밟힌다"],["하늘이 무너져도","솟아날 구멍이 있다"],["고양이 목에","방울 달기"],["호랑이 굴에 가야","호랑이 새끼를 잡는다"],["까마귀 날자","배 떨어진다"],["열 손가락 깨물어","안 아픈 손가락 없다"],["개천에서","용 난다"],["달도 차면","기운다"],["보기 좋은 떡이","먹기도 좋다"],["사촌이 땅을 사면","배가 아프다"],["번갯불에","콩 볶아 먹겠다"],["어물전 망신은","꼴뚜기가 시킨다"],["이가 없으면","잇몸으로 산다"],["호랑이 없는 골에","토끼가 왕 노릇 한다"],["토끼 둘을 잡으려다가","하나도 못 잡는다"],["참새가 방앗간을","그저 지나랴"],["모기 보고","칼 빼기"],["개미구멍이","둑을 무너뜨린다"],["손바닥으로","하늘 가리기"],["귀에 걸면 귀걸이","코에 걸면 코걸이"],["손 안 대고","코 풀기"],["물독에 빠진","생쥐 같다"],["소 뒷걸음질 치다","쥐 잡기"],["물에 빠지면","지푸라기라도 잡는다"],["입이 열 개라도","할 말이 없다"],["도둑이","제 발 저리다"],["범 가는 데","바람 간다"],["호박씨 까서","한입에 털어 넣는다"],["될성부른 나무는","떡잎부터 알아본다"],["한번 엎지른 물은","다시 주워 담지 못한다"],["병 주고","약 준다"],["고운 자식","매로 키운다"],["뿌리 깊은 나무","가뭄 안 탄다"],["노루 피하니","범이 온다"],["산이 깊어야","범이 있다"],["죽 쑤어","개 준다"],["미운 파리 잡으려다가","성한 팔이 상한다"],["가재는","게 편이다"],["고생 끝에","낙이 온다"],["공든 탑이","무너지랴"],["굼벵이도","구르는 재주가 있다"],["간에","기별도 안 간다"],["개구리","올챙이 적 생각 못 한다"],["낫 놓고","기역 자도 모른다"],["다 된 밥에","재 뿌리기"],["땅 짚고","헤엄치기"],["등잔 밑이","어둡다"],["옥에도","티가 있다"],["원숭이도","나무에서 떨어진다"],["짚신도","짝이 있다"],["남의 떡이","더 커 보인다"],["앓던 이","빠진 것 같다"],["오르지 못할 나무는","쳐다보지도 마라"],["빈 수레가","요란하다"],["바늘구멍으로","황소바람 들어온다"]];
+function renderMatch(mode){
+  const P=mode==='p';
+  return `<div class="leaf fitwrap ${curCls} gm" id="gmt"><div class="fhead ${curCls}"><span class="fhe">🧩</span><div><b>${P?'속담딱지 뒤집기':'말딱지 뒤집기'}</b><small>${P?'딱지를 뒤집어 속담의 앞뒤 짝을 찾아요':'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요'}</small></div></div><div class="gbody" id="gmb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
-function initMatch(){
+function initMatch(mode){
+  const P=mode==='p';
   const gb=document.getElementById('gmb'); if(!gb) return;
   const G={tm:null,pool:null};
   const say=h=>{ gb.innerHTML=h; };
   function intro(){
     clearInterval(G.tm);
-    say(`<div class="gintro"><div class="gi-ttl">🧩 말딱지 뒤집기</div>
-      <ol class="gi-ol"><li><i>1</i><span>엎어진 <b>딱지 12개</b>가 있어요. <b>낱말 딱지</b> 6개와 <b>뜻 딱지</b> 6개예요.</span></li>
-      <li><i>2</i><span>딱지를 <b>두 개씩 뒤집어서</b> 낱말과 뜻이 맞는 <b>짝</b>을 찾아요.</span></li>
+    say(`<div class="gintro"><div class="gi-ttl">🧩 ${P?'속담딱지 뒤집기':'말딱지 뒤집기'}</div>
+      <ol class="gi-ol"><li><i>1</i><span>엎어진 <b>딱지 12개</b>가 있어요. ${P?'<b>속담의 앞 토막</b> 6개와 <b>뒤 토막</b> 6개예요.':'<b>낱말 딱지</b> 6개와 <b>뜻 딱지</b> 6개예요.'}</span></li>
+      <li><i>2</i><span>딱지를 <b>두 개씩 뒤집어서</b> ${P?'속담이 <b>완성되는 짝</b>을':'낱말과 뜻이 맞는 <b>짝</b>을'} 찾아요.</span></li>
       <li><i>3</i><span><b>맞으면 그대로</b> 남고, <b>틀리면 다시 뒤집혀요.</b></span></li>
       <li><i>4</i><span>적게 틀리고 빨리 끝낼수록 <b>높은 점수</b>예요.</span></li></ol>
       <div class="gi-box">6쌍 · <b>100점 만점</b><small>틀려도 -2점뿐 · 2분이 지나면 조금씩 깎이고 · 최저 50점</small></div>
-      <div class="gi-act"><button class="cta wd gi-go" id="mgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
+      <div class="gi-act"><button class="cta ${P?'pv':'wd'} gi-go" id="mgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
     document.getElementById('mgo').onclick=start;
   }
   function start(){
     gmSnd('x');
-    loadWords().then(a=>{
+    (P?Promise.resolve(PV_PAIRS):loadWords()).then(a=>{
+      if(P){ G.pool=a.map((x,i)=>({id:'q'+i,w:x[0],m:x[1],full:x[0]+' '+x[1]})); return play(); }
       G.pool=a.filter(x=>!x.x&&/^[가-힣]{2,5}$/.test(x.w)&&x.m[0]&&!/[()（）]/.test(x.m[0])).map(x=>({id:x.id,w:x.w,m:x.m[0].replace(/\.$/,'').trim()})).filter(x=>x.m.length>=6&&x.m.length<=22&&!x.m.includes(x.w));
       play();
     }).catch(()=>say('<div class="fmsg">낱말을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
   }
   function pick(){
+    if(P){ for(let t=0;t<200;t++){ const c=gmShuf(G.pool.slice()).slice(0,6); if(new Set(c.map(x=>x.w[0])).size===6&&new Set(c.map(x=>x.m[0])).size===6) return c; } return gmShuf(G.pool.slice()).slice(0,6); }
     for(let t=0;t<200;t++){
       const c=gmShuf(G.pool.slice()).slice(0,6);
       if(new Set(c.map(x=>x.w[0])).size<6) continue;
@@ -1830,7 +1837,7 @@ function initMatch(){
     const tiles=gmShuf(set.flatMap(x=>[{k:x.id,t:'w',x:x.w},{k:x.id,t:'m',x:x.m}])).map((t,i)=>(t.d=dk[i],t));
     const st={found:0,wrong:0,streak:0,open:[],lock:false,t0:0,sec:0};
     say(`<div class="gtop"><span class="gn">짝 <b id="mfound">0</b>/6</span><span class="gsc">⏱ <b id="mtime">0</b>초</span><span class="gtot">틀림 <b id="mwrong">0</b></span></div>
-      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb" style="--bk:url(icons/dk/${String(t.d).padStart(2,'0')}.webp)"></i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
+      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb" style="--bk:url(icons/dk/${String(t.d).padStart(2,'0')}.webp)"></i><i class="mf${P?' pp':t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
     const els=[...gb.querySelectorAll('.mt')], $=id=>document.getElementById(id);
     const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
     const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp);
@@ -1868,8 +1875,8 @@ function initMatch(){
       <div class="gr-sc"><b>${sc}</b><i>/ 100점</i></div>
       <div class="gr-st">${[90,80,65].map(v=>`<i class="${sc>=v?'on':''}">★</i>`).join('')}</div>
       <div class="gsub">${sec}초 · ${st.wrong}번 틀렸어요</div>
-      <ul class="gr-ls mlist">${set.map((x,i)=>`<li><span class="no">${i+1}</span><span class="tx"><b>${esc(x.w)}</b> ${esc(x.m)}</span></li>`).join('')}</ul>
-      <div class="gr-bt"><button class="cta wd" id="mre">🔁 다시 하기 <small>(새로운 낱말)</small></button><button class="gr-sub" data-go="w-check">‹ 실력 확인 메뉴</button></div></div>`);
+      <ul class="gr-ls mlist">${set.map((x,i)=>`<li><span class="no">${i+1}</span><span class="tx">${P?'<b>'+esc(x.full)+'</b>':`<b>${esc(x.w)}</b> ${esc(x.m)}`}</span></li>`).join('')}</ul>
+      <div class="gr-bt"><button class="cta ${P?'pv':'wd'}" id="mre">🔁 다시 하기 <small>(새로운 ${P?'속담':'낱말'})</small></button><button class="gr-sub" data-go="${P?'p-game':'w-check'}">‹ ${P?'게임 메뉴':'실력 확인 메뉴'}</button></div></div>`);
     document.getElementById('mre').onclick=start;
   }
   intro();
