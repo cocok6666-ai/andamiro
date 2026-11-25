@@ -1790,7 +1790,7 @@ function initMatch(){
     const tiles=gmShuf(set.flatMap(x=>[{k:x.id,t:'w',x:x.w},{k:x.id,t:'m',x:x.m}])).map((t,i)=>(t.d=dk[i],t));
     const st={found:0,wrong:0,streak:0,open:[],lock:false,t0:0,sec:0};
     say(`<div class="gtop"><span class="gn">짝 <b id="mfound">0</b>/6</span><span class="gsc">⏱ <b id="mtime">0</b>초</span><span class="gtot">틀림 <b id="mwrong">0</b></span></div>
-      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb" style="--bk:url(icons/dk/${String(t.d).padStart(2,'0')}.webp)"><b>말</b></i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
+      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb" style="--bk:url(icons/dk/${String(t.d).padStart(2,'0')}.webp)"></i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
     const els=[...gb.querySelectorAll('.mt')], $=id=>document.getElementById(id);
     const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
     const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp);
