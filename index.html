@@ -409,16 +409,16 @@ body:has(.hubfit){overflow:hidden}
 .cqmean{font-size:clamp(17px,2.9dvh,21px);font-weight:700;line-height:1.5;word-break:keep-all;color:var(--ink)}
 .cqex{min-height:2.9em;font-size:13.5px;line-height:1.45;color:var(--mute);word-break:keep-all;opacity:0;transition:opacity .45s}.cqex.on{opacity:1}
 .cqslots{flex:none;display:flex;justify-content:center;gap:8px}
-.cqs{width:clamp(50px,8.6dvh,64px);height:clamp(58px,10dvh,74px);border-radius:15px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:clamp(26px,4.4dvh,34px);color:var(--pv-deep);box-shadow:0 4px 0 var(--pv-soft),inset 0 0 0 2px var(--pv-soft)}
+.cqs{width:clamp(46px,7.6dvh,58px);height:clamp(52px,8.6dvh,64px);border-radius:15px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:clamp(26px,4.4dvh,34px);color:var(--pv-deep);box-shadow:0 4px 0 var(--pv-soft),inset 0 0 0 2px var(--pv-soft)}
 .cqs b{font-weight:400;line-height:1}
-.cqs.on{animation:cqon .7s infinite alternate;box-shadow:0 4px 0 var(--pv),inset 0 0 0 3px var(--pv)}@keyframes cqon{to{transform:translateY(-4px)}}
 .cqs.ok{background:linear-gradient(#DDF8E8,#A8EBC4);color:#0F5E3A;box-shadow:0 4px 0 #36B67F,inset 0 0 0 2px #36B67F;animation:cqpop .4s}@keyframes cqpop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
 .cqs.no{background:linear-gradient(#FFE3DD,#FFB8AC);color:#9D2A1B;box-shadow:0 4px 0 #D9503E,inset 0 0 0 2px #D9503E}
 .cqopts{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cqo{display:grid;place-items:center;text-align:center;padding:0;border:0;border-radius:16px;height:clamp(54px,9dvh,70px);background:linear-gradient(#fff,#F4EBD3);font-family:var(--display);font-size:clamp(30px,5dvh,38px);color:var(--ink);box-shadow:0 4px 0 #CDBE96,0 6px 8px rgba(0,0,0,.08);-webkit-tap-highlight-color:transparent;transition:transform .08s}
-.cqo:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #CDBE96}
-.cqo.bad{background:linear-gradient(#FFD9D2,#FFABA0);color:#A32D1D;box-shadow:0 4px 0 #D9503E;animation:mtshk .4s}
-.cqo.fade{opacity:.28;box-shadow:none}
+.cqo{display:grid;place-items:center;text-align:center;padding:0;height:clamp(50px,8.4dvh,62px);border:2px solid var(--line);border-radius:14px;background:#fff;font-family:var(--sans);font-weight:800;font-size:clamp(20px,3.3dvh,24px);color:var(--ink);-webkit-tap-highlight-color:transparent;transition:transform .08s,background .15s}
+.cqo:active:not(:disabled){transform:scale(.97);background:var(--pv-soft)}
+.cqo.bad{background:#FFE1DB;border-color:#E56B58;color:#A32D1D;text-decoration:line-through;animation:mtshk .4s}
+.cqo.good{background:#D9F6E5;border-color:#36B67F;color:#0F5E3A;animation:cqpop .4s}
+.cqo.fade{opacity:.3}
 .cqbot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;padding-bottom:2px}
 .cqh{border:0;border-radius:14px;padding:8px 14px;background:#FFF1BF;color:#7A5A12;font-weight:800;font-size:14px;box-shadow:0 3px 0 #E2C463}.cqh:disabled{opacity:.4;box-shadow:none}.cqh b{color:#C2492F}
 .cqcb{flex:1;text-align:center;font-size:14px;font-weight:800;color:var(--mute)}.cqcb.hot{color:#E5700F;animation:cqhot .6s infinite alternate}@keyframes cqhot{to{transform:scale(1.12)}}
@@ -1884,14 +1884,14 @@ function initCho(){
   const say=h=>{ gb.innerHTML=h; };
   const best=()=>{ try{ return +localStorage.getItem(KEY)||0; }catch(e){ return 0; } };
   const TIER=[[600,'👑','순우리말 대왕'],[400,'🏆','순우리말 박사'],[250,'🥇','순우리말 달인'],[120,'🥈','순우리말 튼튼이'],[0,'🌱','순우리말 새싹']];
-  const LIM={2:15000,3:20000,4:25000}, BASE={2:10,3:15,4:20};
+  const LIM={2:10000,3:12000,4:14000}, BASE={2:10,3:15,4:20};
   function intro(){
     clearInterval(G.tm); const b=best();
     say(`<div class="gintro cqi"><div class="gi-ttl">🔠 순우리말 초성놀이</div>
       <ol class="gi-ol"><li><i>1</i><span><b>뜻풀이</b>와 <b>초성</b>(ㅅㅂㅇ…)을 보고 어떤 낱말인지 떠올려요.</span></li>
-      <li><i>2</i><span>칸마다 <b>알맞은 글자</b>를 골라 낱말을 완성해요.</span></li>
+      <li><i>2</i><span>초성이 같은 <b>보기 4개</b> 중에서 뜻에 맞는 낱말을 골라요.</span></li>
       <li><i>3</i><span>연속으로 맞히면 점수가 <b>×2 ×3 ×4</b>! <b>황금 낱말</b>은 2배예요.</span></li>
-      <li><i>4</i><span>한 낱말에서 <b>2번 틀리거나</b> 시간이 끝나면 <b>하트</b>가 깨져요. 하트 3개가 모두 깨지면 끝!</span></li></ol>
+      <li><i>4</i><span>한 문제에서 <b>2번 틀리거나</b> 시간이 끝나면 <b>하트</b>가 깨져요. 하트 3개가 모두 깨지면 끝!</span></li></ol>
       <div class="gi-box">10문제 · 하트 3개 · <b>${b?'내 최고 '+b+'점':'첫 기록에 도전!'}</b><small>5연속 맞히면 💖 하트가 하나 돌아와요</small></div>
       <div class="gi-act"><button class="cta wd gi-go" id="cqgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
     $('cqgo').onclick=start;
@@ -1900,8 +1900,7 @@ function initCho(){
     gmSnd('ok');
     loadWords().then(a=>{
       G.pool=a.filter(x=>!x.x&&/^[가-힣]{2,4}$/.test(x.w)&&x.m[0]&&!/[()（）]/.test(x.m[0])).map(x=>({id:x.id,w:x.w,p:x.p||'',m:x.m[0].trim(),e:(x.e||'').trim()})).filter(x=>x.m.length>=6&&x.m.length<=46&&!x.m.includes(x.w));
-      G.syl={}; G.pool.forEach(x=>[...x.w].forEach(c=>{ const i=choI(c); (G.syl[i]=G.syl[i]||new Set()).add(c); }));
-      Object.keys(G.syl).forEach(k=>G.syl[k]=[...G.syl[k]]);
+      G.all=a.filter(x=>!x.x&&/^[가-힣]{2,4}$/.test(x.w)).map(x=>x.w);
       play();
     }).catch(()=>say('<div class="fmsg">낱말을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>'));
   }
@@ -1909,11 +1908,10 @@ function initCho(){
     const by=n=>gmShuf(G.pool.filter(x=>x.w.length===n)), gold=3+(Math.random()*7|0);
     return [...by(2).slice(0,3),...by(3).slice(0,4),...by(4).slice(0,3)].map((x,i)=>({...x,gold:i===gold}));
   }
-  function makeOpts(ch){
-    const ii=choI(ch), hf=choF(ch)>0, c=(G.syl[ii]||[]).filter(s=>s!==ch);
-    const ds=gmShuf(c.filter(s=>(choF(s)>0)===hf)).concat(gmShuf(c.filter(s=>(choF(s)>0)!==hf))).slice(0,3);
-    for(const v of gmShuf([0,4,8,13,18,20])){ if(ds.length>=3) break; const s=String.fromCharCode(0xAC00+ii*588+v*28); if(s!==ch&&!ds.includes(s)) ds.push(s); }
-    return gmShuf([ch,...ds]);
+  function makeOpts(w){
+    const sc=o=>[...w].reduce((n,c,i)=>n+(choI(c)===choI(o[i])?1:0),0)+Math.random()*1.2;
+    const ds=G.all.filter(o=>o.length===w.length&&o!==w).map(o=>[sc(o),o]).sort((x,y)=>y[0]-x[0]).slice(0,3).map(x=>x[1]);
+    return gmShuf([w,...ds]);
   }
   const hearts=()=>'❤️'.repeat(S.hp)+'🖤'.repeat(3-S.hp);
   const mult=()=>1+Math.min(3,Math.floor(S.streak/3));
@@ -1942,15 +1940,14 @@ function initCho(){
     setTimeout(nextQ,1300);
   }
   function renderOpts(){
-    S.opts=makeOpts(S.cur.w[S.slot]);
+    S.opts=makeOpts(S.cur.w);
     $('cqopts').innerHTML=S.opts.map(s=>`<button class="cqo" type="button" data-s="${s}">${s}</button>`).join('');
-    document.querySelectorAll('#cqslots .cqs').forEach((el,i)=>el.classList.toggle('on',i===S.slot));
   }
   function nextQ(){
     clearInterval(G.tm);
     if(!$('cqg')) return;
     if(S.q>=10) return finish(true);
-    const w=S.words[S.q]; S.cur=w; S.slot=0; S.mist=0; S.pen=0; S.t0=Date.now(); S.lim=LIM[w.w.length]; S.ex=false; S.el=false; S.locked=false;
+    const w=S.words[S.q]; S.cur=w; S.mist=0; S.pen=0; S.t0=Date.now(); S.lim=LIM[w.w.length]; S.ex=false; S.el=false; S.locked=false;
     const lv=S.q<3?1:S.q<7?2:3; $('cqlv').textContent=`Lv.${lv} · ${S.q+1}/10`;
     const card=$('cqcard'); card.className='cqcard'+(w.gold?' gold':''); card.innerHTML=`<div class="cqtags"><span class="cqbd">${esc(w.p||'낱말')}</span>${w.gold?'<span class="cqbd gd">✨ 황금 낱말 ×2</span>':''}</div><p class="cqmean">${esc(w.m)}</p><p class="cqex" id="cqex"></p>`;
     card.classList.remove('in'); void card.offsetWidth; card.classList.add('in');
@@ -1975,7 +1972,7 @@ function initCho(){
     else elim(1,true);
   }
   function elim(n,auto){
-    const live=[...document.querySelectorAll('#cqopts .cqo:not(:disabled)')].filter(b=>b.dataset.s!==S.cur.w[S.slot]);
+    const live=[...document.querySelectorAll('#cqopts .cqo:not(:disabled)')].filter(b=>b.dataset.s!==S.cur.w);
     if(document.querySelectorAll('#cqopts .cqo:not(:disabled)').length<=2) return false;
     gmShuf(live).slice(0,n).forEach(b=>{ b.disabled=true; b.classList.add('fade'); }); return true;
   }
@@ -1985,22 +1982,20 @@ function initCho(){
   }
   function tap(b){
     if(S.locked||b.disabled) return;
-    const s=b.dataset.s, need=S.cur.w[S.slot], slots=document.querySelectorAll('#cqslots .cqs');
-    if(s===need){
-      const el=slots[S.slot]; el.className='cqs ok'; el.innerHTML=`<b>${s}</b>`; S.slot++;
-      try{navigator.vibrate&&navigator.vibrate(15);}catch(e){}
-      if(S.slot>=S.cur.w.length) return win();
-      gmSnd('ok'); renderOpts();
-    } else {
-      b.disabled=true; b.classList.add('bad'); S.mist++; S.pen+=2000; S.streak=0; gmSnd('no');
-      try{navigator.vibrate&&navigator.vibrate([40,25,40]);}catch(e){}
-      const c=$('cqcard'); c.classList.remove('hit'); void c.offsetWidth; c.classList.add('hit');
-      flt(b,'앗, 아니에요 ❌','miss',-6); burst(b,['💦'],3); hud(); bump('cqch');
-      if(S.mist>=2) lose(false);
+    const s=b.dataset.s;
+    if(s===S.cur.w){
+      document.querySelectorAll('#cqslots .cqs').forEach((el,i)=>{ el.className='cqs ok'; el.innerHTML=`<b>${s[i]}</b>`; el.style.animationDelay=(i*70)+'ms'; });
+      b.classList.add('good'); document.querySelectorAll('#cqopts .cqo').forEach(x=>{ if(x!==b) x.classList.add('fade'); });
+      return win();
     }
+    b.disabled=true; b.classList.add('bad'); S.mist++; S.pen+=1500; S.streak=0; gmSnd('no');
+    try{navigator.vibrate&&navigator.vibrate([40,25,40]);}catch(e){}
+    const c=$('cqcard'); c.classList.remove('hit'); void c.offsetWidth; c.classList.add('hit');
+    flt(b,'앗, 아니에요 ❌','miss',-6); burst(b,['💦'],3); hud(); bump('cqch');
+    if(S.mist>=2) lose(false);
   }
   function win(){
-    S.locked=true; const w=S.cur, left=Math.max(0,S.lim-(Date.now()-S.t0+S.pen)), tb=Math.min(10,Math.floor(left/2000)), pf=S.mist===0?5:0;
+    S.locked=true; const w=S.cur, left=Math.max(0,S.lim-(Date.now()-S.t0+S.pen)), tb=Math.min(8,Math.floor(left/1000)), pf=S.mist===0?5:0;
     S.streak++; S.maxS=Math.max(S.maxS,S.streak); S.solved++; const m=mult(), gain=(BASE[w.w.length]+tb+pf)*m*(w.gold?2:1); S.score+=gain;
     S.res.push({w:w.w,m:w.m,ok:true}); gmSnd('ok');
     const sl=$('cqslots'); burst(sl,['⭐','✨','🎉'],9); flt(sl,`+${gain}${m>1?' ×'+m:''}${w.gold?' ✨':''}`,'good',-8);
@@ -2015,7 +2010,7 @@ function initCho(){
     S.hp--; S.streak=0; S.res.push({w:w.w,m:w.m,ok:false}); gmSnd('no');
     try{navigator.vibrate&&navigator.vibrate([60,30,60,30,60]);}catch(e){}
     document.querySelectorAll('#cqslots .cqs').forEach((el,i)=>{ el.className='cqs no'; el.innerHTML=`<b>${w.w[i]}</b>`; });
-    document.querySelectorAll('#cqopts .cqo').forEach(b=>b.disabled=true);
+    document.querySelectorAll('#cqopts .cqo').forEach(b=>{ b.disabled=true; if(b.dataset.s===w.w) b.classList.add('good'); });
     flt($('cqcard'),timeout?'⏰ 시간 끝!':'💔 아쉬워요','miss',-14); const h=$('cqhp'); h.classList.remove('hurt'); void h.offsetWidth; h.classList.add('hurt');
     const c=$('cqcard'); c.classList.remove('hit'); void c.offsetWidth; c.classList.add('hit');
     hud(); S.q++; setTimeout(()=>S.hp<=0?finish(false):nextQ(),1900);
