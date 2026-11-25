@@ -423,7 +423,7 @@ body:has(.hubfit){overflow:hidden}
 .cqo.fade{opacity:.3}
 .cqbot{flex:none;display:flex;align-items:center;min-height:46px;padding-bottom:2px}.cqbi{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px}.cqbi[hidden],.cqnx[hidden]{display:none}
 .cqnx{flex:1;display:grid;place-items:center;text-align:center;padding:0;height:46px;border:0;border-radius:15px;background:var(--pv);color:#fff;font-weight:800;font-size:17px;box-shadow:0 4px 0 rgba(0,0,0,.22);animation:cqnxp 1s infinite alternate}@keyframes cqnxp{to{transform:translateY(-2px)}}.cqnx:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22);animation:none}
-.cqans{height:clamp(34px,5.4dvh,44px);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--display);font-size:clamp(28px,4.6dvh,38px);line-height:1}.cqans span{font-size:.7em}.cqans.ok{color:#2B2A28;animation:cqpop .45s}.cqmark{position:absolute;right:12px;top:8px;width:clamp(54px,9.4dvh,80px);height:clamp(54px,9.4dvh,80px);overflow:visible;pointer-events:none;z-index:3}.cqmark path{fill:none;stroke:#E5252A;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:mkd .5s ease-out forwards;filter:drop-shadow(0 1px 0 rgba(229,37,42,.3))}
+.cqans{height:clamp(34px,5.4dvh,44px);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--display);font-size:clamp(28px,4.6dvh,38px);line-height:1}.cqans span{font-size:.7em}.cqans.ok{color:#2B2A28;animation:cqpop .45s}.cqcard>*:not(.cqmark){position:relative;z-index:1}.cqmark{position:absolute;left:50%;top:3px;transform:translateX(-50%);width:clamp(160px,64%,250px);height:auto;aspect-ratio:10/7;overflow:visible;pointer-events:none;z-index:0;filter:drop-shadow(0 1px 0 rgba(229,37,42,.3))}.cqmark .f{fill:#E5252A;opacity:.82}.cqmark mask path{fill:none;stroke:#fff;stroke-width:19;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:mkd .55s ease-out forwards}
 .cqh{border:0;border-radius:14px;padding:8px 14px;background:#FFF1BF;color:#7A5A12;font-weight:800;font-size:14px;box-shadow:0 3px 0 #E2C463}.cqh:disabled{opacity:.4;box-shadow:none}.cqh b{color:#C2492F}
 .cqcb{flex:1;text-align:center;font-size:14px;font-weight:800;color:var(--mute)}.cqcb.hot{color:#E5700F;animation:cqhot .6s infinite alternate}@keyframes cqhot{to{transform:scale(1.12)}}
 .cqch{font-size:12.5px;color:#2FA06C;font-weight:800;white-space:nowrap}.cqch i{font-style:normal;color:#D5C8A8}.cqch.bump{animation:mtbump .45s}
@@ -2017,8 +2017,8 @@ function initCho(){
   /* 정답을 설명문 위에 보여 주고, '다음 문제' 버튼을 누를 때까지 멈춰 둔다 */
   function reveal(ok,label,go){
     const w=S.cur; $('cqans').innerHTML=ok?esc(w.w):`<span>❌</span> ${esc(w.w)}`;
-    if(ok){ const m=document.createElementNS('http://www.w3.org/2000/svg','svg'); m.setAttribute('class','cqmark'); m.setAttribute('viewBox','0 0 60 60'); m.setAttribute('aria-hidden','true');
-      m.innerHTML=`<path pathLength="1" d="${MK_O}"/>`; $('cqcard').appendChild(m); }
+    if(ok){ const m=document.createElementNS('http://www.w3.org/2000/svg','svg'); m.setAttribute('class','cqmark'); m.setAttribute('viewBox','0 0 100 70'); m.setAttribute('aria-hidden','true');
+      m.innerHTML='<defs><mask id="cqmk"><path pathLength="1" d="M84 10 C58 2 18 8 13 33 C10 52 34 64 55 61 C74 58 88 48 90 40"/></mask></defs><path class="f" mask="url(#cqmk)" d="M82 10 C60 0 22 4 9 30 C-2 54 28 68 56 64 C78 61 92 50 90 40 C88 46 76 56 54 58 C32 60 16 52 17 36 C19 18 50 10 82 10 Z"/>'; $('cqcard').appendChild(m); }
     const ex=$('cqex'); if(ex){ ex.className='cqex on'; ex.innerHTML=w.e?'📖 '+esc(w.e).split(esc(w.w)).join('<b>'+esc(w.w)+'</b>'):''; }
     $('cqbi').hidden=true; const b=$('cqnx'); b.hidden=false; b.textContent=label; b.onclick=()=>{ b.onclick=null; go(); };
   }
