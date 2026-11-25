@@ -404,6 +404,19 @@ body:has(.hubfit){overflow:hidden}
 .sb-st3{font-size:30px;color:#d9cdb0;letter-spacing:4px}.sb-st3 .on{color:#F2B21C;text-shadow:0 2px 0 #A86D0C55;font-style:normal}.sb-st3 i{font-style:normal}
 .sb-full{font-family:var(--display);font-size:clamp(20px,3.2dvh,25px);color:var(--pv-deep);line-height:1.3;word-break:keep-all}
 .sb-mn{font-size:14px;color:var(--mute);line-height:1.45;word-break:keep-all}.sb-note{font-size:15px}.sb-note b{color:var(--pv)}
+.bl-field{position:relative;flex:1;min-height:240px;border-radius:18px;overflow:hidden;background:linear-gradient(#9ED8F5,#D7F0FB 70%,#F2FBF4);box-shadow:inset 0 0 0 2px #7DC3E6,0 3px 0 #5BA7CC;touch-action:manipulation}
+.bl-field.slow{background:linear-gradient(#BFE9FF,#E8F8FF 70%,#F5FDFF);box-shadow:inset 0 0 0 3px #7FD3F5,0 0 14px #9BE0FF}
+.bl-ice{position:absolute;inset:0;display:none;place-items:center;font-size:90px;opacity:.18;pointer-events:none}.bl-field.slow .bl-ice{display:grid}
+.bl-cl{position:absolute;font-style:normal;font-size:34px;opacity:.8;pointer-events:none}.bl-cl.c1{left:8%;top:10%}.bl-cl.c2{right:10%;top:34%;font-size:26px}.bl-cl.c3{left:40%;top:62%;font-size:30px;opacity:.55}
+.bl{position:absolute;left:0;top:0;border-radius:50% 50% 48% 48% / 56% 56% 44% 44%;display:grid;place-items:center;padding:8px 8px 14px;text-align:center;font-weight:800;line-height:1.25;word-break:keep-all;color:#3A2A1A;border:0;box-shadow:inset -8px -10px 0 rgba(0,0,0,.1),inset 6px 6px 0 rgba(255,255,255,.35),0 4px 8px rgba(0,0,0,.14);will-change:transform;touch-action:manipulation}
+.bl span{pointer-events:none;text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.bl::before{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-6px;border:6px solid transparent;border-bottom:9px solid currentColor;border-top:0;color:inherit}
+.bl-s{position:absolute;left:50%;top:100%;width:2px;height:26px;margin-left:-1px;background:rgba(80,60,40,.45);pointer-events:none}
+.bl.bc0{background:radial-gradient(circle at 32% 28%,#FFE3E0,#FF8F85 70%);color:#FF8F85}.bl.bc1{background:radial-gradient(circle at 32% 28%,#FFF3C2,#FFC93C 70%);color:#FFC93C}.bl.bc2{background:radial-gradient(circle at 32% 28%,#DDF6C8,#7FD36B 70%);color:#7FD36B}.bl.bc3{background:radial-gradient(circle at 32% 28%,#D8EEFF,#6FB7F2 70%);color:#6FB7F2}.bl.bc4{background:radial-gradient(circle at 32% 28%,#EBDDFF,#B38CF0 70%);color:#B38CF0}.bl.bc5{background:radial-gradient(circle at 32% 28%,#FFE0F0,#F58BC0 70%);color:#F58BC0}
+.bl span{color:#3A2A1A}
+.bl.pop{pointer-events:none;animation:blpop .38s ease-out forwards}@keyframes blpop{40%{scale:1.35;opacity:1}100%{scale:1.7;opacity:0}}
+.bl-ok{position:absolute;left:10px;right:10px;bottom:10px;background:#fff;border-radius:16px;padding:11px 13px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.2),inset 0 0 0 1.5px var(--pv-soft);display:flex;flex-direction:column;gap:5px;animation:mtpop2 .35s;z-index:5}
+.bl-tt{font-weight:800;font-size:15px;color:var(--pv)}
 .mt .mf.pp{font-family:var(--sans);font-weight:800;font-size:clamp(13px,2.15dvh,16px);line-height:1.3;word-break:keep-all}
 .mt.ok .mf{border-color:#3FBF8B;box-shadow:0 0 0 3px rgba(63,191,139,.55),0 0 16px rgba(63,191,139,.7),0 4px 0 #1E8F63;animation:mtglow 1.2s ease-out}
 @keyframes mtglow{0%{filter:brightness(1.6)}40%{filter:brightness(1.15)}100%{filter:none}}
@@ -1174,7 +1187,7 @@ const MENU = {
         {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 게임', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
         {id:'p-g-2', status:'done', render:()=>renderMatch('p'), init:()=>initMatch('p'), ic:'🧩', title:'속담딱지 뒤집기', desc:'딱지를 뒤집어 속담의 앞뒤 짝을 찾아요. 100점 만점!', plan:[]},
         {id:'p-g-3', status:'done', render:()=>renderStep(), init:()=>initStep(), ic:'🐸', title:'속담 징검다리', desc:'낱말 돌을 순서대로 밟아 속담 다리를 건너요. 개구리를 도와주세요!', plan:[]},
-        {id:'p-g-4', ic:'🏁', title:'게임 4', desc:'새로운 속담 게임이 곧 열려요.', plan:['새로운 속담 게임']}
+        {id:'p-g-4', status:'done', render:()=>renderBalloon(), init:()=>initBalloon(), ic:'🎈', title:'속담 풍선 터뜨리기', desc:'뜻에 맞는 속담 풍선만 톡! 터뜨려요. 빠를수록 높은 점수!', plan:[]}
       ]}
     ]
   },
@@ -2044,6 +2057,141 @@ function initStep(){
       ${S.done.length?`<ul class="gr-ls mlist">${S.done.map((t,i)=>`<li><span class="no">${i+1}</span><span class="tx"><b>${esc(t)}</b></span></li>`).join('')}</ul>`:''}
       <div class="gr-bt"><button class="cta pv" id="sre">🔁 다시 하기 <small>(새로운 속담)</small></button><button class="gr-sub" data-go="p-game">‹ 게임 메뉴</button></div></div>`);
     document.getElementById('sre').onclick=start;
+  }
+  intro();
+}
+
+/* ---------- 속담 게임 4 : 속담 풍선 터뜨리기 ---------- */
+let BLPOOL=null;
+function loadBlPool(){
+  if(BLPOOL) return Promise.resolve(BLPOOL);
+  return Promise.all([loadEmoji(),loadPic()]).then(([a,b])=>{
+    const seen=new Set(), out=[];
+    a.map(x=>({t:x.t,m:x.m})).concat(b.map(x=>({t:x.p,m:x.m}))).forEach(x=>{
+      const k=x.t.replace(/\s/g,''); if(seen.has(k)) return; seen.add(k); out.push({t:x.t,m:x.m});
+    });
+    return (BLPOOL=out);
+  });
+}
+function renderBalloon(){
+  return `<div class="leaf fitwrap ${curCls} gm" id="blg"><div class="fhead ${curCls}"><span class="fhe">🎈</span><div><b>속담 풍선 터뜨리기</b><small>뜻에 맞는 속담 풍선만 톡! 터뜨려요</small></div></div><div class="gbody" id="blb"><div class="fmsg"><span class="em">🎈</span>풍선을 부는 중…</div></div></div>`;
+}
+function initBalloon(){
+  const gb=document.getElementById('blb'); if(!gb) return;
+  const KEY='andamiro.bl.best', R=8, HEART=3, SLOW=2;
+  const TT=[11,11,10,10,9,9,8,7.5], GAP=0.9;
+  const say=h=>{ gb.innerHTML=h; };
+  const best=()=>{ try{ return +localStorage.getItem(KEY)||0; }catch(e){ return 0; } };
+  const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
+  const flt=(el,txt,cls,dy)=>{ const [x,y]=mid(el), e=document.createElement('div'); e.className='mflt '+cls; e.textContent=txt; e.style.left=x+'px'; e.style.top=(y+(dy||0))+'px'; document.body.appendChild(e); setTimeout(()=>e.remove(),1100); };
+  const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp); const a=Math.random()*6.28, d=40+Math.random()*70; sp.animate([{transform:'translate(0,0) scale(.6)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-20}px) scale(1.3)`,opacity:0}],{duration:700+Math.random()*300,easing:'ease-out'}); setTimeout(()=>sp.remove(),1100); } };
+  let S=null, raf=0;
+  function intro(){
+    say(`<div class="gintro"><div class="gi-ttl">🎈 속담 풍선 터뜨리기</div>
+      <ol class="gi-ol"><li><i>1</i><span>위에 <b>속담의 뜻</b>이 나와요. 하늘로 떠오르는 풍선 중에 <b>알맞은 속담</b>을 찾아요.</span></li>
+      <li><i>2</i><span>정답 풍선을 <b>톡!</b> 터뜨리면 점수를 얻어요. 빨리 터뜨릴수록 높은 점수!</span></li>
+      <li><i>3</i><span><b>틀린 풍선을 터뜨리거나</b> 정답이 하늘로 날아가면 하트가 깨져요.</span></li>
+      <li><i>4</i><span>❄️ 얼음 버튼을 누르면 풍선이 <b>천천히</b> 올라가요. (2번)</span></li></ol>
+      <div class="gi-box">문제 8개 · 하트 3개 · <b>100점 만점</b><small>뒤로 갈수록 풍선이 빨라져요</small></div>
+      <div class="gi-act"><button class="cta pv gi-go" id="bgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
+    document.getElementById('bgo').onclick=start;
+  }
+  function start(){
+    cancelAnimationFrame(raf);
+    loadBlPool().then(pool=>{
+      const qs=gmShuf(pool.slice()).slice(0,R);
+      S={r:0,heart:HEART,slow:0,slowLeft:SLOW,score:0,res:[],qs,pool,combo:0,run:false};
+      round();
+    }).catch(()=>say('<div class="fmsg"><span class="em">📡</span><b>속담을 불러오지 못했어요</b>인터넷 연결을 확인해 주세요.</div>'));
+  }
+  function hud(){
+    return `<div class="gtop"><span>문제 <b>${S.r+1}</b>/${R}</span><span class="sb-hr" id="bhr">${Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">❤️</i>`).join('')}</span><button class="sb-hint" id="bsl" ${S.slowLeft<1?'disabled':''}>❄️ <b>${S.slowLeft}</b></button></div>`;
+  }
+  function round(){
+    const q=S.qs[S.r]; S.q=q; S.t=0; S.mist=0; S.slow=0; S.T=TT[S.r]; S.over=false;
+    const dec=gmShuf(S.pool.filter(x=>x.t!==q.t&&x.m!==q.m)).slice(0,3);
+    const items=gmShuf([{t:q.t,c:1}].concat(dec.map(d=>({t:d.t,c:0}))));
+    const lanes=gmShuf([0,1,2,0,1,2]).slice(0,4);
+    say(`${hud()}<div class="sb-mean" id="bmn"><small>📖 이 뜻에 맞는 속담은?</small>${esc(q.m)}</div>
+      <div class="bl-field" id="blf"><i class="bl-cl c1">☁️</i><i class="bl-cl c2">☁️</i><i class="bl-cl c3">☁️</i><div class="bl-ice">❄️</div></div>`);
+    const f=document.getElementById('blf'), W=f.clientWidth, H=f.clientHeight, bw=Math.min(112,W*0.32), bh=bw*1.16;
+    S.f=f; S.W=W; S.H=H; S.bw=bw; S.bh=bh;
+    S.bs=items.map((it,i)=>{
+      const e=document.createElement('button'); e.className='bl bc'+((S.r+i)%6); e.dataset.c=it.c;
+      const n=it.t.length, fs=n<=12?15:n<=18?13.5:12;
+      e.style.cssText=`width:${bw}px;height:${bh}px;font-size:${fs}px`;
+      e.innerHTML=`<span>${esc(it.t)}</span><i class="bl-s"></i>`;
+      e.style.visibility='hidden'; f.appendChild(e);
+      e.addEventListener('pointerdown',ev=>{ ev.preventDefault(); tap(b); });
+      const b={e,c:it.c,t:it.t,delay:i*GAP,p:0,x:(W-bw)*(0.04+0.46*lanes[i]/1*0.5*1+0.0)+0,lane:lanes[i],ph:Math.random()*6.28,on:true};
+      b.x=10+(W-bw-20)*(lanes[i]/2);
+      return b;
+    });
+    document.getElementById('bsl').onclick=useSlow;
+    S.run=true; S.last=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+  }
+  function useSlow(){
+    if(!S||!S.run||S.slowLeft<1||S.slow>0) return;
+    S.slowLeft--; S.slow=4; gmSnd('ok');
+    S.f.classList.add('slow'); const h=document.getElementById('bsl'); h.querySelector('b').textContent=S.slowLeft; if(S.slowLeft<1) h.disabled=true;
+  }
+  function loop(ts){
+    if(!S||!S.run) return;
+    const dt=Math.min(.05,(ts-S.last)/1000); S.last=ts; S.t+=dt;
+    let k=1; if(S.slow>0){ S.slow-=dt; k=.35; if(S.slow<=0) S.f.classList.remove('slow'); }
+    for(const b of S.bs){
+      if(!b.on) continue;
+      if(b.delay>0){ b.delay-=dt*k; if(b.delay>0) continue; b.e.style.visibility='visible'; }
+      b.p+=dt*k/S.T;
+      const y=S.H-b.p*(S.H+S.bh), x=b.x+Math.sin(b.p*9+b.ph)*9;
+      b.e.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
+      if(b.p>=1){ b.on=false; b.e.remove(); if(b.c) return miss(); }
+    }
+    raf=requestAnimationFrame(loop);
+  }
+  function setHearts(){ const h=document.getElementById('bhr'); if(h) h.innerHTML=Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">❤️</i>`).join(''); }
+  function tap(b){
+    if(!S||!S.run||!b.on) return;
+    if(b.c){
+      S.run=false; b.on=false;
+      const pts=Math.max(4,Math.round(10+2.5*(1-Math.min(1,S.t/(S.T+GAP*3)))-3*S.mist)), cap=Math.min(12.5,pts);
+      S.score+=cap; S.combo++; S.res.push({t:S.q.t,ok:1}); gmSnd('ok');
+      burst(b.e,['🎉','✨','⭐','🎈'],10); b.e.classList.add('pop'); flt(b.e,'+'+Math.round(cap),'good',-30);
+      if(S.combo===3) setTimeout(()=>flt(b.e,'🔥 3연속!','combo',20),250); else if(S.combo===5) setTimeout(()=>flt(b.e,'⚡ 5연속!','combo',20),250);
+      cancelAnimationFrame(raf); setTimeout(()=>{ if(S) reveal(true); },420);
+    } else {
+      b.on=false; S.mist++; S.combo=0; S.heart--; gmSnd('no');
+      burst(b.e,['💨','💥'],6); b.e.classList.add('pop','badp'); flt(b.e,'꽝! 💥','miss',-30); setHearts();
+      if(S.heart<=0){ S.run=false; cancelAnimationFrame(raf); setTimeout(()=>finish(false),800); }
+    }
+  }
+  function miss(){
+    S.run=false; cancelAnimationFrame(raf); S.combo=0; S.heart--; S.res.push({t:S.q.t,ok:0}); gmSnd('no'); setHearts();
+    if(S.heart<=0){ reveal(false,true); setTimeout(()=>finish(false),1600); return; }
+    reveal(false);
+  }
+  function reveal(ok,end){
+    S.f.classList.remove('slow'); S.f.querySelectorAll('.bl:not(.pop)').forEach(x=>x.remove());
+    const last=S.r+1>=R;
+    const p=document.createElement('div'); p.className='bl-ok';
+    p.innerHTML=`<div class="bl-tt">${ok?'🎉 정답이에요!':'🎈 정답이 날아갔어요'}</div><div class="sb-full">${esc(S.q.t)}</div><div class="sb-mn">${esc(S.q.m)}</div>${end?'':`<button class="cta pv" id="bnx">${last?'🏁 결과 보기':'다음 문제 ›'}</button>`}`;
+    S.f.appendChild(p);
+    if(!end) document.getElementById('bnx').onclick=()=>{ if(last) finish(true); else { S.r++; round(); } };
+  }
+  function finish(clear){
+    cancelAnimationFrame(raf);
+    const sc=Math.min(100,Math.round(S.score)), prev=best(), nb=sc>prev&&sc>0;
+    if(nb) try{ localStorage.setItem(KEY,String(sc)); }catch(e){}
+    const msg=sc>=90?['🏆','속담 박사님!','풍선을 거의 다 정확히 터뜨렸어요!']:sc>=70?['🥇','속담 달인!','아주 잘했어요. 조금만 더 하면 박사!']:sc>=50?['🥈','속담 튼튼이','잘하고 있어요. 한 번 더 도전해요!']:['🌱','속담 새싹','괜찮아요! 다시 하면 더 잘 터뜨릴 수 있어요.'];
+    gmSnd('end'); if(sc>=70) egBurst(['🎉','⭐','🎈','✨'],22);
+    const missed=S.res.filter(x=>!x.ok);
+    say(`<div class="gres"><div class="gr-top"><span>${clear?msg[0]:'🎈'}</span><b>${clear?msg[1]:'하트가 모두 깨졌어요'}</b><small>${clear?msg[2]:'다시 도전하면 더 잘할 수 있어요!'}</small></div>
+      <div class="gr-sc"><b>${sc}</b><i>/ 100점</i></div>
+      <div class="gr-st">${[90,70,50].map(v=>`<i class="${sc>=v?'on':''}">★</i>`).join('')}</div>
+      <div class="gsub">맞힌 속담 ${S.res.filter(x=>x.ok).length}개 · ${nb?'🎊 새 최고 기록!':prev?'내 최고 '+prev+'점':'첫 기록이에요!'}</div>
+      ${missed.length?`<div class="gsub"><b>다시 볼 속담</b></div><ul class="gr-ls mlist">${missed.slice(0,5).map((x,i)=>`<li><span class="no">${i+1}</span><span class="tx"><b>${esc(x.t)}</b></span></li>`).join('')}</ul>`:''}
+      <div class="gr-bt"><button class="cta pv" id="bre">🔁 다시 하기 <small>(새로운 속담)</small></button><button class="gr-sub" data-go="p-game">‹ 게임 메뉴</button></div></div>`);
+    document.getElementById('bre').onclick=start;
   }
   intro();
 }
