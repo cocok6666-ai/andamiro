@@ -367,10 +367,9 @@ body:has(.hubfit){overflow:hidden}
 .mt.up .mi,.mt.ok .mi{transform:rotateY(180deg)}
 .mt .mb,.mt .mf{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;font-style:normal}
 .mt .mb,.mt .mf{border:3px solid #FFF6DC;overflow:hidden}
-.mt .mb{background:var(--pat-diaw),linear-gradient(145deg,#EE6B52,#B8321F);box-shadow:0 4px 0 #7D1F12,0 7px 9px rgba(0,0,0,.2),inset 0 0 0 2px rgba(255,255,255,.22)}
-.mt:nth-child(even) .mb{background:var(--pat-diaw),linear-gradient(145deg,#5A93E8,#2A4FA8);box-shadow:0 4px 0 #1B3478,0 7px 9px rgba(0,0,0,.2),inset 0 0 0 2px rgba(255,255,255,.22)}
-.mt .mb::after{content:"";position:absolute;left:7%;right:7%;top:5%;height:32%;border-radius:12px 12px 40px 40px;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
-.mt .mb b{position:relative;z-index:1;width:clamp(30px,5.6dvh,46px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF4C2,#F2B93B 70%);color:#A63C26;font-family:var(--display);font-weight:400;font-size:clamp(17px,3dvh,26px);box-shadow:0 2px 0 #9B6A0C,inset 0 -2px 0 rgba(168,109,12,.3)}
+.mt .mb{background:var(--bk,none) center/cover no-repeat,linear-gradient(145deg,#F6EBCB,#E4D3A4);box-shadow:0 4px 0 #A58B5E,0 7px 9px rgba(0,0,0,.2),inset 0 0 0 2px rgba(255,255,255,.35)}
+.mt .mb::after{content:"";position:absolute;left:7%;right:7%;top:5%;height:32%;border-radius:12px 12px 40px 40px;background:linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,0));pointer-events:none}
+.mt .mb b{position:absolute;right:5px;bottom:5px;z-index:1;width:clamp(20px,3.6dvh,28px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FFF4C2,#F2B93B 70%);color:#A63C26;font-family:var(--display);font-weight:400;font-size:clamp(11px,1.9dvh,16px);box-shadow:0 2px 0 #9B6A0C,inset 0 -2px 0 rgba(168,109,12,.3)}
 .mt .mf{transform:rotateY(180deg);padding:5px 6px}
 .mt .mf::before{content:"";position:absolute;inset:4px;border-radius:10px;border:1.5px dashed rgba(120,80,20,.4);pointer-events:none}
 .mt.w .mf{background:linear-gradient(160deg,#FFEDB3,#F6BE4F);color:#6B3E05;font-family:var(--display);font-size:clamp(18px,2.8dvh,24px);line-height:1.15;word-break:keep-all;box-shadow:0 4px 0 #A86D0C,0 7px 9px rgba(0,0,0,.16)}
@@ -1787,10 +1786,11 @@ function initMatch(){
   function play(){
     clearInterval(G.tm);
     const set=pick();
-    const tiles=gmShuf(set.flatMap(x=>[{k:x.id,t:'w',x:x.w},{k:x.id,t:'m',x:x.m}]));
+    const dk=gmShuf(Array.from({length:30},(_,i)=>i+1)).slice(0,12);
+    const tiles=gmShuf(set.flatMap(x=>[{k:x.id,t:'w',x:x.w},{k:x.id,t:'m',x:x.m}])).map((t,i)=>(t.d=dk[i],t));
     const st={found:0,wrong:0,streak:0,open:[],lock:false,t0:0,sec:0};
     say(`<div class="gtop"><span class="gn">짝 <b id="mfound">0</b>/6</span><span class="gsc">⏱ <b id="mtime">0</b>초</span><span class="gtot">틀림 <b id="mwrong">0</b></span></div>
-      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb"><b>말</b></i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
+      <div class="mtg" id="mtg">${tiles.map((t,i)=>`<button class="mt ${t.t}" type="button" data-i="${i}" aria-label="딱지 ${i+1}"><span class="mi"><i class="mb" style="--bk:url(icons/dk/${String(t.d).padStart(2,'0')}.webp)"><b>말</b></i><i class="mf${t.t==='w'&&t.x.length>=4?' lg':''}">${esc(t.x)}</i></span></button>`).join('')}</div>`);
     const els=[...gb.querySelectorAll('.mt')], $=id=>document.getElementById(id);
     const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
     const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp);
