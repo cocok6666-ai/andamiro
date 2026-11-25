@@ -423,8 +423,7 @@ body:has(.hubfit){overflow:hidden}
 .cqo.fade{opacity:.3}
 .cqbot{flex:none;display:flex;align-items:center;min-height:46px;padding-bottom:2px}.cqbi{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px}.cqbi[hidden],.cqnx[hidden]{display:none}
 .cqnx{flex:1;display:grid;place-items:center;text-align:center;padding:0;height:46px;border:0;border-radius:15px;background:var(--pv);color:#fff;font-weight:800;font-size:17px;box-shadow:0 4px 0 rgba(0,0,0,.22);animation:cqnxp 1s infinite alternate}@keyframes cqnxp{to{transform:translateY(-2px)}}.cqnx:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22);animation:none}
-.cqans{height:clamp(34px,5.4dvh,44px);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--display);font-size:clamp(28px,4.6dvh,38px);line-height:1}.cqans span{font-size:.7em}.cqans.ok{color:#2B2A28;animation:cqpop .45s}.cqmark{position:absolute;left:50%;top:7px;width:min(50%,180px);height:clamp(56px,9.5dvh,84px);transform:translateX(-50%);overflow:visible;pointer-events:none;z-index:3}.cqmark path{fill:none;stroke:#E5252A;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:mkd .7s ease-out .05s forwards;filter:drop-shadow(0 1px 0 rgba(229,37,42,.3));opacity:.9}.cqmark path.b{stroke:#FF6B5E;stroke-width:2.6;opacity:.65;animation-delay:.2s}
-@media(max-height:720px){.cqmark{left:auto;right:12px;top:8px;transform:none;width:86px;height:52px}}
+.cqans{height:clamp(34px,5.4dvh,44px);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--display);font-size:clamp(28px,4.6dvh,38px);line-height:1}.cqans span{font-size:.7em}.cqans.ok{color:#2B2A28;animation:cqpop .45s}.cqmark{position:absolute;right:12px;top:8px;width:clamp(54px,9.4dvh,80px);height:clamp(54px,9.4dvh,80px);overflow:visible;pointer-events:none;z-index:3}.cqmark path{fill:none;stroke:#E5252A;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:mkd .5s ease-out forwards;filter:drop-shadow(0 1px 0 rgba(229,37,42,.3))}
 .cqh{border:0;border-radius:14px;padding:8px 14px;background:#FFF1BF;color:#7A5A12;font-weight:800;font-size:14px;box-shadow:0 3px 0 #E2C463}.cqh:disabled{opacity:.4;box-shadow:none}.cqh b{color:#C2492F}
 .cqcb{flex:1;text-align:center;font-size:14px;font-weight:800;color:var(--mute)}.cqcb.hot{color:#E5700F;animation:cqhot .6s infinite alternate}@keyframes cqhot{to{transform:scale(1.12)}}
 .cqch{font-size:12.5px;color:#2FA06C;font-weight:800;white-space:nowrap}.cqch i{font-style:normal;color:#D5C8A8}.cqch.bump{animation:mtbump .45s}
@@ -1879,6 +1878,7 @@ function initMatch(){
 /* ---------- 순우리말 나의 실력 확인하기 : 순우리말 초성놀이 ---------- */
 const CHO_I=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 const choI=c=>Math.floor((c.charCodeAt(0)-0xAC00)/588), choF=c=>(c.charCodeAt(0)-0xAC00)%28;
+const MK_O='M30 7 C45 4 57 17 54 31 C52 47 36 57 21 52 C8 48 2 32 9 20 C15 8 31 3 45 9 C50 11 52 14 53 17';
 function renderCho(){
   return `<div class="leaf fitwrap ${curCls} gm" id="cqg"><div class="fhead ${curCls}"><span class="fhe">🔠</span><div><b>순우리말 초성놀이</b><small>초성과 뜻을 보고 낱말을 완성해요</small></div></div><div class="gbody" id="cqb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
@@ -2017,8 +2017,8 @@ function initCho(){
   /* 정답을 설명문 위에 보여 주고, '다음 문제' 버튼을 누를 때까지 멈춰 둔다 */
   function reveal(ok,label,go){
     const w=S.cur; $('cqans').innerHTML=ok?esc(w.w):`<span>❌</span> ${esc(w.w)}`;
-    if(ok){ const m=document.createElementNS('http://www.w3.org/2000/svg','svg'); m.setAttribute('class','cqmark'); m.setAttribute('viewBox','0 0 160 84'); m.setAttribute('preserveAspectRatio','none'); m.setAttribute('aria-hidden','true');
-      m.innerHTML='<path pathLength="1" d="M84 6 C124 2 156 16 154 42 C152 68 112 80 76 78 C36 76 6 62 8 38 C10 14 44 4 92 5 C122 6 140 12 150 20"/><path class="b" pathLength="1" d="M70 10 C108 5 148 18 146 44 C144 66 104 74 72 72 C38 70 14 58 16 40 C18 20 52 11 98 12"/>'; $('cqcard').appendChild(m); }
+    if(ok){ const m=document.createElementNS('http://www.w3.org/2000/svg','svg'); m.setAttribute('class','cqmark'); m.setAttribute('viewBox','0 0 60 60'); m.setAttribute('aria-hidden','true');
+      m.innerHTML=`<path pathLength="1" d="${MK_O}"/>`; $('cqcard').appendChild(m); }
     const ex=$('cqex'); if(ex){ ex.className='cqex on'; ex.innerHTML=w.e?'📖 '+esc(w.e).split(esc(w.w)).join('<b>'+esc(w.w)+'</b>'):''; }
     $('cqbi').hidden=true; const b=$('cqnx'); b.hidden=false; b.textContent=label; b.onclick=()=>{ b.onclick=null; go(); };
   }
