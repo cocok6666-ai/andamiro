@@ -1775,7 +1775,6 @@ function initFill(){
   }
   function result(){
     const t=GM.total, msg=t>=90?['🏆','속담 박사님!','거의 다 맞혔어요. 정말 대단해요!']:t>=70?['🥇','속담 달인!','아주 잘했어요. 조금만 더 하면 박사!']:t>=50?['🥈','속담 튼튼이','잘하고 있어요. 한 번 더 도전해 볼까요?']:['🌱','속담 새싹','괜찮아요! 하다 보면 쑥쑥 자라요.'];
-    if(P) msg[1]=msg[1].replace('순우리말','속담');
     gmSnd('end');
     say(`<div class="gres"><div class="gr-top"><span>${msg[0]}</span><b>${msg[1]}</b><small>${msg[2]}</small></div>
       <div class="gr-sc"><b>${t}</b><i>/ 100점</i></div>
@@ -1870,6 +1869,7 @@ function initMatch(mode){
     clearInterval(G.tm);
     const sec=Math.max(1,Math.floor((Date.now()-st.t0)/1000)), sc=Math.max(50,100-st.wrong*2-Math.max(0,Math.floor((sec-120)/10)));
     const msg=sc>=90?['🏆','순우리말 박사님!','거의 틀리지 않고 척척 찾았어요!']:sc>=80?['🥇','순우리말 달인!','아주 잘했어요. 조금만 더 하면 박사!']:sc>=65?['🥈','순우리말 튼튼이','잘하고 있어요. 한 번 더 도전해요!']:['🌱','순우리말 새싹','괜찮아요. 하다 보면 쑥쑥 자라요!'];
+    if(P) msg[1]=msg[1].replace('순우리말','속담');
     gmSnd('end');
     say(`<div class="gres"><div class="gr-top"><span>${msg[0]}</span><b>${msg[1]}</b><small>${msg[2]}</small></div>
       <div class="gr-sc"><b>${sc}</b><i>/ 100점</i></div>
