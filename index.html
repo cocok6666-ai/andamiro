@@ -407,6 +407,8 @@ body:has(.hubfit){overflow:hidden}
 .cqtags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .cqbd{font-size:12.5px;font-weight:800;color:#fff;background:var(--pv);padding:2px 10px;border-radius:10px}.cqbd.gd{background:linear-gradient(#F7B92B,#E48C0E)}
 .cqmean{font-size:clamp(17px,2.9dvh,21px);font-weight:700;line-height:1.5;word-break:keep-all;color:var(--ink)}
+.cqex.over{color:#C2492F;font-weight:800}
+.cqtm.over i{width:0}
 .cqex{min-height:2.9em;font-size:13.5px;line-height:1.45;color:var(--mute);word-break:keep-all;opacity:0;transition:opacity .45s}.cqex.on{opacity:1}
 .cqslots{flex:none;display:flex;justify-content:center;gap:8px}
 .cqs{width:clamp(46px,7.6dvh,58px);height:clamp(52px,8.6dvh,64px);border-radius:15px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:clamp(26px,4.4dvh,34px);color:var(--pv-deep);box-shadow:0 4px 0 var(--pv-soft),inset 0 0 0 2px var(--pv-soft)}
@@ -1884,14 +1886,14 @@ function initCho(){
   const say=h=>{ gb.innerHTML=h; };
   const best=()=>{ try{ return +localStorage.getItem(KEY)||0; }catch(e){ return 0; } };
   const TIER=[[600,'👑','순우리말 대왕'],[400,'🏆','순우리말 박사'],[250,'🥇','순우리말 달인'],[120,'🥈','순우리말 튼튼이'],[0,'🌱','순우리말 새싹']];
-  const LIM={2:10000,3:12000,4:14000}, BASE={2:10,3:15,4:20};
+  const LIM={2:12000,3:15000,4:18000}, BASE={2:10,3:15,4:20};
   function intro(){
     clearInterval(G.tm); const b=best();
     say(`<div class="gintro cqi"><div class="gi-ttl">🔠 순우리말 초성놀이</div>
       <ol class="gi-ol"><li><i>1</i><span><b>뜻풀이</b>와 <b>초성</b>(ㅅㅂㅇ…)을 보고 어떤 낱말인지 떠올려요.</span></li>
-      <li><i>2</i><span>초성이 같은 <b>보기 4개</b> 중에서 뜻에 맞는 낱말을 골라요. 시간이 지나면 <b>힌트</b>가 나와요.</span></li>
+      <li><i>2</i><span>초성이 같은 <b>보기 4개</b> 중에서 뜻에 맞는 낱말을 골라요. 시간이 지나면 보기가 <b>2개까지</b> 지워져요.</span></li>
       <li><i>3</i><span>연속으로 맞히면 점수가 <b>×2 ×3 ×4</b>! <b>황금 낱말</b>은 2배예요.</span></li>
-      <li><i>4</i><span>한 문제에서 <b>2번 틀리거나</b> 시간이 끝나면 <b>하트</b>가 깨져요. 하트 3개가 모두 깨지면 끝!</span></li></ol>
+      <li><i>4</i><span>한 문제에서 <b>2번 틀리면</b> <b>하트</b>가 깨져요. 시간이 끝나도 남은 둘 중 하나는 꼭 골라요. 하트 3개가 모두 깨지면 끝!</span></li></ol>
       <div class="gi-box">10문제 · 하트 3개 · <b>${b?'내 최고 '+b+'점':'첫 기록에 도전!'}</b><small>5연속 맞히면 💖 하트가 하나 돌아와요</small></div>
       <div class="gi-act"><button class="cta wd gi-go" id="cqgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
     $('cqgo').onclick=start;
@@ -1927,7 +1929,7 @@ function initCho(){
   function hud(){
     $('cqhp').textContent=hearts(); $('cqsc').textContent=S.score;
     const m=mult(), cb=$('cqcb'); cb.textContent=S.streak>=3?`🔥 ${S.streak}연속 ×${m}`:S.streak>0?`${S.streak}연속`:'연속 정답을 노려요!'; cb.classList.toggle('hot',S.streak>=3);
-    $('cqhint').innerHTML=`💡 힌트 <b>${S.hint}</b>`; $('cqhint').disabled=S.hint<=0||S.locked;
+    $('cqhint').innerHTML=`💡 힌트 <b>${S.hint}</b>`; $('cqhint').disabled=S.hint<=0||S.locked||S.over;
     $('cqch').innerHTML='기회 '+'●'.repeat(Math.max(0,2-S.mist))+'<i>'+'●'.repeat(Math.min(2,S.mist))+'</i>';
   }
   function play(){
@@ -1951,7 +1953,7 @@ function initCho(){
     clearInterval(G.tm);
     if(!$('cqg')) return;
     if(S.q>=10) return finish(true);
-    const w=S.words[S.q]; S.cur=w; S.mist=0; S.pen=0; S.t0=Date.now(); S.lim=LIM[w.w.length]; S.ex=false; S.el=false; S.locked=false;
+    const w=S.words[S.q]; S.cur=w; S.mist=0; S.pen=0; S.t0=Date.now(); S.lim=LIM[w.w.length]; S.ex=false; S.e1=false; S.e2=false; S.over=false; S.locked=false;
     const lv=S.q<3?1:S.q<7?2:3; $('cqlv').textContent=`Lv.${lv} · ${S.q+1}/10`;
     const card=$('cqcard'); card.className='cqcard'+(w.gold?' gold':''); card.innerHTML=`<div class="cqtags"><span class="cqbd">${esc(w.p||'낱말')}</span>${w.gold?'<span class="cqbd gd">✨ 황금 낱말 ×2</span>':''}</div><p class="cqmean">${esc(w.m)}</p><p class="cqex" id="cqex"></p>`;
     card.classList.remove('in'); void card.offsetWidth; card.classList.add('in');
@@ -1964,16 +1966,27 @@ function initCho(){
   function tick(){
     if(!$('cqg')){ clearInterval(G.tm); return; }
     if(S.locked) return;
+    if(S.over) return;
     const el=Date.now()-S.t0+S.pen, left=S.lim-el, pc=Math.max(0,left/S.lim*100);
     $('cqbar').style.width=pc+'%'; $('cqtm').className='cqtm'+(pc<25?' low':pc<55?' mid':'');
     if(!S.ex&&el>=S.lim*.4){ S.ex=true; showEx(); }
-    if(!S.el&&el>=S.lim*.7){ S.el=true; if(elim(1,true)) flt($('cqcard'),'💡 보기 하나를 지웠어요','good',-6); }
-    if(left<=0) lose(true);
+    if(!S.e1&&el>=S.lim*.6){ S.e1=true; autoElim(); }
+    if(!S.e2&&el>=S.lim*.8){ S.e2=true; autoElim(); }
+    if(left<=0) timeUp();
   }
   function showEx(){
     const w=S.cur; let t=w.e; const e=$('cqex'); if(!e) return;
     if(t){ const st=w.w.endsWith('다')?w.w.slice(0,-1):null; t=t.split(w.w).join('○'.repeat(w.w.length)); if(st&&st.length>=2) t=t.split(st).join('○'.repeat(st.length)); e.textContent='💡 예문: '+t; e.classList.add('on'); }
-    else if(elim(1,true)) flt($('cqcard'),'💡 보기 하나를 지웠어요','good',-6);
+    else autoElim();
+  }
+  function autoElim(){ if(elim(1,true)) flt($('cqcard'),'💡 보기 하나를 지웠어요','good',-6); }
+  /* 시간이 끝나도 바로 실패하지 않고, 보기를 2개만 남겨 둔 채 선택을 기다린다 */
+  function timeUp(){
+    if(S.over) return; S.over=true;
+    while(elim(1,true)){}
+    $('cqbar').style.width='0%'; $('cqtm').className='cqtm over'; gmSnd('no');
+    const e=$('cqex'); if(e){ e.textContent='⏰ 시간이 끝났어요! 남은 둘 중에 하나를 골라요'; e.classList.add('on','over'); }
+    hud();
   }
   function elim(n,auto){
     const live=[...document.querySelectorAll('#cqopts .cqo:not(:disabled)')].filter(b=>b.dataset.s!==S.cur.w);
@@ -1996,7 +2009,7 @@ function initCho(){
     try{navigator.vibrate&&navigator.vibrate([40,25,40]);}catch(e){}
     const c=$('cqcard'); c.classList.remove('hit'); void c.offsetWidth; c.classList.add('hit');
     flt(b,'앗, 아니에요 ❌','miss',-6); burst(b,['💦'],3); hud(); bump('cqch');
-    if(S.mist>=2) lose(false);
+    if(S.mist>=2||S.over) lose(S.over);
   }
   function win(){
     S.locked=true; const w=S.cur, left=Math.max(0,S.lim-(Date.now()-S.t0+S.pen)), tb=Math.min(8,Math.floor(left/1000)), pf=S.mist===0?5:0;
