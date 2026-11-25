@@ -1968,7 +1968,7 @@ function initStep(){
   }
   function bridge(){
     const q=S.list[S.r], tk=q.p.tk;
-    S.q=q; S.i=0; S.mist=0; S.hused=0; S.miss=0; S.t0=Date.now();
+    S.lock=0; S.q=q; S.i=0; S.mist=0; S.hused=0; S.miss=0; S.t0=Date.now();
     const stones=gmShuf(tk.map((w,i)=>({w,d:0})).concat(q.dec.map(w=>({w,d:1}))));
     say(`${hud()}
       <div class="sb-mean"><small>📖 이 속담의 뜻</small>${esc(q.p.m)}</div>
