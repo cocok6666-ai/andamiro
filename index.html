@@ -409,7 +409,7 @@ body:has(.hubfit){overflow:hidden}
 .cqmean{font-size:clamp(17px,2.9dvh,21px);font-weight:700;line-height:1.5;word-break:keep-all;color:var(--ink)}
 .cqex.over{color:#C2492F;font-weight:800}
 .cqtm.over i{width:0}
-.cqex{min-height:2.9em;font-size:13.5px;line-height:1.45;color:var(--mute);word-break:keep-all;opacity:0;transition:opacity .45s}.cqex.on{opacity:1}
+.cqex b{color:var(--pv-deep);background:rgba(255,215,100,.45);border-radius:4px;padding:0 2px}.cqex{min-height:2.9em;font-size:13.5px;line-height:1.45;color:var(--mute);word-break:keep-all;opacity:0;transition:opacity .45s}.cqex.on{opacity:1}
 .cqslots{flex:none;display:flex;justify-content:center;gap:8px}
 .cqs{width:clamp(46px,7.6dvh,58px);height:clamp(52px,8.6dvh,64px);border-radius:15px;background:#fff;display:grid;place-items:center;font-family:var(--display);font-size:clamp(26px,4.4dvh,34px);color:var(--pv-deep);box-shadow:0 4px 0 var(--pv-soft),inset 0 0 0 2px var(--pv-soft)}
 .cqs b{font-weight:400;line-height:1}
@@ -421,7 +421,9 @@ body:has(.hubfit){overflow:hidden}
 .cqo.bad{background:#FFE1DB;border-color:#E56B58;color:#A32D1D;text-decoration:line-through;animation:mtshk .4s}
 .cqo.good{background:#D9F6E5;border-color:#36B67F;color:#0F5E3A;animation:cqpop .4s}
 .cqo.fade{opacity:.3}
-.cqbot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;padding-bottom:2px}
+.cqbot{flex:none;display:flex;align-items:center;min-height:46px;padding-bottom:2px}.cqbi{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px}.cqbi[hidden],.cqnx[hidden]{display:none}
+.cqnx{flex:1;display:grid;place-items:center;text-align:center;padding:0;height:46px;border:0;border-radius:15px;background:var(--pv);color:#fff;font-weight:800;font-size:17px;box-shadow:0 4px 0 rgba(0,0,0,.22);animation:cqnxp 1s infinite alternate}@keyframes cqnxp{to{transform:translateY(-2px)}}.cqnx:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.22);animation:none}
+.cqans{height:clamp(34px,5.4dvh,44px);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--display);font-size:clamp(28px,4.6dvh,38px);line-height:1}.cqans span{font-size:.7em}.cqans.ok{color:#138A55;animation:cqpop .45s}.cqans.no{color:#C2492F;animation:cqhit .4s}
 .cqh{border:0;border-radius:14px;padding:8px 14px;background:#FFF1BF;color:#7A5A12;font-weight:800;font-size:14px;box-shadow:0 3px 0 #E2C463}.cqh:disabled{opacity:.4;box-shadow:none}.cqh b{color:#C2492F}
 .cqcb{flex:1;text-align:center;font-size:14px;font-weight:800;color:var(--mute)}.cqcb.hot{color:#E5700F;animation:cqhot .6s infinite alternate}@keyframes cqhot{to{transform:scale(1.12)}}
 .cqch{font-size:12.5px;color:#2FA06C;font-weight:800;white-space:nowrap}.cqch i{font-style:normal;color:#D5C8A8}.cqch.bump{animation:mtbump .45s}
@@ -1938,7 +1940,7 @@ function initCho(){
       <div class="cqtm" id="cqtm"><i id="cqbar"></i></div>
       <div class="cqcard" id="cqcard"><div class="cqcd" id="cqcd">준비!</div></div>
       <div class="cqslots" id="cqslots"></div><div class="cqopts" id="cqopts"></div>
-      <div class="cqbot"><button class="cqh" id="cqhint" type="button"></button><span class="cqcb" id="cqcb"></span><span class="cqch" id="cqch"></span></div>`);
+      <div class="cqbot"><div class="cqbi" id="cqbi"><button class="cqh" id="cqhint" type="button"></button><span class="cqcb" id="cqcb"></span><span class="cqch" id="cqch"></span></div><button class="cqnx" id="cqnx" type="button" hidden></button></div>`);
     hud(); gmSnd('ok');
     $('cqopts').onclick=e=>{ const b=e.target.closest('.cqo'); if(b) tap(b); };
     $('cqhint').onclick=useHint;
@@ -1955,10 +1957,10 @@ function initCho(){
     if(S.q>=10) return finish(true);
     const w=S.words[S.q]; S.cur=w; S.mist=0; S.pen=0; S.t0=Date.now(); S.lim=LIM[w.w.length]; S.ex=false; S.e1=false; S.e2=false; S.over=false; S.locked=false;
     const lv=S.q<3?1:S.q<7?2:3; $('cqlv').textContent=`Lv.${lv} · ${S.q+1}/10`;
-    const card=$('cqcard'); card.className='cqcard'+(w.gold?' gold':''); card.innerHTML=`<div class="cqtags"><span class="cqbd">${esc(w.p||'낱말')}</span>${w.gold?'<span class="cqbd gd">✨ 황금 낱말 ×2</span>':''}</div><p class="cqmean">${esc(w.m)}</p><p class="cqex" id="cqex"></p>`;
+    const card=$('cqcard'); card.className='cqcard'+(w.gold?' gold':''); card.innerHTML=`<div class="cqtags"><span class="cqbd">${esc(w.p||'낱말')}</span>${w.gold?'<span class="cqbd gd">✨ 황금 낱말 ×2</span>':''}</div><div class="cqans" id="cqans"></div><p class="cqmean">${esc(w.m)}</p><p class="cqex" id="cqex"></p>`;
     card.classList.remove('in'); void card.offsetWidth; card.classList.add('in');
     $('cqslots').innerHTML=[...w.w].map(c=>`<span class="cqs"><b>${CHO_I[choI(c)]}</b></span>`).join('');
-    renderOpts(); hud(); $('cqbar').style.width='100%'; $('cqtm').className='cqtm';
+    $('cqbi').hidden=false; $('cqnx').hidden=true; renderOpts(); hud(); $('cqbar').style.width='100%'; $('cqtm').className='cqtm';
     if(S.q===3||S.q===7) flt(card,`Lv.${lv} · ${lv===2?'세':'네'} 글자 낱말!`,'combo',-30);
     if(w.gold){ gmSnd('ok'); burst(card,['✨','⭐'],6); }
     G.tm=setInterval(tick,100);
@@ -2011,6 +2013,12 @@ function initCho(){
     flt(b,'앗, 아니에요 ❌','miss',-6); burst(b,['💦'],3); hud(); bump('cqch');
     if(S.mist>=2||S.over) lose(S.over);
   }
+  /* 정답을 설명문 위에 보여 주고, '다음 문제' 버튼을 누를 때까지 멈춰 둔다 */
+  function reveal(ok,label,go){
+    const w=S.cur; $('cqans').innerHTML=`<span>${ok?'⭕':'❌'}</span> ${esc(w.w)}`; $('cqans').className='cqans '+(ok?'ok':'no');
+    const ex=$('cqex'); if(ex){ ex.className='cqex on'; ex.innerHTML=w.e?'📖 '+esc(w.e).split(esc(w.w)).join('<b>'+esc(w.w)+'</b>'):''; }
+    $('cqbi').hidden=true; const b=$('cqnx'); b.hidden=false; b.textContent=label; b.onclick=()=>{ b.onclick=null; go(); };
+  }
   function win(){
     S.locked=true; const w=S.cur, left=Math.max(0,S.lim-(Date.now()-S.t0+S.pen)), tb=Math.min(8,Math.floor(left/1000)), pf=S.mist===0?5:0;
     S.streak++; S.maxS=Math.max(S.maxS,S.streak); S.solved++; const m=mult(), gain=(BASE[w.w.length]+tb+pf)*m*(w.gold?2:1); S.score+=gain;
@@ -2019,8 +2027,7 @@ function initCho(){
     if(S.streak>=3) setTimeout(()=>flt($('cqcard'),`🔥 ${S.streak}연속!`,'combo',-16),260);
     if(S.streak%5===0&&S.hp<3){ S.hp++; setTimeout(()=>{ flt($('cqhp'),'💖 하트 회복!','good',34); gmSnd('ok'); },520); }
     $('cqcard').classList.add('done'); $('cqtm').className='cqtm';
-    const ex=$('cqex'); if(ex){ ex.textContent=''; ex.classList.remove('on'); }
-    hud(); bump('cqsc'); S.q++; setTimeout(nextQ,1250);
+    hud(); bump('cqsc'); S.q++; reveal(true,S.q>=10?'🏆 결과 보기':'다음 문제 ▶',nextQ);
   }
   function lose(timeout){
     if(S.locked) return; S.locked=true; const w=S.cur;
@@ -2030,7 +2037,7 @@ function initCho(){
     document.querySelectorAll('#cqopts .cqo').forEach(b=>{ b.disabled=true; if(b.dataset.s===w.w) b.classList.add('good'); });
     flt($('cqcard'),timeout?'⏰ 시간 끝!':'💔 아쉬워요','miss',-14); const h=$('cqhp'); h.classList.remove('hurt'); void h.offsetWidth; h.classList.add('hurt');
     const c=$('cqcard'); c.classList.remove('hit'); void c.offsetWidth; c.classList.add('hit');
-    hud(); S.q++; setTimeout(()=>S.hp<=0?finish(false):nextQ(),1900);
+    hud(); S.q++; reveal(false,(S.hp<=0||S.q>=10)?'🏆 결과 보기':'다음 문제 ▶',()=>S.hp<=0?finish(false):nextQ());
   }
   function finish(clear){
     clearInterval(G.tm);
