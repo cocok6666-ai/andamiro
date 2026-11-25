@@ -2093,7 +2093,7 @@ function initBalloon(){
       <ol class="gi-ol"><li><i>1</i><span>위에 <b>속담의 뜻</b>이 나와요. 하늘로 떠오르는 풍선 중에 <b>알맞은 속담</b>을 찾아요.</span></li>
       <li><i>2</i><span>정답 풍선을 <b>톡!</b> 터뜨리면 점수를 얻어요. 빨리 터뜨릴수록 높은 점수!</span></li>
       <li><i>3</i><span><b>틀린 풍선을 터뜨리거나</b> 정답이 하늘로 날아가면 기회(⭐)가 하나 줄어요.</span></li>
-      <li><i>4</i><span>오른쪽 위 <b>❄️ 천천히</b> 버튼을 누르면 풍선이 <b>4초 동안 느려져요.</b> (2번)</span></li></ol>
+      <li><i>4</i><span>오른쪽 위 <b>❄️ 풍선 천천히</b> 버튼을 누르면 풍선이 <b>4초 동안 느려져요.</b> (2번)</span></li></ol>
       <div class="gi-box">문제 8개 · 기회 ⭐ 3개 · <b>100점 만점</b><small>풍선이 흔들흔들 · 휙휙 · 돌풍까지! 뒤로 갈수록 빨라져요</small></div>
       <div class="gi-act"><button class="cta pv gi-go" id="bgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
     document.getElementById('bgo').onclick=start;
@@ -2107,7 +2107,7 @@ function initBalloon(){
     }).catch(()=>say('<div class="fmsg"><span class="em">📡</span><b>속담을 불러오지 못했어요</b>인터넷 연결을 확인해 주세요.</div>'));
   }
   function hud(){
-    return `<div class="gtop"><span>문제 <b>${S.r+1}</b>/${R}</span><span class="sb-hr" id="bhr">${Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">⭐</i>`).join('')}</span><button class="bl-slowbtn${S.slowLeft>0?' pulse':''}" id="bsl" ${S.slowLeft<1?'disabled':''}>❄️ 천천히 <b>${S.slowLeft}</b></button></div>`;
+    return `<div class="gtop"><span>문제 <b>${S.r+1}</b>/${R}</span><span class="sb-hr" id="bhr">${Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">⭐</i>`).join('')}</span><button class="bl-slowbtn${S.slowLeft>0?' pulse':''}" id="bsl" ${S.slowLeft<1?'disabled':''}>❄️ 풍선 천천히 <b>${S.slowLeft}</b></button></div>`;
   }
   function round(){
     const q=S.qs[S.r]; S.q=q; S.t=0; S.gt=undefined; S.mist=0; S.slow=0; S.T=TT[S.r]; S.over=false;
