@@ -1539,6 +1539,12 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .screen.home .mains .main.tl::before{inset:auto!important;left:0!important;right:0!important;top:0!important;bottom:22px!important;height:auto!important;border-radius:30px!important;opacity:1!important;background:linear-gradient(180deg,var(--tf1),var(--tf2))!important;box-shadow:0 2px 3px rgba(60,30,5,.5)}
 .screen.home .mains .main.tl::after{left:5px!important;right:5px!important;top:5px!important;bottom:27px!important;inset:5px 5px 27px 5px!important;border-radius:26px!important;border:1.5px solid rgba(255,255,255,.55)!important;background:linear-gradient(180deg,rgba(255,255,255,.3) 0 46%,transparent 46%)!important;background-clip:padding-box}
 .screen.home .mains .main.tl:active{box-shadow:0 4px 6px rgba(0,0,0,.3)!important}
+
+/* 타일을 좌우로 15도 비스듬히 */
+.screen.home .mains .main.tl{transform:perspective(800px) rotateY(15deg)!important;transform-origin:50% 50%}
+.screen.home .mains .main.tl.wd{transform:perspective(800px) rotateY(-15deg)!important}
+.screen.home .mains .main.tl:active{transform:perspective(800px) rotateY(15deg) translateY(6px)!important}
+.screen.home .mains .main.tl.wd:active{transform:perspective(800px) rotateY(-15deg) translateY(6px)!important}
 </style>
 </head>
 <body>
