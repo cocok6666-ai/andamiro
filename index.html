@@ -1563,7 +1563,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .daily .dbal.w strong{color:#14594F}
 
 /* 속담은 왼쪽, 순우리말은 같은 만큼 오른쪽 */
-.daily{--bw:min(62%,200px);--bo:16px}
+.daily{--bw:min(47%,180px);--bo:-8px}
 .daily .dbal.c{width:var(--bw);margin:0;right:auto;padding:8px 10px;font-size:12.5px}
 .daily .dbal.c.p{left:calc(50% - var(--bw) + var(--bo))}
 .daily .dbal.c.w{left:calc(50% - var(--bo))}
@@ -1659,11 +1659,11 @@ function initDaily(){
     const bal2=bal.cloneNode(false); bal2.id='dbal2'; bal.after(bal2);
     const put=(el,html,cls)=>{ el.hidden=true; void el.offsetWidth; el.innerHTML=html; el.className='dbal c '+cls; el.hidden=false; };
     const t2=[0,0]; const off=(el,k,ms)=>{ clearTimeout(t2[k]); t2[k]=setTimeout(()=>{ el.hidden=true; },ms); };
-    // 10초 주기: 속담 0~5.5초, 순우리말 4.5~10초(1초 겹침)
+    // 10초 주기: 속담 0~5초, 순우리말 5~10초(겹침·공백 없이 바로 교체)
     const cycle=()=>{
       if(!document.getElementById('daily')){ clearInterval(iv); return; }
-      put(bal,H[0],'p'); off(bal,0,5500);
-      clearTimeout(tm); tm=setTimeout(()=>{ put(bal2,H[1],'w'); off(bal2,1,5500); },4500);
+      put(bal,H[0],'p'); off(bal,0,5000);
+      clearTimeout(tm); tm=setTimeout(()=>{ put(bal2,H[1],'w'); off(bal2,1,5000); },5000);
     };
     bal.onclick=bal2.onclick=e=>{ e.stopPropagation(); e.currentTarget.hidden=true; };
     cycle(); iv=setInterval(cycle,10000);
