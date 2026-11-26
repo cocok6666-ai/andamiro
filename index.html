@@ -1385,6 +1385,23 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .gtile[class*="th-"] b{font-size:clamp(23px,3.6dvh,29px);line-height:1.12;margin-top:6px}
 .gtile[class*="th-"] b{font-size:clamp(21px,3.3dvh,26px)}
 .gtile[class*="th-"] small{-webkit-line-clamp:1}
+/* 벽돌 쌓기: 한 글자씩 쏟아지는 방식 */
+.wl-mean{flex:none;margin:0;border-radius:0;padding:7px 12px 8px;text-align:center}
+.wl-mean .wl-n{color:#B9482F;font-weight:800;white-space:nowrap}
+.wl-mean.okk{background:linear-gradient(#FFF6D8,#FFE9A8)}
+.wl-ans{font-family:var(--display);font-weight:400;font-size:1.25em;color:#14594F;margin-right:4px}
+.wl-ex2{display:block;font-style:normal;font-size:12px;color:#6a5a3c;margin-top:2px;line-height:1.35}
+.wl-field{min-height:150px}
+.wl-b{justify-content:center;border-radius:9px}
+.wl-b.fly{border-radius:3px}
+.wl-gap span{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;height:100%}
+.wl-gap span+span{border-left:1.5px dashed rgba(255,215,106,.3)}
+.wl-gap.cur span.e:not(.f)::after{content:"?";opacity:.5;font-size:.8em}
+.wl-gap span.f{background:linear-gradient(#E3A52F,#B9791A);box-shadow:inset 0 -4px 0 rgba(0,0,0,.2),inset 0 3px 0 rgba(255,255,255,.3);text-shadow:0 2px 0 rgba(0,0,0,.3);animation:wlpop .35s}
+.wl-gap.ok span+span,.wl-gap.plank span+span{border-left-color:rgba(0,0,0,.18)}
+.wl-gap.cur{overflow:hidden}
+.wl-gap.cur::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(100deg,transparent 30%,rgba(255,236,160,.6) 50%,transparent 70%);background-size:220% 100%;animation:wlsh 1.2s linear infinite}
+@keyframes wlsh{from{background-position:130% 0}to{background-position:-130% 0}}
 </style>
 </head>
 <body>
@@ -1444,7 +1461,7 @@ const MENU = {
         {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
         {id:'w-q-cho', status:'done', render:()=>renderCho(), init:()=>initCho(), ic:'🔠', title:'순우리말 초성놀이', desc:'초성과 뜻을 보고 낱말을 완성해요. 기회 3번으로 도전!', plan:[]},
         {id:'w-q-match', status:'done', render:()=>renderMatch('w'), init:()=>initMatch('w'), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
-        {id:'w-q-wall', status:'done', render:()=>renderWall(), init:()=>initWall(), ic:'🧱', title:'벽돌 쌓기 놀이', desc:'무너진 담장 틈에 뜻에 맞는 낱말 벽돌을 끼워 쌓아요!', plan:[]},
+        {id:'w-q-wall', status:'done', render:()=>renderWall(), init:()=>initWall(), ic:'🧱', title:'벽돌 쌓기 놀이', desc:'쏟아지는 글자 벽돌을 차례로 눌러 무너진 담장을 고쳐요!', plan:[]},
         {id:'w-q-test', status:'done', render:()=>renderTest('w'), init:()=>initTest('w'), ic:'🏅', title:'나의 순우리말 실력은?', desc:'10문제 시험지를 풀고 내 순우리말 실력을 확인해 봐요.', plan:['종합 평가 20문항','평가 결과 화면']}
       ]}
     ]
@@ -1981,146 +1998,154 @@ function gmMake(pool,used){
 }
 /* ---------- 순우리말 벽돌 쌓기 놀이 ---------- */
 function renderWall(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="wlg"><div class="fhead ehd ${curCls}"><span class="fhe">🧱</span><div><b>벽돌 쌓기 놀이</b><small>무너진 담장 틈에 알맞은 낱말 벽돌을 쌓아요</small></div></div><div class="gbody" id="wlb"><div class="fmsg"><span class="em">🧱</span>벽돌을 쌓는 중…</div></div></div>`;
+  return `<div class="leaf fitwrap ${curCls} gm" id="wlg"><div class="fhead ehd ${curCls}"><span class="fhe">🧱</span><div><b>벽돌 쌓기 놀이</b><small>쏟아지는 글자 벽돌로 무너진 담장을 고쳐요</small></div></div><div class="gbody" id="wlb"><div class="fmsg"><span class="em">🧱</span>벽돌을 쌓는 중…</div></div></div>`;
 }
 function initWall(){
   const gb=document.getElementById('wlb'); if(!gb) return;
-  const R=5, HEART=3, HINT=2, GAP=1.5, COLS=12, TT=[10,10,9,8.5,8], KL='andamiro.wl.len';
+  const R=5, HEART=3, HINT=2, COLS=12, FALL=[4.8,4.6,4.4,4.2,4.0], KB='andamiro.wl.best';
   const say=h=>{ gb.innerHTML=h; };
-  let L=3; try{ L=+localStorage.getItem(KL)===4?4:3; }catch(e){}
-  const bk=l=>'andamiro.wl.best'+l;
-  const best=l=>{ try{ return +localStorage.getItem(bk(l))||0; }catch(e){ return 0; } };
+  const best=()=>{ try{ return +localStorage.getItem(KB)||0; }catch(e){ return 0; } };
   const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
   const flt=(el,txt,cls,dy)=>{ const [x,y]=mid(el), e=document.createElement('div'); e.className='mflt '+cls; e.textContent=txt; e.style.left=x+'px'; e.style.top=(y+(dy||0))+'px'; document.body.appendChild(e); setTimeout(()=>e.remove(),1100); };
-  const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp); const a=Math.random()*6.28, d=36+Math.random()*64; sp.animate([{transform:'translate(0,0) scale(.6)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-20}px) scale(1.1)`,opacity:0}],{duration:700+Math.random()*300,easing:'ease-out'}).onfinish=()=>sp.remove(); } };
-  const slots=l=>[[2,1],[2,1+l+2],[1,Math.floor((13-l)/2)],[0,2],[0,2+l+2]];
+  const burst=(el,list,n)=>{ const [x,y]=mid(el); for(let i=0;i<n;i++){ const sp=document.createElement('span'); sp.className='mfxp'; sp.textContent=list[i%list.length]; sp.style.left=x+'px'; sp.style.top=y+'px'; document.body.appendChild(sp); const a=Math.random()*6.28, d=30+Math.random()*54; sp.animate([{transform:'translate(0,0) scale(.6)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-18}px) scale(1.1)`,opacity:0}],{duration:620+Math.random()*260,easing:'ease-out'}); setTimeout(()=>sp.remove(),950); } };
+  /* 문제별 틈 위치: 아래줄 2개 · 가운데 1개 · 윗줄 2개 */
+  const rows=[2,2,1,0,0];
+  function layout(lens){
+    const out=[]; const place=(r,ls)=>{ const odd=r%2, n=odd?13:12, lo=odd?1:0, hi=odd?12:12;
+      if(ls.length===1){ const a=lo+Math.floor(Math.random()*(hi-lo-ls[0]+1)); out.push([r,a]); return; }
+      const free=(hi-lo)-(ls[0]+ls[1]+1); const a=lo+Math.floor(Math.random()*(free+1)); const f2=(hi-lo)-(a-lo+ls[0]+1+ls[1]); const b=a+ls[0]+1+Math.floor(Math.random()*(f2+1)); out.push([r,a],[r,b]); };
+    place(2,[lens[0],lens[1]]); place(1,[lens[2]]); place(0,[lens[3],lens[4]]);
+    return out;
+  }
   let S=null, raf=0, POOL=null;
   function intro(){
     cancelAnimationFrame(raf);
     say(`<div class="gintro wlintro">
-      <ol class="gi-ol"><li><i>1</i><span>비바람에 <b>담장이 무너졌어요!</b> 틈의 칸 수가 <b>낱말의 글자 수</b>예요.</span></li>
-      <li><i>2</i><span>위에서 내려오는 <b>낱말 벽돌</b> 중에 <b>뜻에 알맞은 벽돌</b>을 톡! 눌러 틈을 메워요.</span></li>
-      <li><i>3</i><span><b>틀린 벽돌을 누르거나</b> 정답이 땅에 떨어지면 기회(🧱)가 하나 줄어요.</span></li>
-      <li><i>4</i><span><b>🔨 도깨비 망치</b>를 누르면 틀린 벽돌 하나가 와르르! (2번)</span></li></ol>
-      <div class="wl-opt" role="group" aria-label="글자 수 고르기"><button type="button" data-l="3" class="${L===3?'on':''}"><b>3글자</b><small>3칸 틈 · 쉬워요</small></button><button type="button" data-l="4" class="${L===4?'on':''}"><b>4글자</b><small>4칸 틈 · 도전!</small></button></div>
-      <div class="gi-box">틈 5개 · 기회 🧱 3개 · <b>100점 만점</b><small>다 고치면 담장에 꽃이 활짝! 🌸</small></div>
+      <ol class="gi-ol"><li><i>1</i><span>비바람에 <b>담장이 무너졌어요!</b> 반짝이는 틈이 <b>고칠 자리</b>예요. 칸 수는 <b>글자 수</b>예요.</span></li>
+      <li><i>2</i><span>벽돌 위 <b>뜻풀이</b>를 읽고, 하늘에서 <b>한 글자씩</b> 쏟아지는 벽돌 중 <b>다음 글자</b>를 차례로 톡톡! 눌러요.</span></li>
+      <li><i>3</i><span>틈이 다 차면 <b>바로 다음 문제</b>가 이어져요. 낱말은 <b>2·3·4글자</b>가 섞여 나와요.</span></li>
+      <li><i>4</i><span><b>틀린 글자를 누르면</b> 기회(🧱)가 하나 줄어요. <b>🔨 도깨비 망치</b>는 틀린 벽돌을 와르르! (2번)</span></li></ol>
+      <div class="gi-box">문제 5개 · 기회 🧱 3개 · <b>100점 만점</b><small>다 고치면 담장에 꽃이 활짝! 🌸</small></div>
       <div class="gi-act"><button class="cta wd gi-go" id="wgo">🎮 시작하기</button>${sndBtn()}</div></div>`);
-    gb.querySelectorAll('.wl-opt button').forEach(b=>b.onclick=()=>{ L=+b.dataset.l; try{ localStorage.setItem(KL,String(L)); }catch(e){} gb.querySelectorAll('.wl-opt button').forEach(x=>x.classList.toggle('on',x===b)); });
     document.getElementById('wgo').onclick=start;
   }
   function start(){
     cancelAnimationFrame(raf);
     loadWords().then(wd=>{
-      POOL=wd.filter(x=>[...x.w].length===L&&!x.x&&x.m&&x.m[0]&&x.m[0].length<=70&&x.m[0].indexOf(x.w)<0);
-      const main=POOL.filter(x=>x.f>0);
-      const qs=gmShuf(main.slice()).slice(0,R);
-      S={r:0,heart:HEART,hint:HINT,score:0,res:[],qs,combo:0,run:false,L,plan:slots(L)};
+      POOL=wd.filter(x=>{ const l=[...x.w].length; return l>=2&&l<=4&&!x.x&&x.m&&x.m[0]&&x.m[0].length<=70&&x.m[0].indexOf(x.w)<0; });
+      const by={2:[],3:[],4:[]}; POOL.filter(x=>x.f>0).forEach(x=>by[[...x.w].length].push(x));
+      const lens=gmShuf(gmShuf([2,3,4]).concat(gmShuf([2,3,4]).slice(0,2)));
+      const used=new Set(), qs=lens.map(l=>{ const c=gmShuf(by[l].filter(x=>!used.has(x.w)))[0]||by[l][0]; used.add(c.w); return c; });
+      S={r:0,heart:HEART,hint:HINT,score:0,res:[],qs,combo:0,run:false,lens,plan:layout(lens),LET:POOL.map(x=>[...x.w])};
       play();
     }).catch(()=>say('<div class="fmsg"><span class="em">📡</span><b>낱말을 불러오지 못했어요</b>인터넷 연결을 확인해 주세요.</div>'));
   }
   const hearts=()=>Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">🧱</i>`).join('');
   function play(){
     say(`<div class="gtop"><span>문제 <b id="wno">1</b>/${R}</span><span class="sb-hr" id="whr">${hearts()}</span><button class="wl-hint pulse" id="wht" type="button">🔨 도깨비 망치 <b>${S.hint}</b></button></div>
-      <div class="sb-mean" id="wmn"><small>📖 이 뜻에 맞는 순우리말은?</small><span id="wmt"></span></div>
       <div class="wl-field" id="wlf"><i class="bl-cl c1">☁️</i><i class="bl-cl c2">☁️</i></div>
+      <div class="sb-mean wl-mean" id="wmn"><small>📖 이 뜻에 맞는 순우리말은?</small><span id="wmt"></span></div>
       <div class="wl-wallbox" id="wlw"><div class="wl-roof"></div><div class="wl-wall" id="wll"></div><div class="wl-ground"></div></div>`);
     const f=document.getElementById('wlf'), wall=document.getElementById('wll');
-    S.f=f; S.W=f.clientWidth; S.H=f.clientHeight; S.cw=S.W/COLS; S.ch=Math.round(S.cw*0.95*10)/10; S.bh=Math.max(42,Math.min(52,S.ch*1.5)); S.bw=S.cw*L;
+    S.f=f; S.W=f.clientWidth; S.H=f.clientHeight; S.cw=S.W/COLS; S.ch=Math.round(S.cw*0.95*10)/10; S.bs_=Math.max(40,Math.min(48,Math.floor(S.W/7.4)));
     wall.style.height=(S.ch*3)+'px';
     let h='';
-    const gapAt=(r,i)=>S.plan.some(([gr,g])=>gr===r&&i>=g&&i<g+L);
+    const gapAt=(r,i)=>S.plan.some(([gr,g],k)=>gr===r&&i>=g&&i<g+S.lens[k]);
     for(let r=0;r<3;r++){ const odd=r%2, n=odd?13:12; for(let i=0;i<n;i++){ if(gapAt(r,i)) continue; h+=`<i class="wl-bk c${(r*5+i*3)%4}" style="left:${(i-(odd?.5:0))*S.cw}px;top:${r*S.ch}px;width:${S.cw}px;height:${S.ch}px"></i>`; } }
-    S.plan.forEach(([r,i0],k)=>{ h+=`<div class="wl-gap" id="wg${k}" style="left:${(i0-(r%2?.5:0))*S.cw}px;top:${r*S.ch}px;width:${S.bw}px;height:${S.ch}px"></div>`; });
+    S.plan.forEach(([r,i0],k)=>{ h+=`<div class="wl-gap" id="wg${k}" style="left:${(i0-(r%2?.5:0))*S.cw}px;top:${r*S.ch}px;width:${S.cw*S.lens[k]}px;height:${S.ch}px">${Array.from({length:S.lens[k]},(_,i)=>`<span class="e" id="wc${k}_${i}" style="width:${S.cw}px"></span>`).join('')}</div>`; });
     wall.innerHTML=h;
     document.getElementById('wht').onclick=useHint;
     round();
   }
   function setHearts(){ const h=document.getElementById('whr'); if(h) h.innerHTML=hearts(); }
   function round(){
-    const q=S.qs[S.r]; S.q=q; S.t=0; S.mist=0; S.over=false; S.T=TT[S.r];
-    const dec=gmShuf(POOL.filter(x=>x.w!==q.w&&x.m[0]!==q.m[0])).slice(0,3);
-    const items=gmShuf([{w:q.w,c:1}].concat(dec.map(d=>({w:d.w,c:0}))));
-    const lanes=Math.max(1,Math.floor(S.W/S.bw)), ln=gmShuf(Array.from({length:Math.max(3,lanes)},(_,i)=>i));
+    const q=S.qs[S.r]; S.q=q; S.ch_=[...q.w]; S.L=S.ch_.length; S.pos=0; S.t=0; S.mist=0; S.T=4+3*S.L; S.fall=FALL[S.r]; S.since=9; S.sp=.15; S.lane=[]; S.done=false;
     document.getElementById('wno').textContent=S.r+1;
-    document.getElementById('wmt').textContent=q.m[0];
+    const mn=document.getElementById('wmn'); mn.classList.remove('okk'); mn.innerHTML=`<small>📖 이 뜻에 맞는 순우리말은?</small><span id="wmt"></span>`;
+    document.getElementById('wmt').innerHTML=`${esc(q.m[0])} <b class="wl-n">(${S.L}글자)</b>`;
     S.plan.forEach((_,k)=>{ const g=document.getElementById('wg'+k); if(g) g.classList.toggle('cur',k===S.r); });
-    S.f.querySelectorAll('.wl-b,.wl-ok').forEach(x=>x.remove());
-    const span=Math.max(0,S.W-S.bw-8);
-    S.bs=items.map((it,i)=>{
-      const e=document.createElement('button'); e.type='button'; e.className='wl-b k'+((S.r+i)%5); e.dataset.c=it.c;
-      e.style.cssText=`width:${S.bw}px;height:${S.bh}px;font-size:${Math.min(24,Math.floor(S.cw*.78))}px`;
-      e.innerHTML=[...it.w].map(c=>`<span style="width:${S.cw}px">${esc(c)}</span>`).join('');
-      e.style.visibility='hidden'; S.f.appendChild(e);
-      const b={e,c:it.c,w:it.w,delay:i*GAP,p:0,x:4+span*(ln[i%ln.length]/Math.max(1,ln.length-1)),ph:Math.random()*6.28,on:true,sp:.9+Math.random()*.25};
-      e.addEventListener('pointerdown',ev=>{ ev.preventDefault(); tap(b); });
-      return b;
-    });
+    S.f.querySelectorAll('.wl-b').forEach(x=>x.remove()); S.bs=[];
     const ht=document.getElementById('wht'); ht.disabled=S.hint<1; ht.classList.toggle('pulse',S.hint>0);
     S.run=true; S.last=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
   }
+  const need=()=>S.ch_[S.pos];
+  function spawn(){
+    const nd=need(), onScr=S.bs.some(b=>b.on&&b.ch===nd&&b.p<.6);
+    let ch;
+    if(!onScr&&S.since>=2||Math.random()<.2){ ch=nd; S.since=0; }
+    else {
+      S.since++;
+      const later=S.ch_.slice(S.pos+1).filter(x=>x!==nd);
+      if(later.length&&Math.random()<.38) ch=later[Math.floor(Math.random()*later.length)];
+      else { let g=0; do{ const w=S.LET[Math.floor(Math.random()*S.LET.length)]; ch=w[Math.floor(Math.random()*w.length)]; g++; }while((ch===nd||S.ch_.includes(ch))&&g<30); if(ch===nd) return; }
+    }
+    const lanes=Math.max(3,Math.floor((S.W-4)/S.bs_)); let ln,g2=0; do{ ln=Math.floor(Math.random()*lanes); g2++; }while(S.lane.includes(ln)&&g2<12);
+    S.lane.push(ln); if(S.lane.length>2) S.lane.shift();
+    const e=document.createElement('button'); e.type='button'; e.className='wl-b k'+(ch.charCodeAt(0)%5);
+    e.style.cssText=`width:${S.bs_}px;height:${S.bs_}px;font-size:${Math.floor(S.bs_*.58)}px`; e.textContent=ch; S.f.appendChild(e);
+    const b={e,ch,p:0,x:2+(S.W-S.bs_-4)*(ln/Math.max(1,lanes-1)),ph:Math.random()*6.28,on:true,sp:.92+Math.random()*.22};
+    e.addEventListener('pointerdown',ev=>{ ev.preventDefault(); tap(b); }); S.bs.push(b);
+  }
   function loop(ts){
     if(!S||!S.run) return;
+    if(!document.getElementById('wlf')){ S.run=false; return; }
     const dt=Math.min(.05,(ts-S.last)/1000); S.last=ts; S.t+=dt;
+    S.sp-=dt; if(S.sp<=0){ spawn(); S.sp=.5+Math.random()*.3-S.r*.03; }
     for(const b of S.bs){
       if(!b.on) continue;
-      if(b.delay>0){ b.delay-=dt; if(b.delay>0) continue; b.e.style.visibility='visible'; }
-      b.p+=dt*b.sp/S.T;
-      const y=-S.bh+b.p*(S.H+S.bh), sway=Math.sin(b.p*11+b.ph)*Math.min(14,S.cw*.5), rot=Math.sin(b.p*9+b.ph)*5;
-      const x=Math.max(2,Math.min(S.W-S.bw-2,b.x+sway));
-      b.e.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`; b.cx=x; b.cy=y;
-      if(b.p>=1){ b.on=false; if(b.c){ b.e.classList.add('crash'); return miss(b); } b.e.remove(); }
+      b.p+=dt*b.sp/S.fall;
+      const y=-S.bs_+b.p*(S.H+S.bs_), sway=Math.sin(b.p*10+b.ph)*Math.min(10,S.cw*.35), rot=Math.sin(b.p*9+b.ph)*5;
+      const x=Math.max(2,Math.min(S.W-S.bs_-2,b.x+sway));
+      b.e.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`;
+      if(b.p>=1){ b.on=false; b.e.remove(); }
     }
+    S.bs=S.bs.filter(b=>b.on);
     raf=requestAnimationFrame(loop);
   }
   function useHint(){
     if(!S||!S.run||S.hint<1) return;
-    const bad=S.bs.filter(b=>b.on&&!b.c); if(!bad.length) return;
-    S.hint--; const b=bad[Math.floor(Math.random()*bad.length)]; b.on=false; gmSnd('ok');
-    burst(b.e,['💥','🔨','✨'],7); b.e.classList.add('crash'); setTimeout(()=>b.e.remove(),350);
+    const bad=S.bs.filter(b=>b.on&&b.ch!==need()); if(!bad.length) return;
+    S.hint--; gmSnd('ok');
+    bad.forEach(b=>{ b.on=false; burst(b.e,['💥','🔨'],3); b.e.classList.add('crash'); setTimeout(()=>b.e.remove(),350); });
     const h=document.getElementById('wht'); h.querySelector('b').textContent=S.hint; if(S.hint<1){ h.disabled=true; h.classList.remove('pulse'); }
-  }
-  function fill(k,word,ok){
-    const g=document.getElementById('wg'+k); if(!g) return;
-    g.classList.remove('cur'); g.classList.add(ok?'ok':'plank');
-    g.innerHTML=[...word].map(c=>`<span style="width:${S.cw}px">${esc(c)}</span>`).join('');
   }
   function tap(b){
     if(!S||!S.run||!b.on) return;
-    if(b.c){
-      S.run=false; b.on=false; cancelAnimationFrame(raf);
-      const pts=Math.max(6,Math.round(20-5*Math.min(1,S.t/(S.T+GAP*3))-4*S.mist)); S.score+=pts; S.combo++; S.res.push({w:S.q.w,m:S.q.m[0],ok:1}); gmSnd('ok');
-      const g=document.getElementById('wg'+S.r), fr=S.f.getBoundingClientRect(), gr=g.getBoundingClientRect();
-      S.f.querySelectorAll('.wl-b').forEach(x=>{ if(x!==b.e) x.classList.add('fade'); });
-      b.e.style.transition='transform .42s cubic-bezier(.3,1.25,.5,1),height .42s,width .42s';
-      b.e.style.height=S.ch+'px'; b.e.style.transform=`translate(${gr.left-fr.left}px,${gr.top-fr.top}px) rotate(0deg)`; b.e.classList.add('fly');
-      const k=S.r;
-      setTimeout(()=>{ fill(k,S.q.w,true); b.e.remove(); burst(g,['🧱','✨','⭐','🌼'],10); flt(g,'+'+pts,'good',-34);
-        if(S.combo===3) setTimeout(()=>flt(g,'🔥 3연속!','combo',-6),250); else if(S.combo===5) setTimeout(()=>flt(g,'⚡ 5연속!','combo',-6),250);
-        setTimeout(()=>{ if(S) reveal(true); },420); },430);
+    if(b.ch===need()){
+      b.on=false; const k=S.r, i=S.pos; S.pos++; gmSnd('ok');
+      const cell=document.getElementById(`wc${k}_${i}`), fr=S.f.getBoundingClientRect(), cr=cell.getBoundingClientRect();
+      b.e.style.transition='transform .34s cubic-bezier(.3,1.2,.5,1),width .34s,height .34s,font-size .34s';
+      b.e.style.width=cr.width+'px'; b.e.style.height=cr.height+'px'; b.e.style.fontSize=Math.floor(S.cw*.8)+'px';
+      b.e.style.transform=`translate(${cr.left-fr.left}px,${cr.top-fr.top}px) rotate(0deg)`; b.e.classList.add('fly');
+      const last=S.pos>=S.L;
+      setTimeout(()=>{ cell.textContent=b.ch; cell.classList.add('f'); b.e.remove(); burst(cell,['✨','🧱','⭐'],5); },340);
+      if(last) complete();
     } else {
       b.on=false; S.mist++; S.combo=0; S.heart--; gmSnd('no');
-      burst(b.e,['💥','🧱'],7); b.e.classList.add('crash'); flt(b.e,'와르르! 💥','miss',-26); setTimeout(()=>b.e.remove(),320); setHearts();
-      if(S.heart<=0){ S.run=false; cancelAnimationFrame(raf); S.res.push({w:S.q.w,m:S.q.m[0],ok:0}); setTimeout(()=>finish(false),900); }
+      burst(b.e,['💥','🧱'],6); b.e.classList.add('crash'); flt(b.e,'앗! 아니에요','miss',-24); setTimeout(()=>b.e.remove(),320); setHearts();
+      if(S.heart<=0){ S.run=false; cancelAnimationFrame(raf); S.res.push({w:S.q.w,m:S.q.m[0],ok:0});
+        const g=document.getElementById('wg'+S.r); S.ch_.forEach((c,i)=>{ const el=document.getElementById(`wc${S.r}_${i}`); if(el){ el.textContent=c; } }); if(g){ g.classList.remove('cur'); g.classList.add('plank'); }
+        S.f.querySelectorAll('.wl-b').forEach(x=>x.classList.add('fade')); setTimeout(()=>finish(false),1100); }
     }
   }
-  function miss(b){
-    S.run=false; cancelAnimationFrame(raf); S.combo=0; S.heart--; S.res.push({w:S.q.w,m:S.q.m[0],ok:0}); gmSnd('no'); setHearts();
-    burst(b.e,['💥','🧱','💨'],8); flt(b.e,'쿵! 땅에 떨어졌어요','miss',-30);
-    setTimeout(()=>{ fill(S.r,S.q.w,false); if(S.heart<=0){ finish(false); } else reveal(false); },700);
-  }
-  function reveal(ok){
-    S.f.querySelectorAll('.wl-b').forEach(x=>x.remove());
-    const last=S.r+1>=R, q=S.q;
-    const p=document.createElement('div'); p.className='wl-ok';
-    p.innerHTML=`<div class="bl-tt">${ok?'🎉 정답이에요! 틈이 메워졌어요':'🪵 판자로 임시 수리했어요'}</div><div class="sb-full">${esc(q.w)}</div><div class="sb-mn">${esc(q.m[0])}</div>${q.e?`<div class="wl-ex">예) ${esc(q.e.length>70?q.e.slice(0,70)+'…':q.e)}</div>`:''}<button class="cta wd" id="wnx" type="button">${last?'🏁 결과 보기':'다음 틈 ›'}</button>`;
-    S.f.appendChild(p);
-    document.getElementById('wnx').onclick=()=>{ if(last) finish(true); else { S.r++; round(); } };
+  function complete(){
+    S.run=false; cancelAnimationFrame(raf);
+    const pts=Math.max(6,Math.round(20-5*Math.min(1,S.t/S.T)-4*S.mist)); S.score+=pts; S.combo++; S.res.push({w:S.q.w,m:S.q.m[0],ok:1});
+    const k=S.r, g=document.getElementById('wg'+k), q=S.q;
+    S.f.querySelectorAll('.wl-b').forEach(x=>{ if(!x.classList.contains('fly')) x.classList.add('fade'); });
+    setTimeout(()=>{
+      g.classList.remove('cur'); g.classList.add('ok'); burst(g,['🧱','✨','⭐','🌼'],10); flt(g,'+'+pts,'good',-34); gmSnd('ok');
+      if(S.combo===3) setTimeout(()=>flt(g,'🔥 3연속!','combo',-6),250); else if(S.combo===5) setTimeout(()=>flt(g,'⚡ 5연속!','combo',-6),250);
+      const mn=document.getElementById('wmn'); mn.classList.add('okk');
+      mn.innerHTML=`<small>🎉 정답이에요!</small><span><b class="wl-ans">${esc(q.w)}</b> ${esc(q.m[0])}</span>${q.e?`<em class="wl-ex2">예) ${esc(q.e.length>46?q.e.slice(0,46)+'…':q.e)}</em>`:''}`;
+    },380);
+    setTimeout(()=>{ if(!S) return; if(S.r+1>=R) finish(true); else { S.r++; round(); } },2300);
   }
   function finish(clear){
     cancelAnimationFrame(raf);
     const done=S.res.filter(x=>x.ok).length, all=clear&&done===R;
-    const sc=Math.min(100,Math.round(S.score)), prev=best(L), nb=sc>prev&&sc>0;
-    if(nb) try{ localStorage.setItem(bk(L),String(sc)); }catch(e){}
+    const sc=Math.min(100,Math.round(S.score)), prev=best(), nb=sc>prev&&sc>0;
+    if(nb) try{ localStorage.setItem(KB,String(sc)); }catch(e){}
     const msg=sc>=90?['🏆','담장 장인!','솜씨가 놀라워요! 담장이 새것 같아요.']:sc>=70?['🥇','튼튼 담장지기','아주 잘 고쳤어요. 조금만 더 하면 장인!']:sc>=50?['🥈','꼼꼼 일꾼','잘하고 있어요. 한 번 더 도전해요!']:['🌱','벽돌 새싹','괜찮아요! 다시 하면 더 잘 쌓을 수 있어요.'];
     gmSnd('end'); if(sc>=70) egBurst(['🎉','⭐','🌼','🧱'],22);
     const missed=S.res.filter(x=>!x.ok);
@@ -2128,14 +2153,14 @@ function initWall(){
     say(`<div class="gres"><div class="gr-top"><span>${clear?msg[0]:'🧱'}</span><b>${clear?msg[1]:'기회를 모두 썼어요'}</b><small>${clear?msg[2]:'다시 도전하면 더 잘 고칠 수 있어요!'}</small></div>${flowers}
       <div class="gr-sc"><b>${sc}</b><i>/ 100점</i></div>
       <div class="gr-st">${[90,70,50].map(v=>`<i class="${sc>=v?'on':''}">★</i>`).join('')}</div>
-      <div class="gsub">${L}글자 · 고친 틈 ${done}/${R} · ${nb?'🎊 새 최고 기록!':prev?'내 최고 '+prev+'점':'첫 기록이에요!'}</div>
+      <div class="gsub">고친 틈 ${done}/${R} · ${nb?'🎊 새 최고 기록!':prev?'내 최고 '+prev+'점':'첫 기록이에요!'}</div>
       ${missed.length?`<div class="gsub"><b>다시 볼 낱말</b></div><ul class="gr-ls mlist">${missed.slice(0,5).map((x,i)=>`<li><span class="no">${i+1}</span><span class="tx"><b>${esc(x.w)}</b> ${esc(x.m)}</span></li>`).join('')}</ul>`:''}
-      <div class="gr-bt"><button class="cta wd" id="wre">🔁 다시 하기 <small>(새로운 낱말)</small></button><button class="gr-sub" id="wlen">${L===3?'4글자로 도전':'3글자로 바꾸기'}</button><button class="gr-sub" data-go="w-check">‹ 실력 확인 메뉴</button></div></div>`);
+      <div class="gr-bt"><button class="cta wd" id="wre">🔁 다시 하기 <small>(새로운 낱말)</small></button><button class="gr-sub" data-go="w-check">‹ 실력 확인 메뉴</button></div></div>`);
     document.getElementById('wre').onclick=start;
-    document.getElementById('wlen').onclick=()=>{ L=L===3?4:3; try{ localStorage.setItem(KL,String(L)); }catch(e){} start(); };
   }
   intro();
 }
+
 function gmScore(wrong,sec){ return Math.max(2,20-wrong*4-Math.min(8,Math.floor(Math.max(0,sec-10)/3))); }
 let GAC=null;
 let SND_ON=(()=>{ try{return localStorage.getItem('andamiro.snd')!=='off';}catch(e){return true;} })();
