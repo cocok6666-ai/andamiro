@@ -1478,6 +1478,15 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .sb-fg span img{display:block;width:100%;height:auto;pointer-events:none}
 @keyframes sbhop{0%{transform:translate(-50%,-80%) scale(1)}45%{transform:translate(-50%,-190%) scale(1.2,.88)}100%{transform:translate(-50%,-80%) scale(1)}}
 @keyframes sbsp{0%,100%{transform:translate(-50%,-80%) rotate(0)}25%{transform:translate(-50%,-55%) rotate(-25deg)}60%{transform:translate(-50%,-90%) rotate(20deg)}}
+/* 징검다리: 낱말이 그림 속 돌 위에 놓이는 방식 */
+.sb-river{display:block!important;min-height:0!important;padding:0!important;background:var(--rv) center/100% 100% no-repeat,#8CCDE8!important}
+.sb-track{position:absolute!important;inset:0;display:block!important}
+.sb-sl{position:absolute;transform:translate(-50%,-50%);min-width:0;width:auto;height:30px;padding:0 2px;border:0!important;background:none!important;box-shadow:none!important;backdrop-filter:none;border-radius:0;font-size:clamp(13px,4vw,17px);white-space:nowrap}
+.sb-sl.on{color:#33280F;font-weight:800;text-shadow:0 1px 0 rgba(255,255,255,.95),0 0 5px rgba(255,255,255,.9),0 0 9px rgba(255,255,255,.7)!important;animation:sbpop .3s}
+@keyframes sbpop{0%{transform:translate(-50%,-50%) scale(.5)}70%{transform:translate(-50%,-50%) scale(1.18)}100%{transform:translate(-50%,-50%) scale(1)}}
+.sb-fg span{transform:translate(-50%,-92%)}
+@keyframes sbhop{0%{transform:translate(-50%,-92%) scale(1)}45%{transform:translate(-50%,-185%) scale(1.2,.88)}100%{transform:translate(-50%,-92%) scale(1)}}
+@keyframes sbsp{0%,100%{transform:translate(-50%,-92%) rotate(0)}25%{transform:translate(-50%,-65%) rotate(-25deg)}60%{transform:translate(-50%,-100%) rotate(20deg)}}
 </style>
 </head>
 <body>
@@ -2534,26 +2543,28 @@ function initStep(){
   function hud(){
     return `<div class="gtop"><span>다리 <b>${S.r+1}</b>/${R}</span><span class="sb-hr">${Array.from({length:HEART},(_,i)=>`<i class="${i<S.heart?'on':''}">🪷</i>`).join('')}</span><button class="sb-hint" id="shint" ${S.hint<1?'disabled':''}>💡 <b>${S.hint}</b></button></div>`;
   }
+  /* 낱말 개수별 그림(돌 3·4·5·6개)과 돌 위치(%) */
+  const SPS={3:{img:4,ar:'640/426',y:53.5,x:[19.5,50.8,81.2]},4:{img:3,ar:'640/426',y:53.8,x:[14,39,61.7,84.8]},5:{img:2,ar:'640/360',y:59,x:[11.3,31.3,50.5,69.8,89.1]},6:{img:1,ar:'640/360',y:57.5,x:[9.7,26.9,42.7,58.3,73.9,90.6]}};
   function bridge(){
     const q=S.list[S.r], tk=q.p.tk;
     S.lock=0; S.q=q; S.i=0; S.mist=0; S.hused=0; S.miss=0; S.t0=Date.now();
     const stones=gmShuf(tk.map((w,i)=>({w,d:0})).concat(q.dec.map(w=>({w,d:1}))));
     say(`${hud()}
       <div class="sb-mean"><small>📖 이 속담의 뜻</small>${esc(q.p.m)}</div>
-      <div class="sb-river" id="sbr" style="--rv:url(data/game/river${S.r%4+1}.jpg)"><div class="sb-wv"></div>
-        <div class="sb-track" id="sbt"><span class="sb-sl bank">🏕️</span>${tk.map((w,i)=>`<span class="sb-sl" data-i="${i}"><b>?</b></span>`).join('')}<span class="sb-sl bank">🏠</span></div>
+      <div class="sb-river" id="sbr" style="--rv:url(data/game/river${SPS[tk.length].img}.jpg);aspect-ratio:${SPS[tk.length].ar}"><div class="sb-wv"></div>
+        <div class="sb-track" id="sbt">${tk.map((w,i)=>`<span class="sb-sl" data-i="${i}" style="left:${SPS[tk.length].x[i]}%;top:${SPS[tk.length].y}%"></span>`).join('')}</div>
         <i class="sb-fg" id="sfg"><span><img src="data/game/frog.webp" alt="" draggable="false"></span></i></div>
       <div class="sb-pn" id="spn"><div class="sb-tray" id="str">${stones.map((s,i)=>`<button class="sb-st" data-w="${esc(s.w)}" data-d="${s.d}">${esc(s.w)}</button>`).join('')}</div>${q.dec.length?`<div class="sb-warn">⚠️ 가짜 돌 ${q.dec.length}개가 숨어 있어요!</div>`:''}</div>`);
     setTimeout(()=>place(0),30);
     document.getElementById('shint').onclick=useHint;
     document.querySelectorAll('.sb-st').forEach(b=>b.onclick=()=>tap(b));
   }
-  function slot(i){ return document.querySelector(`#sbt .sb-sl:nth-child(${i+2})`); }
+  function slot(i){ return document.querySelector(`#sbt .sb-sl:nth-child(${i+1})`); }
   function place(i,jump){
     const fg=document.getElementById('sfg'), rv=document.getElementById('sbr'); if(!fg||!rv) return;
-    const el=i<0?document.querySelector('#sbt .sb-sl'):i>=S.q.p.tk.length?document.querySelector('#sbt .sb-sl:last-child'):slot(i);
+    const n=S.q.p.tk.length, el=i<0?slot(0):i>=n?slot(n-1):slot(i);
     const r=el.getBoundingClientRect(), v=rv.getBoundingClientRect();
-    fg.style.left=(r.left-v.left+r.width/2)+'px'; fg.style.top=(r.top-v.top+3)+'px';
+    fg.style.left=(i>=n?v.width+30:r.left-v.left+r.width/2)+'px'; fg.style.top=(r.top-v.top+3)+'px';
     if(jump){ fg.classList.remove('hop'); void fg.offsetWidth; fg.classList.add('hop'); }
   }
   function useHint(){
