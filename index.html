@@ -1485,13 +1485,13 @@ const MENU = {
       {id:'p-media', title:'속담 관련 영상자료', note:'속담을 쉽게 이해할 수 있는 교육용 영상 40여 편을 모아 두었어요.', items:[
         {id:'p-video', status:'done', render:()=>renderVideo(), init:()=>initVideo(), ic:'🎬', title:'동영상 자료', desc:'속담 영상 40여 편을 모아서 보아요.', plan:['속담 영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
-      {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임 4가지, 속담 완성하기, 그림 퀴즈, 실력 평가로 내 속담 실력을 키워요.', items:[
-        {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 게임', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
+      {id:'p-quiz', title:'속담 실력 키우기', note:'재미있는 속담 게임 4가지, 속담 완성하기, 그림 풀이, 실력 평가로 내 속담 실력을 키워요.', items:[
+        {id:'p-g-emoji', status:'done', render:()=>renderEmoji(), init:()=>initEmoji(), ic:'🎭', title:'이모지 속담 놀이', desc:'이모지를 보고 떠오르는 속담을 찾아요.', plan:[]},
         {id:'p-g-2', status:'done', render:()=>renderMatch('p'), init:()=>initMatch('p'), ic:'🃏', title:'속담딱지 뒤집기', desc:'딱지를 뒤집어 속담의 앞뒤 짝을 찾아요. 100점 만점!', plan:[]},
         {id:'p-g-3', status:'done', render:()=>renderStep(), init:()=>initStep(), ic:'🐸', title:'속담 징검다리', desc:'낱말 돌을 순서대로 밟아 속담 다리를 건너요. 개구리를 도와주세요!', plan:[]},
         {id:'p-g-4', status:'done', render:()=>renderBalloon(), init:()=>initBalloon(), ic:'🎈', title:'속담 풍선 터뜨리기', desc:'뜻에 맞는 속담 풍선만 톡! 터뜨려요. 빠를수록 높은 점수!', plan:[]},
         {id:'p-q-fill', status:'done', render:()=>renderFill(), init:()=>initFill(), ic:'🧩', title:'속담 완성하기', desc:'낱말 카드를 끌어다 놓아 속담을 완성해요. 5문제 · 100점 만점!', plan:['빈칸 채우기 문제','정답과 뜻 확인']},
-        {id:'p-q-pic', status:'done', render:()=>renderPic(), init:()=>initPic(), ic:'🖼️', title:'재미있는 그림 퀴즈', desc:'그림을 보고 어떤 속담인지 맞혀요. 5문제 · 100점 만점!', plan:[]},
+        {id:'p-q-pic', status:'done', render:()=>renderPic(), init:()=>initPic(), ic:'🖼️', title:'재미있는 그림 풀이', desc:'그림을 보고 어떤 속담인지 맞혀요. 5문제 · 100점 만점!', plan:[]},
         {id:'p-q-test', status:'done', render:()=>renderTest('p'), init:()=>initTest('p'), ic:'📝', title:'속담 실력 평가', desc:'시험지로 10문제를 풀고 색연필로 채점해요. 100점 만점!', plan:['평가 문제 풀기','결과 화면 + 공유(피드백)']}
       ]},
     ]
@@ -1644,7 +1644,7 @@ function applyTint(h){
   const hd=$app.querySelector('.fhead,.lbanner,.s3head'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
 }
 const FHT={'p-intro':['속','담','이','란'],'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인']};
-const FSRC={'p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
+const FSRC={'p-quiz':'게임, 완성하기, 평가, 그림 풀이로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
 /* ===== 화면 단계 규칙 (내용이 바뀌거나 메뉴가 늘어나도 자동으로 같은 모양) =====
    메인   : 그림 머리 + 큰 세로 카드 2장                         → viewHome
    하위1  : 이름 띠 + 연한 색 2×2 카드(완성 표시)                → viewHub
@@ -2930,11 +2930,11 @@ function initCho(){
   intro();
 }
 
-/* ---------- 재미있는 그림 퀴즈 ---------- */
+/* ---------- 재미있는 그림 풀이 ---------- */
 let PQD=null;
 function loadPic(){ if(!PQD) PQD=fetch('data/pic.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ PQD=null; throw e; }); return PQD; }
 function renderPic(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="gp"><div class="fhead ehd ${curCls}"><span class="fhe">🖼️</span><div><b>재미있는 그림 퀴즈</b><small>그림을 보고 알맞은 속담을 찾아요</small></div></div><div class="gbody" id="gpb"><div class="fmsg">불러오는 중…</div></div></div>`;
+  return `<div class="leaf fitwrap ${curCls} gm" id="gp"><div class="fhead ehd ${curCls}"><span class="fhe">🖼️</span><div><b>재미있는 그림 풀이</b><small>그림을 보고 알맞은 속담을 찾아요</small></div></div><div class="gbody" id="gpb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
 const PQ_BASE=[20,14,8];
 const pqPts=(stage,wrong)=>Math.max(2,PQ_BASE[stage]-wrong*4);
@@ -2964,7 +2964,7 @@ function initPic(){
   const say=h=>{ gb.innerHTML=h; };
   function intro(){
     clearInterval(G.tm);
-    say(`<div class="gintro"><div class="gi-ttl">🖼️ 재미있는 그림 퀴즈</div>
+    say(`<div class="gintro"><div class="gi-ttl">🖼️ 재미있는 그림 풀이</div>
       <ol class="gi-ol"><li><i>1</i><span>그림을 보고 어떤 <b>속담</b>인지 4개 중에서 골라요.</span></li>
       <li><i>2</i><span><b>10초</b>까지는 힌트가 없어요. <b>10초</b> 뒤에 <b>🔑 주요 낱말</b>이 나와요.</span></li>
       <li><i>3</i><span><b>20초</b> 뒤에는 <b>📖 속담의 뜻</b>이 나와요.</span></li>
@@ -3056,7 +3056,7 @@ function initPic(){
   intro();
 }
 
-/* ---------- 재미있는 속담 게임 : 이모지 속담 게임 ---------- */
+/* ---------- 재미있는 속담 게임 : 이모지 속담 놀이 ---------- */
 let EGB=null;
 function loadEmoji(){ if(!EGB) EGB=fetch('data/emoji.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(e=>{ EGB=null; throw e; }); return EGB; }
 const egSplit=s=>{ try{ return Array.from(new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(s),x=>x.segment); }catch(e){ return Array.from(s); } };
@@ -3071,7 +3071,7 @@ function egBurst(list,n){
   document.body.appendChild(c); setTimeout(()=>c.remove(),3400);
 }
 function renderEmoji(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${false?' himg':''}"${false?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${false?' himg':''}"${false?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🎭</span><div><b>이모지 속담 놀이</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
 }
 function initEmoji(){
   const eb=document.getElementById('eb'); if(!eb) return;
@@ -3079,7 +3079,7 @@ function initEmoji(){
   const G={n:0,total:0,res:[],combo:0,maxCombo:0};
   function intro(){
     const best=egLoad().best;
-    eb.innerHTML=`<div class="gintro egintro"><div class="gi-ttl">🎭 이모지 속담 게임</div>
+    eb.innerHTML=`<div class="gintro egintro"><div class="gi-ttl">🎭 이모지 속담 놀이</div>
       <ol class="gi-ol"><li><i>1</i><span><b>이모지</b>를 보고 어떤 속담일지 떠올려 봐요.</span></li>
       <li><i>2</i><span>어울리는 속담을 <b>4개</b> 중에서 골라요. <small>(기회는 ❤️ 2번!)</small></span></li>
       <li><i>3</i><span>한 번에 맞히면 <b>20점</b>, 두 번째에 맞히면 <b>10점</b>!</span></li>
