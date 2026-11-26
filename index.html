@@ -1499,6 +1499,11 @@ html:has(.mscn){scroll-snap-type:y proximity}
 @media(prefers-reduced-motion:reduce){.fgr{animation:none}}
 .main.pimgm p{color:#fff!important;font-weight:700;-webkit-text-stroke:3px rgba(50,22,8,.92);paint-order:stroke fill;text-shadow:0 1px 3px rgba(40,16,6,.6)!important}
 .main.pimgm h2{color:#fff;-webkit-text-stroke:5px #5a2412;paint-order:stroke fill;text-shadow:0 3px 0 #3d150a,0 6px 10px rgba(40,16,6,.5)}
+/* 첫 화면 속담 박스: 그림을 선명하게(막·광택 제거, 채도↑) */
+.screen.home .mains .main.pimgm{background:none!important}
+.main.pimgm::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bi) var(--bp,50%) 50%/cover no-repeat;filter:saturate(1.4) contrast(1.12) brightness(1.05)}
+.screen.home .mains .main.pimgm::after{display:none}
+.main.wdpat p{color:#163D35!important;font-weight:700;-webkit-text-stroke:3px rgba(255,255,255,.96);paint-order:stroke fill;text-shadow:none!important}
 </style>
 </head>
 <body>
