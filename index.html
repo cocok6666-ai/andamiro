@@ -1588,7 +1588,7 @@ const stl=u=>u.replace('data/pic/','data/pic/s/').replace('.webp','.jpg');
 const pstS=id=>PIMG[id]?`--bi:url(${stl(PIMG[id][0])});--bp:${PIMG[id][1]}%`:'';
 const pst=id=>PIMG[id]?`--bi:url(${PIMG[id][0]});--bp:${PIMG[id][1]}%`:'';
 const GBG={'p-intro':['data/pic/039.webp',42],'p-find':['data/pic/025.webp',74],'p-media':['data/pic/031.webp',18],'p-quiz':['data/pic/056.webp',33]};
-const WIC={'w-find':'cards','w-right':'note','w-media':'film','w-check':'trophy','w-f-char':'cards','w-f-cat':'folder','w-learn':'book','w-tricky':'warn','w-video':'film','w-q-fix':'note','w-q-cho':'cards2','w-q-match':'pin','w-q-wall':'brick','w-q-test':'medal'};
+const WIC={'w-find':'cards','w-right':'note','w-media':'film','w-check':'trophy','w-f-char':'cards','w-f-cat':'folder','w-learn':'book','w-tricky':'warn','w-video':'film','w-q-fix':'note','w-q-cho':'cards2','w-q-match':'pin','w-q-wall':'brick','w-q-test':'medal','p-intro':'glass','p-find':'mag','p-media':'film','p-quiz':'trophy','p-meaning':'glass','p-origin':'cal','p-good':'medal','p-f-word':'mag','p-f-nature':'folder','p-f-moral':'compass','p-f-zodiac':'cal','p-video':'film','p-g-emoji':'cards','p-g-2':'pin','p-g-3':'brick','p-g-4':'balloon','p-q-fill':'note','p-q-pic':'glass','p-q-test':'alarm'};
 const wico=(id,fb)=>WIC[id]?`<img class="wic" src="data/ico/${WIC[id]}.webp" alt="" draggable="false">`:fb;
 const WTH={'w-find':'find','w-right':'right','w-media':'media','w-check':'check'};
 function viewHub(k){
