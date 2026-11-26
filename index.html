@@ -1449,6 +1449,13 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .lbanner h2 .wic,.lbanner h2 img.wic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:2px}
 .fhead .fhe:has(.wic){display:block;width:1.15em;height:1.15em;flex:none}
 .fg2 .fgrid.n5 .fcard .fico.wi,.fg2 .fgrid.n7 .fcard .fico.wi{width:clamp(44px,6.6dvh,56px);height:clamp(44px,6.6dvh,56px)}
+/* 속담 그림(gif) 장면 */
+.scene.pic{display:block;background:#f3e9d8}
+.scene.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.o-wrap .story .scene.pic{height:clamp(110px,23dvh,200px)}
+.mscn .story .scene.pic{min-height:104px;max-height:clamp(190px,44dvh,380px)}
+.cmp .scene.pic.cp{height:auto;aspect-ratio:16/9;border-radius:12px;margin:8px 0 0}
+@media(max-height:720px){.o-wrap .story .scene.pic{height:clamp(84px,19dvh,130px)}.mscn .story .scene.pic{min-height:84px}}
 </style>
 </head>
 <body>
@@ -1912,7 +1919,24 @@ function vHints(sc){
   window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); window.addEventListener('hashchange',()=>{ setTimeout(upd,60); setTimeout(upd,400); });
   window.pageHints=upd;
 })();
-function initMeaning(){ setupPager('m'); }
+/* 그림 속담(gif)이 있으면 장면 이모지 자리에 그림을 넣는다 */
+const pnorm=x=>x.replace(/[\s,.?!‘’“”"'~]/g,'');
+function applyPics(root){
+  loadPic().then(a=>{
+    const M=applyPics.M||(applyPics.M=new Map(a.map(p=>[pnorm(p.p),p.id])));
+    const im=id=>`<img src="data/pic/${id}.webp" alt="" loading="lazy" draggable="false">`;
+    (root||document).querySelectorAll('.story').forEach(st=>{
+      const h=st.querySelector('h4'), sc=st.querySelector('.scene'); if(!h||!sc||sc.classList.contains('pic')) return;
+      const id=M.get(pnorm(h.textContent)); if(!id) return;
+      sc.classList.add('pic'); sc.innerHTML=im(id);
+    });
+    (root||document).querySelectorAll('.cmp').forEach(c=>{
+      const b=c.querySelector('.v2 b'), vs=c.querySelector('.vs'); if(!b||!vs||c.querySelector('.scene.pic')) return;
+      const id=M.get(pnorm(b.textContent)); if(id) vs.insertAdjacentHTML('afterend',`<div class="scene pic cp">${im(id)}</div>`);
+    });
+  }).catch(()=>{});
+}
+function initMeaning(){ setupPager('m'); applyPics(); }
 /* 속담의 유래 */
 function renderOrigin(){
   const OS=['역사·인물','옛이야기·우화','생활·풍속','종교·믿음','한자 성어','말놀이'];
@@ -1927,7 +1951,7 @@ function initOrigin(){
     body.innerHTML=`<div class="gdesc"><b>${g.ic} ${esc(g.t)} <small>${g.items.length}가지</small></b><p>${esc(g.d)}</p></div>
     <div class="slider" id="osl">`+g.items.map((x,i)=>`<article class="story">${scene(x.e,t+i,false,TC(t))}<div class="sb"><div class="sn">${i+1} / ${g.items.length}</div><h4>${esc(x.p)}</h4>
       <div class="ob"><b>유래</b> ${esc(x.o)}</div>${x.n?`<div class="hint">※ ${esc(x.n)}</div>`:''}<div class="sm"><b>뜻</b> ${esc(x.m)}</div></div></article>`).join('')+`</div>`+pagerBar('o',g.items.length);
-    setupPager('o');
+    setupPager('o'); applyPics(body);
   };
   draw(0);
   document.getElementById('otabs').addEventListener('click',e=>{
@@ -1953,7 +1977,7 @@ function initGood(){
   const draw=t=>{
     const c=C[t]; tcApply(body,t);
     body.innerHTML=`<div class="gdesc"><b>${c.ic} ${esc(c.t)} </b><p>${esc(c.d)}</p></div>`+`<div class="slider" id="gsl">`+c.items.map((x,i)=>`<article class="story sm1">${scene(x[1],t*3+i,false,TC(t))}<div class="sb"><div class="sn">${i+1} / ${c.items.length}</div><h4>${esc(x[0])}</h4><div class="sm"><b>뜻</b> ${esc(x[2])}</div></div></article>`).join('')+`</div>`+pagerBar('g',c.items.length);
-    setupPager('g');
+    setupPager('g'); applyPics();
   };
   draw(0);
   document.getElementById('gtabs').addEventListener('click',e=>{
