@@ -1467,6 +1467,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 /* 실력 확인 5개 메뉴 제목 1줄 */
 .fg2 .fgrid.n5 .fcard b{white-space:nowrap!important;font-size:clamp(14px,4.7vw,20px)!important;line-height:1.2}
 @media(max-width:380px){.fg2 .fgrid.n5 .fcard .fico.wi{width:38px;height:38px;flex:none}.fg2 .fgrid.n5 .fcard{gap:6px;padding-left:10px;padding-right:10px}}
+.fg2 .fgrid.n5 .fcard small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 </style>
 </head>
 <body>
@@ -1523,11 +1524,11 @@ const MENU = {
         {id:'w-video', status:'done', render:()=>renderVideo(true), init:()=>initVideo(true), ic:'🎬', title:'순우리말 영상 자료 보기', desc:'순우리말 영상 30편을 모아서 보아요.', plan:['영상 목록','영상 시청 후 한 줄 생각 남기기']}
       ]},
       {id:'w-check', title:'순우리말 나의 실력 확인하기', note:'평가', items:[
-        {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일상 문장 속 일본어 투·외래어를 알맞은 우리말로 바꿔 봐요.', plan:[]},
-        {id:'w-q-cho', status:'done', render:()=>renderCho(), init:()=>initCho(), ic:'🔠', title:'순우리말 초성놀이', desc:'초성과 뜻을 보고 낱말을 완성해요. 기회 3번으로 도전!', plan:[]},
-        {id:'w-q-match', status:'done', render:()=>renderMatch('w'), init:()=>initMatch('w'), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻의 짝을 찾아요. 100점 만점!', plan:[]},
-        {id:'w-q-wall', status:'done', render:()=>renderWall(), init:()=>initWall(), ic:'🧱', title:'벽돌 쌓기 놀이', desc:'쏟아지는 글자 벽돌을 차례로 눌러 무너진 담장을 고쳐요!', plan:[]},
-        {id:'w-q-test', status:'done', render:()=>renderTest('w'), init:()=>initTest('w'), ic:'🏅', title:'나의 순우리말 실력은?', desc:'10문제 시험지를 풀고 내 순우리말 실력을 확인해 봐요.', plan:['종합 평가 20문항','평가 결과 화면']}
+        {id:'w-q-fix', status:'done', render:()=>renderFix(), init:()=>initFix(), ic:'✏️', title:'순우리말로 바꾸기', desc:'일본어 투·외래어를 우리말로 바꿔요.', plan:[]},
+        {id:'w-q-cho', status:'done', render:()=>renderCho(), init:()=>initCho(), ic:'🔠', title:'순우리말 초성놀이', desc:'초성과 뜻을 보고 낱말을 맞혀요.', plan:[]},
+        {id:'w-q-match', status:'done', render:()=>renderMatch('w'), init:()=>initMatch('w'), ic:'🧩', title:'말딱지 뒤집기', desc:'딱지를 뒤집어 낱말과 뜻을 짝지어요.', plan:[]},
+        {id:'w-q-wall', status:'done', render:()=>renderWall(), init:()=>initWall(), ic:'🧱', title:'벽돌 쌓기 놀이', desc:'글자 벽돌로 무너진 담장을 고쳐요.', plan:[]},
+        {id:'w-q-test', status:'done', render:()=>renderTest('w'), init:()=>initTest('w'), ic:'🏅', title:'나의 순우리말 실력은?', desc:'10문제로 내 실력을 확인해요.', plan:['종합 평가 20문항','평가 결과 화면']}
       ]}
     ]
   }
