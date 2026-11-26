@@ -1545,6 +1545,9 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .screen.home .mains .main.tl.wd{transform:perspective(800px) rotateY(-15deg)!important}
 .screen.home .mains .main.tl:active{transform:perspective(800px) rotateY(15deg) translateY(6px)!important}
 .screen.home .mains .main.tl.wd:active{transform:perspective(800px) rotateY(-15deg) translateY(6px)!important}
+
+/* 첫 화면 메뉴 박스: 안쪽 내용 모두 숨기고 틀만 */
+.screen.home .mains .main.tl>*{display:none!important}
 </style>
 </head>
 <body>
