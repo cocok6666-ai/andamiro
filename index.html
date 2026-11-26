@@ -1160,6 +1160,14 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .egans s{color:#C23A2E;font-size:.8em;opacity:.85}
 .fxls .tx{flex:1;min-width:0}.fxls .tx s{color:#C23A2E}
 .fxsrc{font-size:12px;color:var(--mute);text-align:center;margin-top:4px}
+
+/* 속담 메뉴 상자: 그림 배경 */
+.gtile.gimg{background:linear-gradient(to top,rgba(28,20,14,.82) 0%,rgba(28,20,14,.5) 38%,rgba(28,20,14,0) 68%),var(--bi) var(--bp,50%) 50%/cover no-repeat,var(--c1)}
+.gtile.gimg .te{display:none}
+.gtile.gimg b{color:#fff;margin-top:auto;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.hubfit .gtile.gimg b{font-size:clamp(18px,2.8dvh,22px)}
+.gtile.gimg small{color:#fff;opacity:.92;text-shadow:0 1px 4px rgba(0,0,0,.7);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gtile.gimg em{color:#ffe9b8;text-shadow:0 1px 3px rgba(0,0,0,.6);padding-top:6px}
 </style>
 </head>
 <body>
@@ -1257,12 +1265,14 @@ function viewHome(){
   </div>`;
 }
 
+const GBG={'p-intro':['data/pic/039.webp',42],'p-find':['data/pic/025.webp',74],'p-media':['data/pic/031.webp',18],'p-quiz':['data/pic/056.webp',33]};
 function viewHub(k){
   const m = MENU[k], vg=m.groups.filter(g=>!g.hidden), n=vg.length;
   const tiles = vg.map((g,i)=>{
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
     const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
-    return `<button class="gtile" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
+    const bi=k==='proverb'&&GBG[g.id];
+    return `<button class="gtile${bi?' gimg':''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${bi[0]});--bp:${bi[1]}%`:''}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
   const src=k==='proverb'?['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 학생용으로 골라 다듬은 속담 6,300여 개','초등학생 (교과서 속담부터 생활 속 속담까지)']:['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 골라 담은 고운 순우리말 390여 개','초등학생 (뜻과 쓰임을 쉽게 익히고 싶은 친구)'];
   return `<div class="screen hubs hubfit">
