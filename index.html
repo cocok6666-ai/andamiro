@@ -1487,6 +1487,9 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .sb-fg span{transform:translate(-50%,-92%)}
 @keyframes sbhop{0%{transform:translate(-50%,-92%) scale(1)}45%{transform:translate(-50%,-185%) scale(1.2,.88)}100%{transform:translate(-50%,-92%) scale(1)}}
 @keyframes sbsp{0%,100%{transform:translate(-50%,-92%) rotate(0)}25%{transform:translate(-50%,-65%) rotate(-25deg)}60%{transform:translate(-50%,-100%) rotate(20deg)}}
+/* 돌 위 낱말: 흰 글씨 + 검정 테두리, 크게 */
+.sb-sl{font-size:clamp(16px,5vw,21px)}
+.sb-sl.on{color:#fff!important;font-weight:900;-webkit-text-stroke:3.5px #000;paint-order:stroke fill;text-shadow:0 2px 3px rgba(0,0,0,.6)!important;letter-spacing:-.3px}
 </style>
 </head>
 <body>
