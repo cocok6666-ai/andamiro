@@ -1413,7 +1413,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .i3.pimg{background:linear-gradient(90deg,rgba(28,20,14,.78) 0%,rgba(28,20,14,.45) 55%,rgba(28,20,14,.1) 100%),var(--bi) var(--bp,50%) 50%/cover no-repeat!important;color:#fff}
 .i3.pimg .i3art{display:none}
 .i3.pimg .i3txt,.i3.pimg .i3txt *{color:#fff!important;text-shadow:0 2px 6px rgba(28,20,14,.85)}
-.screen.home .mains .main.pimgm{background:linear-gradient(rgba(80,40,18,.18),rgba(80,40,18,.58)),var(--bi) var(--bp,50%) 50%/cover no-repeat!important}
+.screen.home .mains .main.pimgm{background:linear-gradient(rgba(255,255,255,0),rgba(30,20,10,.14)),var(--bi) var(--bp,50%) 50%/cover no-repeat!important}
 .main.pimgm .mbg{display:none}
 .screen.home .mains .main.wdpat{--tb:#1F5F58;--ac:#134B45;background:repeating-linear-gradient(92deg,rgba(120,90,50,.035) 0 2px,transparent 2px 7px),radial-gradient(ellipse at 30% 20%,#EEF5E3,transparent 70%),linear-gradient(160deg,#E7F0DC,#CDE1C4)!important;border:3px solid var(--tb);outline:1.5px solid rgba(31,95,88,.45);outline-offset:-7px}
 .main.wdpat .mbg{display:none}
@@ -1497,8 +1497,8 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .s3row .a .fgr{font-size:30px}
 .cta .fgr,.i3txt .go .fgr{font-size:1.15em;vertical-align:-.1em}
 @media(prefers-reduced-motion:reduce){.fgr{animation:none}}
-.main.pimgm p{text-shadow:0 1px 3px rgba(40,16,6,.9),0 0 10px rgba(40,16,6,.6)!important;color:#fff!important}
-.main.pimgm h2{text-shadow:0 2px 0 #6B1D11,0 4px 0 #531409,0 6px 14px rgba(40,16,6,.55)}
+.main.pimgm p{color:#fff!important;font-weight:700;-webkit-text-stroke:3px rgba(50,22,8,.92);paint-order:stroke fill;text-shadow:0 1px 3px rgba(40,16,6,.6)!important}
+.main.pimgm h2{color:#fff;-webkit-text-stroke:5px #5a2412;paint-order:stroke fill;text-shadow:0 3px 0 #3d150a,0 6px 10px rgba(40,16,6,.5)}
 </style>
 </head>
 <body>
@@ -1626,7 +1626,7 @@ function viewHome(){
   </div>`;
 }
 
-const PIMG={'p-meaning':['data/pic/079.webp',50],'p-origin':['data/pic/066.webp',45],'p-good':['data/pic/028.webp',50],'p-f-word':['data/pic/015.webp',50],'p-f-nature':['data/pic/060.webp',50],'p-f-moral':['data/pic/067.webp',50],'p-f-zodiac':['data/pic/027.webp',50],'p-video':['data/pic/031.webp',18],'p-g-emoji':['data/pic/037.webp',50],'p-g-2':['data/pic/009.webp',50],'p-g-3':['data/pic/023.webp',50],'p-g-4':['data/pic/059.webp',50],'p-q-fill':['data/pic/008.webp',50],'p-q-pic':['data/pic/011.webp',60],'p-q-test':['data/pic/033.webp',50],'p-hub':['data/pic/088.webp',50]};
+const PIMG={'p-meaning':['data/pic/079.webp',50],'p-origin':['data/pic/066.webp',45],'p-good':['data/pic/028.webp',50],'p-f-word':['data/pic/015.webp',50],'p-f-nature':['data/pic/060.webp',50],'p-f-moral':['data/pic/067.webp',50],'p-f-zodiac':['data/pic/027.webp',50],'p-video':['data/pic/031.webp',18],'p-g-emoji':['data/pic/037.webp',50],'p-g-2':['data/pic/009.webp',50],'p-g-3':['data/pic/023.webp',50],'p-g-4':['data/pic/059.webp',50],'p-q-fill':['data/pic/008.webp',50],'p-q-pic':['data/pic/011.webp',60],'p-q-test':['data/pic/033.webp',50],'p-hub':['data/pic/023.webp',45]};
 const stl=u=>u.replace('data/pic/','data/pic/s/').replace('.webp','.jpg');
 const pstS=id=>PIMG[id]?`--bi:url(${stl(PIMG[id][0])});--bp:${PIMG[id][1]}%`:'';
 const pst=id=>PIMG[id]?`--bi:url(${PIMG[id][0]});--bp:${PIMG[id][1]}%`:'';
