@@ -1547,6 +1547,10 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .screen.home .mains .main.cg.wd:active{transform:translate(-3px,5px)!important}
 .screen.home .mains .main.cg.pv{background-position:100% 50%!important}
 .screen.home .mains .main.cg.wd{background-position:0% 50%!important}
+
+/* 그림은 원본 비율(480:256)에 딱 맞는 박스로 */
+.scene.pic,.o-wrap .story .scene.pic,.mscn .story .scene.pic,.cmp .scene.pic.cp{height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:480/256;width:100%;flex:none!important}
+@media(max-height:720px){.o-wrap .story .scene.pic,.mscn .story .scene.pic{height:auto!important;min-height:0!important}}
 </style>
 </head>
 <body>
