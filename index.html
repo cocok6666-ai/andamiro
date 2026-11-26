@@ -1468,6 +1468,16 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .fg2 .fgrid.n5 .fcard b{white-space:nowrap!important;font-size:clamp(14px,4.7vw,20px)!important;line-height:1.2}
 @media(max-width:380px){.fg2 .fgrid.n5 .fcard .fico.wi{width:38px;height:38px;flex:none}.fg2 .fgrid.n5 .fcard{gap:6px;padding-left:10px;padding-right:10px}}
 .fg2 .fgrid.n5 .fcard small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* 징검다리: 그림 배경 + 개구리 */
+.sb-river{background:linear-gradient(rgba(6,48,78,.12),rgba(6,48,78,.30)),var(--rv) center/cover no-repeat,#8CCDE8!important;min-height:clamp(172px,24dvh,220px);padding:52px 8px 12px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 3px 0 #3F7F9E}
+.sb-wv{display:none}
+.sb-sl{background:rgba(255,255,255,.32);border:2px dashed rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(0,0,0,.55);backdrop-filter:blur(1.5px)}
+.sb-sl.bank{background:linear-gradient(#B7E08A,#6FB043);border:2px solid #4C8A2B;text-shadow:none}
+.sb-sl.on{background:radial-gradient(ellipse at 40% 30%,#F3EFE4,#CFC6AE 70%,#B3A98E);border:2px solid #8C8268;box-shadow:0 4px 0 #6F664F,0 8px 10px rgba(0,0,0,.3);text-shadow:none}
+.sb-fg span{width:clamp(50px,14vw,62px);height:auto;transform:translate(-50%,-80%)}
+.sb-fg span img{display:block;width:100%;height:auto;pointer-events:none}
+@keyframes sbhop{0%{transform:translate(-50%,-80%) scale(1)}45%{transform:translate(-50%,-190%) scale(1.2,.88)}100%{transform:translate(-50%,-80%) scale(1)}}
+@keyframes sbsp{0%,100%{transform:translate(-50%,-80%) rotate(0)}25%{transform:translate(-50%,-55%) rotate(-25deg)}60%{transform:translate(-50%,-90%) rotate(20deg)}}
 </style>
 </head>
 <body>
@@ -1600,7 +1610,7 @@ const stl=u=>u.replace('data/pic/','data/pic/s/').replace('.webp','.jpg');
 const pstS=id=>PIMG[id]?`--bi:url(${stl(PIMG[id][0])});--bp:${PIMG[id][1]}%`:'';
 const pst=id=>PIMG[id]?`--bi:url(${PIMG[id][0]});--bp:${PIMG[id][1]}%`:'';
 const GBG={'p-intro':['data/pic/039.webp',42],'p-find':['data/pic/025.webp',74],'p-media':['data/pic/031.webp',18],'p-quiz':['data/pic/056.webp',33]};
-const WIC={'w-find':'cards','w-right':'note','w-media':'film','w-check':'trophy','w-f-char':'cards','w-f-cat':'folder','w-learn':'book','w-tricky':'warn','w-video':'film','w-q-fix':'note','w-q-cho':'cards2','w-q-match':'pin','w-q-wall':'brick','w-q-test':'medal','p-intro':'glass','p-find':'mag','p-media':'film','p-quiz':'trophy','p-meaning':'glass','p-origin':'cal','p-good':'medal','p-f-word':'mag','p-f-nature':'folder','p-f-moral':'compass','p-f-zodiac':'cal','p-video':'film','p-g-emoji':'cards','p-g-2':'pin','p-g-3':'brick','p-g-4':'balloon','p-q-fill':'note','p-q-pic':'glass','p-q-test':'alarm'};
+const WIC={'w-find':'cards','w-right':'note','w-media':'film','w-check':'trophy','w-f-char':'cards','w-f-cat':'folder','w-learn':'book','w-tricky':'warn','w-video':'film','w-q-fix':'note','w-q-cho':'cards2','w-q-match':'pin','w-q-wall':'brick','w-q-test':'medal','p-intro':'glass','p-find':'mag','p-media':'film','p-quiz':'trophy','p-meaning':'glass','p-origin':'cal','p-good':'medal','p-f-word':'mag','p-f-nature':'folder','p-f-moral':'compass','p-f-zodiac':'cal','p-video':'film','p-g-emoji':'cards','p-g-2':'pin','p-g-3':'frog','p-g-4':'balloon','p-q-fill':'note','p-q-pic':'glass','p-q-test':'alarm'};
 const wico=(id,fb)=>WIC[id]?`<img class="wic" src="data/ico/${WIC[id]}.webp" alt="" draggable="false">`:fb;
 const WTH={'w-find':'find','w-right':'right','w-media':'media','w-check':'check'};
 function viewHub(k){
@@ -2530,9 +2540,9 @@ function initStep(){
     const stones=gmShuf(tk.map((w,i)=>({w,d:0})).concat(q.dec.map(w=>({w,d:1}))));
     say(`${hud()}
       <div class="sb-mean"><small>📖 이 속담의 뜻</small>${esc(q.p.m)}</div>
-      <div class="sb-river" id="sbr"><div class="sb-wv"></div>
+      <div class="sb-river" id="sbr" style="--rv:url(data/game/river${S.r%4+1}.jpg)"><div class="sb-wv"></div>
         <div class="sb-track" id="sbt"><span class="sb-sl bank">🏕️</span>${tk.map((w,i)=>`<span class="sb-sl" data-i="${i}"><b>?</b></span>`).join('')}<span class="sb-sl bank">🏠</span></div>
-        <i class="sb-fg" id="sfg"><span><svg viewBox="0 0 64 56" width="52" height="46" aria-hidden="true"><ellipse cx="32" cy="53" rx="20" ry="2.6" fill="rgba(0,0,0,.18)"/><path d="M13 38C4 38 2 49 6 52c5 2 11 0 14-3z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.6" stroke-linejoin="round"/><path d="M51 38c9 0 11 11 7 14-5 2-11 0-14-3z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 51l-3 2M9 52l-2 3M13 52l-1 3M59 51l3 2M55 52l2 3M51 52l1 3" stroke="#2F7D2E" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="32" cy="35" rx="19" ry="15" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><ellipse cx="32" cy="40" rx="11" ry="8.5" fill="#EAF7C8"/><path d="M22 47c-1 3-1 5 1 6h5c1-2 0-4-1-6zM42 47c1 3 1 5-1 6h-5c-1-2 0-4 1-6z" fill="#5DB84A" stroke="#2F7D2E" stroke-width="1.5" stroke-linejoin="round"/><circle cx="21" cy="17" r="8" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><circle cx="43" cy="17" r="8" fill="#6CCB57" stroke="#2F7D2E" stroke-width="1.8"/><circle cx="21" cy="17" r="5.2" fill="#fff"/><circle cx="43" cy="17" r="5.2" fill="#fff"/><circle cx="22.2" cy="17.6" r="2.7" fill="#2A2A2A"/><circle cx="44.2" cy="17.6" r="2.7" fill="#2A2A2A"/><circle cx="23" cy="16.5" r=".9" fill="#fff"/><circle cx="45" cy="16.5" r=".9" fill="#fff"/><path d="M24 32q8 7 16 0" fill="none" stroke="#2F7D2E" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="30" r="2.6" fill="#F59BA0" opacity=".7"/><circle cx="45" cy="30" r="2.6" fill="#F59BA0" opacity=".7"/></svg></span></i></div>
+        <i class="sb-fg" id="sfg"><span><img src="data/game/frog.webp" alt="" draggable="false"></span></i></div>
       <div class="sb-pn" id="spn"><div class="sb-tray" id="str">${stones.map((s,i)=>`<button class="sb-st" data-w="${esc(s.w)}" data-d="${s.d}">${esc(s.w)}</button>`).join('')}</div>${q.dec.length?`<div class="sb-warn">⚠️ 가짜 돌 ${q.dec.length}개가 숨어 있어요!</div>`:''}</div>`);
     setTimeout(()=>place(0),30);
     document.getElementById('shint').onclick=useHint;
