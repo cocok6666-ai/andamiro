@@ -1428,6 +1428,17 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .fg2.g3 .fgrid.n3 .fcard.pimg b{word-break:keep-all;text-wrap:balance}
 .fg2.g7 .fgrid.n7 .fcard.pimg b{font-size:clamp(19px,2.9dvh,24px);line-height:1.12;word-break:keep-all;text-wrap:balance}
 .wl-hn{font-family:var(--display);font-weight:400;font-size:17px;margin-left:3px;color:#7a4a22;vertical-align:middle}
+.wl-ann{position:absolute;left:0;right:0;top:26%;text-align:center;z-index:9;pointer-events:none;animation:wlann 1.6s ease both}
+.wl-ann b{display:inline-block;font-family:var(--display);font-weight:400;font-size:46px;line-height:1.1;color:#fff;background:linear-gradient(#E3A52F,#B9791A);padding:6px 26px;border-radius:18px;box-shadow:0 5px 0 #7a4f0e,0 10px 18px rgba(0,0,0,.35);text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.wl-ann i{display:block;margin:10px auto 0;width:max-content;font-style:normal;font-weight:800;font-size:14px;color:#14594F;background:#fff;border-radius:999px;padding:5px 14px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+@keyframes wlann{0%{opacity:0;transform:scale(.4) rotate(-6deg)}18%{opacity:1;transform:scale(1.15) rotate(2deg)}30%{transform:scale(1) rotate(0)}78%{opacity:1}100%{opacity:0;transform:scale(1.05) translateY(-14px)}}
+.wl-mean.flip{animation:wlflip .65s ease}
+@keyframes wlflip{0%{transform:perspective(500px) rotateX(90deg);opacity:0}60%{transform:perspective(500px) rotateX(-12deg);opacity:1}100%{transform:none}}
+.wl-gap.arrive{animation:wlarr .45s ease 3,wlg 1s ease-in-out infinite}
+@keyframes wlarr{50%{transform:scale(1.1)}}
+/* 순우리말 문양 흐리게(50%) */
+.gtile[class*="th-"]::before,.fg2 .fgrid.n2 .fcard[class*="th-"]::before,.fg2 .fgrid.n5 .fcard::before,.main.wdpat::before{opacity:.5}
+.hubhead.wd::after,.lbanner.wd::after,.fhead.wd::after{opacity:.5}
 </style>
 </head>
 <body>
@@ -2089,14 +2100,21 @@ function initWall(){
   }
   function setHearts(){ const h=document.getElementById('whr'); if(h) h.innerHTML=hearts(); }
   function round(){
-    const q=S.qs[S.r]; S.q=q; S.ch_=[...q.w]; S.L=S.ch_.length; S.filled=S.ch_.map(()=>0); S.cnt=0; S.t=0; S.mist=0; S.T=4+3*S.L; S.fall=FALL[S.r]; S.since=9; S.sp=.15; S.lane=[]; S.done=false;
+    const q=S.qs[S.r]; S.q=q; S.ch_=[...q.w]; S.L=S.ch_.length; S.filled=S.ch_.map(()=>0); S.cnt=0; S.t=0; S.mist=0; S.T=4+3*S.L; S.fall=FALL[S.r]; S.since=9; S.sp=S.r>0?1.1:.15; S.lane=[]; S.done=false;
     document.getElementById('wno').textContent=S.r+1;
     const mn=document.getElementById('wmn'); mn.classList.remove('okk'); mn.innerHTML=`<small>📖 이 뜻에 맞는 순우리말은?</small><span id="wmt"></span>`;
     document.getElementById('wmt').innerHTML=`${esc(q.m[0])} <b class="wl-n">(${S.L}글자)</b>`;
     S.plan.forEach((_,k)=>{ const g=document.getElementById('wg'+k); if(g) g.classList.toggle('cur',k===S.r); });
     S.f.querySelectorAll('.wl-b').forEach(x=>x.remove()); S.bs=[];
     const ht=document.getElementById('wht'); ht.disabled=S.hint<1; ht.classList.toggle('pulse',S.hint>0);
+    if(S.r>0) announce();
     S.run=true; S.last=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+  }
+  function announce(){
+    const a=document.createElement('div'); a.className='wl-ann'; a.innerHTML=`<b>문제 ${S.r+1}</b><i>👇 다음 틈을 채워 봐요!</i>`; S.f.appendChild(a); setTimeout(()=>a.remove(),1600);
+    const mn=document.getElementById('wmn'); mn.classList.remove('flip'); void mn.offsetWidth; mn.classList.add('flip');
+    const g=document.getElementById('wg'+S.r); if(g){ g.classList.remove('arrive'); void g.offsetWidth; g.classList.add('arrive'); setTimeout(()=>g.classList.remove('arrive'),1500); }
+    gmSnd('x');
   }
   const needSet=()=>[...new Set(S.ch_.filter((c,i)=>!S.filled[i]))];
   const slotOf=ch=>S.ch_.findIndex((c,i)=>!S.filled[i]&&c===ch);
