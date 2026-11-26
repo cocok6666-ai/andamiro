@@ -1515,6 +1515,10 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .main.pvpat::before{opacity:.8}
 
 .main.pvpat h2{color:#6E160B;-webkit-text-stroke:4px rgba(255,255,255,.92);paint-order:stroke fill;text-shadow:none}
+/* 첫 화면 두 박스: 참고 문살 그림으로 교체 */
+.main.pvpat::before{background:url(data/ico/lat_pv.webp) center/100% 100% no-repeat!important;-webkit-mask-image:none!important;mask-image:none!important;opacity:.4!important}
+.main.wdpat::before{background:url(data/ico/lat_wd.webp) center/100% 100% no-repeat!important;-webkit-mask-image:none!important;mask-image:none!important;opacity:.4!important}
+.main.wdpat h2{-webkit-text-stroke:4px rgba(255,255,255,.92);paint-order:stroke fill;text-shadow:none}
 </style>
 </head>
 <body>
