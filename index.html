@@ -2002,7 +2002,7 @@ function renderWall(){
 }
 function initWall(){
   const gb=document.getElementById('wlb'); if(!gb) return;
-  const R=5, HEART=3, HINT=2, COLS=12, FALL=[4.8,4.6,4.4,4.2,4.0], KB='andamiro.wl.best';
+  const R=5, HEART=3, HINT=2, COLS=12, FALL=[9.6,9.2,8.8,8.4,8.0], KB='andamiro.wl.best';
   const say=h=>{ gb.innerHTML=h; };
   const best=()=>{ try{ return +localStorage.getItem(KB)||0; }catch(e){ return 0; } };
   const mid=el=>{ const r=el.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; };
@@ -2090,7 +2090,7 @@ function initWall(){
     if(!S||!S.run) return;
     if(!document.getElementById('wlf')){ S.run=false; return; }
     const dt=Math.min(.05,(ts-S.last)/1000); S.last=ts; S.t+=dt;
-    S.sp-=dt; if(S.sp<=0){ spawn(); S.sp=.5+Math.random()*.3-S.r*.03; }
+    S.sp-=dt; if(S.sp<=0){ spawn(); S.sp=.8+Math.random()*.35-S.r*.04; }
     for(const b of S.bs){
       if(!b.on) continue;
       b.p+=dt*b.sp/S.fall;
