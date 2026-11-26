@@ -1574,7 +1574,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .daily .dbal.c .ex{font-size:11.5px}
 
 /* 말풍선: 세로 규격 고정, 가로는 분량에 따라 자동 */
-.daily .dbal.c{width:max-content!important;min-width:112px;max-width:min(190px,calc(50vw - 16px));height:92px;box-sizing:border-box;padding:7px 10px 0;overflow:hidden;display:flex;flex-direction:column;gap:0}
+.daily .dbal.c{width:max-content!important;min-width:112px;max-width:calc(100vw - 16px);height:92px;box-sizing:border-box;padding:7px 10px 0;overflow:hidden;display:flex;flex-direction:column;gap:0}
 .daily .dbal.c.p{left:auto!important;right:calc(50% + 8px)}
 .daily .dbal.c.w{left:calc(50% + 8px)!important;right:auto}
 .daily .dbal.c small{flex:none;height:15px;line-height:15px;margin:0;white-space:nowrap}
@@ -1666,7 +1666,7 @@ function initDaily(){
       `<small>오늘의 순우리말</small><strong>${esc(W.w)} <em>${esc(W.p||'')}</em></strong><span class="ds">${esc(cut(W.m[0],90))}</span>`
     ];
     const bal2=bal.cloneNode(false); bal2.id='dbal2'; bal.after(bal2);
-    const put=(el,html,cls)=>{ el.hidden=true; void el.offsetWidth; el.innerHTML=html; el.className='dbal c '+cls; el.hidden=false; };
+    const put=(el,html,cls)=>{ el.hidden=true; void el.offsetWidth; el.innerHTML=html; el.className='dbal c '+cls; const C=(box.closest('.screen')||document.getElementById('app')).getBoundingClientRect(); el.style.maxWidth=(C.width-16)+'px'; el.style.translate='0px'; el.hidden=false; const r=el.getBoundingClientRect(); let m=0; if(r.left<C.left+8) m=C.left+8-r.left; else if(r.right>C.right-8) m=C.right-8-r.right; el.style.translate=m+'px'; };
     const t2=[0,0]; const off=(el,k,ms)=>{ clearTimeout(t2[k]); t2[k]=setTimeout(()=>{ el.hidden=true; },ms); };
     // 10초 주기: 속담 0~5초, 순우리말 5~10초(겹침·공백 없이 바로 교체)
     const cycle=()=>{
