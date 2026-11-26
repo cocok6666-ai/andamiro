@@ -2513,14 +2513,14 @@ function initStep(){
       const seen=new Set(), out=[];
       a.map(x=>({t:x.t,m:x.m})).concat(b.map(x=>({t:x.p,m:x.m}))).forEach(x=>{
         const k=x.t.replace(/\s/g,''); if(seen.has(k)) return; seen.add(k);
-        const tk=x.t.split(/\s+/).filter(Boolean); if(tk.length<3||tk.length>7) return;
+        const tk=x.t.split(/\s+/).filter(Boolean); if(tk.length<3||tk.length>6) return;
         out.push({t:x.t,m:x.m,tk});
       });
       G.pool=out; run();
     }).catch(()=>say('<div class="fmsg"><span class="em">📡</span><b>속담을 불러오지 못했어요</b>인터넷 연결을 확인해 주세요.</div>'));
   }
   function pick(){
-    const ranges=[[3,4],[4,4],[4,5],[5,5],[5,7]], used=new Set(), res=[];
+    const ranges=[[3,4],[4,4],[4,5],[5,5],[5,6]], used=new Set(), res=[];
     ranges.forEach((rg,i)=>{
       let c=G.pool.filter(x=>x.tk.length>=rg[0]&&x.tk.length<=rg[1]&&!used.has(x.t));
       if(!c.length) c=G.pool.filter(x=>!used.has(x.t));
