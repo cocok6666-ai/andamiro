@@ -1174,6 +1174,11 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .lbanner.fhero.himg h2,.lbanner.fhero.himg .lead{color:#fff!important;text-shadow:0 2px 8px rgba(30,18,6,.85),0 0 3px rgba(30,18,6,.8)}
 .fhead.himg{background:linear-gradient(90deg,rgba(30,18,6,.62),rgba(30,18,6,.18)),var(--bi) var(--bp,50%) 45%/cover no-repeat!important}
 .fhead.himg b,.fhead.himg small{color:#fff!important;text-shadow:0 2px 6px rgba(30,18,6,.85)}
+
+/* 주제 화면 머리: 네 글자 제목을 가운데에 크게 */
+.lbanner.fhero.himg:not(.notile) h2,.lbanner.fhero.himg:not(.notile) .lead{display:none}
+.lbanner.fhero.himg:not(.notile) .fhart{gap:2.6vw;margin:0}
+.lbanner.fhero.himg:not(.notile) .fhart .ft{--w:min(20.6vw,17dvh,118px);width:var(--w);height:var(--w);font-size:calc(var(--w)*.62);border-radius:22%}
 </style>
 </head>
 <body>
