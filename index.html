@@ -287,7 +287,7 @@ body:has(.hubfit){overflow:hidden}
 .fg2 .fgrid.f2.n7{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr) .78fr;gap:9px;padding:1.6dvh 6px 2dvh;flex:1 1 0;min-height:0;overflow:visible}
 .fg2 .fgrid.n7 .fcard:last-child{grid-column:span 2;flex-direction:row;justify-content:center;gap:14px}.fg2 .fgrid.n7 .fcard:last-child .go{flex-direction:row;gap:6px}
 .fg2.g7 .lbanner.fhero{flex-grow:1.5;padding-top:6px;padding-bottom:6px}.fg2.g7 .fgrid.f2{flex-grow:9}
-.fg2.g7 .lbanner.fhero.himg{flex-grow:3;padding:0 14px;justify-content:center;background:linear-gradient(rgba(30,18,6,.28),rgba(30,18,6,.5)),var(--bi) center 52%/cover no-repeat!important}
+.fg2.g7 .lbanner.fhero.himg{flex-grow:3;padding:0 14px;justify-content:center;background:linear-gradient(rgba(30,18,6,.28),rgba(30,18,6,.5)),var(--bi) var(--bp,50%) 52%/cover no-repeat!important}
 .fg2.g7 .lbanner.fhero.himg h2{font-size:min(clamp(30px,5.6dvh,46px),8.8vw);white-space:nowrap;word-break:keep-all;max-width:100%;line-height:1.15;margin:0;color:#fff;text-shadow:0 3px 0 rgba(40,20,5,.75),0 0 18px rgba(40,20,5,.7);-webkit-text-stroke:1px rgba(40,20,5,.35)}
 .fg2.g7 .lbanner.fhero h2{font-size:clamp(20px,3.2dvh,26px);margin:0}.fg2.g7 .lbanner.fhero .lead{display:none}
 .fg2 .fgrid.n7 .fcard{padding:5px 6px;gap:2px}
@@ -1168,6 +1168,12 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .hubfit .gtile.gimg b{font-size:clamp(18px,2.8dvh,22px)}
 .gtile.gimg small{color:#fff;opacity:.92;text-shadow:0 1px 4px rgba(0,0,0,.7);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .gtile.gimg em{color:#ffe9b8;text-shadow:0 1px 3px rgba(0,0,0,.6);padding-top:6px}
+
+/* 주제 화면 머리 상자: 메뉴 상자와 같은 그림 배경 */
+.lbanner.fhero.himg:not(.notile){background:linear-gradient(rgba(30,18,6,.10),rgba(30,18,6,.5)),var(--bi) var(--bp,50%) 40%/cover no-repeat!important}
+.lbanner.fhero.himg h2,.lbanner.fhero.himg .lead{color:#fff!important;text-shadow:0 2px 8px rgba(30,18,6,.85),0 0 3px rgba(30,18,6,.8)}
+.fhead.himg{background:linear-gradient(90deg,rgba(30,18,6,.62),rgba(30,18,6,.18)),var(--bi) var(--bp,50%) 45%/cover no-repeat!important}
+.fhead.himg b,.fhead.himg small{color:#fff!important;text-shadow:0 2px 6px rgba(30,18,6,.85)}
 </style>
 </head>
 <body>
@@ -1270,7 +1276,7 @@ function viewHub(k){
   const m = MENU[k], vg=m.groups.filter(g=>!g.hidden), n=vg.length;
   const tiles = vg.map((g,i)=>{
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
-    const badge = done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
+    const badge = k==='proverb'?'':done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     const bi=k==='proverb'&&GBG[g.id];
     return `<button class="gtile${bi?' gimg':''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${bi[0]});--bp:${bi[1]}%`:''}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
@@ -1318,7 +1324,6 @@ function applyTint(h){
   sc.style.setProperty('--pv-soft','color-mix(in srgb,'+t[2]+' 16%,#fff)');
   const hd=$app.querySelector('.fhead,.lbanner,.s3head'); if(hd){ hd.classList.add('tint'); hd.style.setProperty('--h1',t[0]); hd.style.setProperty('--h2',t[1]); }
 }
-const HIMG={'p-quiz':'icons/hero-quiz.webp'};
 const FHT={'p-intro':['속','담','이','란'],'p-find':['속','담','찾','기'],'p-media':['속','담','영','상'],'w-find':['순','우','리','말'],'w-media':['순','우','리','말'],'p-quiz':[],'w-right':['바','로','쓰','기'],'w-check':['실','력','확','인']};
 const FSRC={'p-quiz':'게임, 완성하기, 평가, 그림 퀴즈로 속담 실력을 재미있게 키워 보아요.','w-right':'잘못 쓰는 말을 순우리말로 바르게 고쳐 써 보아요.','w-check':'문제를 풀며 내 순우리말 실력을 확인해 보아요.','p-find':'국립국어원 우리말샘에서 학생용으로 골라 다듬은 속담 6,300여 개를 찾아볼 수 있어요.','w-find':'국립국어원 우리말샘에서 골라 담은 고운 순우리말 390여 개를 찾아볼 수 있어요.'};
 /* ===== 화면 단계 규칙 (내용이 바뀌거나 메뉴가 늘어나도 자동으로 같은 모양) =====
@@ -1348,7 +1353,7 @@ function viewFindHome(g,m,k){
       return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${i%2?'--pat-diaw':'--pat-dot'})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small>${it.status==='done'?'':'<span class="soon">준비 중</span>'}<span class="go fgfin"><i class="fg">👆</i></span></button>`; }).join('');
     const par=g.parent?groupIndex[g.parent].g:null;
     return `<div class="screen fgs fg2 g${n}">${bar([['처음','home'],[m.short,k],...(par?[[par.title,par.id]]:[]),[g.title]],m.cls)}
-    <div class="lbanner fhero ${m.cls}${T.length?'':' notile'}${HIMG[g.id]?' himg':''}"${HIMG[g.id]?` style="--bi:url(${HIMG[g.id]})"`:''}>${T.length?`<div class="fhart" aria-hidden="true">${T.map((t,x)=>`<i class="ft ${'abcd'[x]}">${t}</i>`).join('')}</div>`:''}<h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
+    <div class="lbanner fhero ${m.cls}${T.length?'':' notile'}${GBG[g.id]&&k==='proverb'?' himg':''}"${GBG[g.id]&&k==='proverb'?` style="--bi:url(${GBG[g.id][0]});--bp:${GBG[g.id][1]}%"`:''}>${T.length?`<div class="fhart" aria-hidden="true">${T.map((t,x)=>`<i class="ft ${'abcd'[x]}">${t}</i>`).join('')}</div>`:''}<h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid f2 n${n}">${c2}</div></div>`;
   }
   return `<div class="screen fgs">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
@@ -2236,7 +2241,7 @@ const CHO_I=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','
 const choI=c=>Math.floor((c.charCodeAt(0)-0xAC00)/588), choF=c=>(c.charCodeAt(0)-0xAC00)%28;
 const MK_O='M30 7 C45 4 57 17 54 31 C52 47 36 57 21 52 C8 48 2 32 9 20 C15 8 31 3 45 9 C50 11 52 14 53 17';
 function renderCho(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="cqg"><div class="fhead ${curCls}"><span class="fhe">🔠</span><div><b>순우리말 초성놀이</b><small>초성과 뜻을 보고 낱말을 완성해요</small></div></div><div class="gbody" id="cqb"><div class="fmsg">불러오는 중…</div></div></div>`;
+  return `<div class="leaf fitwrap ${curCls} gm" id="cqg"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔠</span><div><b>순우리말 초성놀이</b><small>초성과 뜻을 보고 낱말을 완성해요</small></div></div><div class="gbody" id="cqb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
 function initCho(){
   const gb=document.getElementById('cqb'); if(!gb) return;
@@ -2558,7 +2563,7 @@ function egBurst(list,n){
   document.body.appendChild(c); setTimeout(()=>c.remove(),3400);
 }
 function renderEmoji(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
 }
 function initEmoji(){
   const eb=document.getElementById('eb'); if(!eb) return;
@@ -2725,7 +2730,7 @@ const fxLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.fix')||'
 const fxSave=o=>{ try{localStorage.setItem('andamiro.fix',JSON.stringify(o));}catch(e){} };
 const fxSent=q=>esc(q.s).replace(/\[\[(.+?)\]\]/g,'<u class="fxw">$1</u>');
 function renderFix(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}"><span class="fhe">🔁</span><div><b>순우리말로 바꾸기</b><small>잘못 쓰는 말을 알맞은 우리말로 바꿔 봐요</small></div></div><div id="eb"></div></div>`;
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔁</span><div><b>순우리말로 바꾸기</b><small>잘못 쓰는 말을 알맞은 우리말로 바꿔 봐요</small></div></div><div id="eb"></div></div>`;
 }
 function initFix(){
   const eb=document.getElementById('eb'); if(!eb) return;
@@ -2971,7 +2976,7 @@ const LOADFAIL='<div class="soon"><span class="em">📡</span><div><b>자료를 
 function fitShell(id,ic,title,desc,ctl){
   const gid=leafIndex[id].gid, others=(FIT_OTHERS[gid]||[]).filter(o=>o[0]!==id), solo=!FIT_OTHERS[gid];
   return `<div class="leaf fitwrap ${curCls}" id="fx">
-    <div class="fhead ${curCls}"><span class="fhe">${ic}</span><div><b>${title}</b><small>${desc}</small></div></div>
+    <div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">${ic}</span><div><b>${title}</b><small>${desc}</small></div></div>
     ${ctl?`<div class="fctl">${ctl}</div>`:''}
     <div class="fstage" id="fst"><div class="fmsg">불러오는 중…</div></div>
     <div class="fpg" id="fpg"></div>
