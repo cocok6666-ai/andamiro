@@ -1439,6 +1439,16 @@ html:has(.mscn){scroll-snap-type:y proximity}
 /* 순우리말 문양 흐리게(50%) */
 .gtile[class*="th-"]::before,.fg2 .fgrid.n2 .fcard[class*="th-"]::before,.fg2 .fgrid.n5 .fcard::before,.main.wdpat::before{opacity:.5}
 .hubhead.wd::after,.lbanner.wd::after,.fhead.wd::after{opacity:.5}
+/* 3D 아이콘 */
+.wic{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(60,40,20,.3))}
+.fico.wi{background:none!important;box-shadow:none!important;border-radius:0!important;overflow:visible}
+.fico.wi::before{display:none!important}
+.fico.wi .wic{filter:drop-shadow(0 4px 3px rgba(40,25,10,.35))}
+.gtile .te:has(.wic){width:clamp(54px,8.6dvh,72px);height:clamp(54px,8.6dvh,72px);display:block}
+.hubfit .gtile .te:has(.wic){font-size:0}
+.lbanner h2 .wic,.lbanner h2 img.wic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:2px}
+.fhead .fhe:has(.wic){display:block;width:1.15em;height:1.15em;flex:none}
+.fg2 .fgrid.n5 .fcard .fico.wi,.fg2 .fgrid.n7 .fcard .fico.wi{width:clamp(44px,6.6dvh,56px);height:clamp(44px,6.6dvh,56px)}
 </style>
 </head>
 <body>
@@ -1571,6 +1581,8 @@ const stl=u=>u.replace('data/pic/','data/pic/s/').replace('.webp','.jpg');
 const pstS=id=>PIMG[id]?`--bi:url(${stl(PIMG[id][0])});--bp:${PIMG[id][1]}%`:'';
 const pst=id=>PIMG[id]?`--bi:url(${PIMG[id][0]});--bp:${PIMG[id][1]}%`:'';
 const GBG={'p-intro':['data/pic/039.webp',42],'p-find':['data/pic/025.webp',74],'p-media':['data/pic/031.webp',18],'p-quiz':['data/pic/056.webp',33]};
+const WIC={'w-find':'cards','w-right':'note','w-media':'film','w-check':'trophy','w-f-char':'cards','w-f-cat':'folder','w-learn':'book','w-tricky':'warn','w-video':'film','w-q-fix':'note','w-q-cho':'cards2','w-q-match':'pin','w-q-wall':'brick','w-q-test':'medal'};
+const wico=(id,fb)=>WIC[id]?`<img class="wic" src="data/ico/${WIC[id]}.webp" alt="" draggable="false">`:fb;
 const WTH={'w-find':'find','w-right':'right','w-media':'media','w-check':'check'};
 function viewHub(k){
   const m = MENU[k], vg=m.groups.filter(g=>!g.hidden), n=vg.length;
@@ -1578,7 +1590,7 @@ function viewHub(k){
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
     const badge = '';/*완성 표시 삭제*/ const _b0 = k==='proverb'?'':done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     const bi=k==='proverb'&&GBG[g.id];
-    return `<button class="gtile${bi?' gimg':''}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${stl(bi[0])});--bp:${bi[1]}%`:''}"><span class="te">${GIC[g.id]||'📚'}</span><b>${esc(bi?g.title.replace(/\?$/,''):g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
+    return `<button class="gtile${bi?' gimg':''}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${stl(bi[0])});--bp:${bi[1]}%`:''}"><span class="te">${wico(g.id,GIC[g.id]||'📚')}</span><b>${esc(bi?g.title.replace(/\?$/,''):g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
   }).join('');
   const src=k==='proverb'?['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 학생용으로 골라 다듬은 속담 6,300여 개','초등학생 (교과서 속담부터 생활 속 속담까지)']:['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 골라 담은 고운 순우리말 390여 개','초등학생 (뜻과 쓰임을 쉽게 익히고 싶은 친구)'];
   return `<div class="screen hubs hubfit">
@@ -1646,18 +1658,18 @@ function viewFindHome(g,m,k){
   const n=g.items.length, pal=FCOL[m.cls];
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
     const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
-    return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
+    return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico${WIC[it.id]?' wi':''}">${wico(it.id,it.ic)}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
   {
     const T=g.id in FHT?FHT[g.id]:['순','우','리','말'];
     const c2=g.items.map((it,i)=>{ const c=pal[i%pal.length];
-      return `<button class="fcard ${m.cls}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}${k==='proverb'&&PIMG[it.id]?' pimg':''}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${i%2?'--pat-diaw':'--pat-dot'});${k==='proverb'?pstS(it.id):''}"><span class="fico">${it.ic}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small>${it.status==='done'?'':'<span class="soon">준비 중</span>'}<span class="go fgfin"><i class="fg">👆</i></span></button>`; }).join('');
+      return `<button class="fcard ${m.cls}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}${k==='proverb'&&PIMG[it.id]?' pimg':''}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${i%2?'--pat-diaw':'--pat-dot'});${k==='proverb'?pstS(it.id):''}"><span class="fico${WIC[it.id]?' wi':''}">${wico(it.id,it.ic)}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small>${it.status==='done'?'':'<span class="soon">준비 중</span>'}<span class="go fgfin"><i class="fg">👆</i></span></button>`; }).join('');
     const par=g.parent?groupIndex[g.parent].g:null;
     return `<div class="screen fgs fg2 g${n}">${bar([['처음','home'],[m.short,k],...(par?[[par.title,par.id]]:[]),[g.title]],m.cls)}
-    <div class="lbanner fhero ${m.cls}${T.length?'':' notile'}${GBG[g.id]&&k==='proverb'?' himg':''}"${GBG[g.id]&&k==='proverb'?` style="--bi:url(${GBG[g.id][0]});--bp:${GBG[g.id][1]}%"`:''}>${T.length?`<div class="fhart" aria-hidden="true">${T.map((t,x)=>`<i class="ft ${'abcd'[x]}">${t}</i>`).join('')}</div>`:''}<h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
+    <div class="lbanner fhero ${m.cls}${T.length?'':' notile'}${GBG[g.id]&&k==='proverb'?' himg':''}"${GBG[g.id]&&k==='proverb'?` style="--bi:url(${GBG[g.id][0]});--bp:${GBG[g.id][1]}%"`:''}>${T.length?`<div class="fhart" aria-hidden="true">${T.map((t,x)=>`<i class="ft ${'abcd'[x]}">${t}</i>`).join('')}</div>`:''}<h2>${wico(g.id,GIC[g.id]||'🔎')} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid f2 n${n}">${c2}</div></div>`;
   }
   return `<div class="screen fgs">${bar([['처음','home'],[m.short,k],[g.title]],m.cls)}
-    <div class="lbanner ${m.cls}"><h2>${GIC[g.id]||'🔎'} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
+    <div class="lbanner ${m.cls}"><h2>${wico(g.id,GIC[g.id]||'🔎')} ${esc(g.title)}</h2><p class="lead">${esc(FSRC[g.id]||'')}</p></div>
     <div class="fgrid n${n}">${cards}</div></div>`;
 }
 function viewGroup(id){
@@ -3695,6 +3707,7 @@ function route(){
   else html=viewHome();
   $app.innerHTML = html;
   if(!MENU[h]&&h!=='home') applyTint(h);
+  if(WIC[h]){ const fe=$app.querySelector('.fhead .fhe'); if(fe) fe.innerHTML=wico(h); }
   if(PIMG[h]){ const hd=$app.querySelector('.fhead,.lbanner'); if(hd){ hd.classList.add('himg'); hd.style.cssText+=pst(h); } }
   window.scrollTo(0,0);
   hideExit(); tagState(); if(needGuard()) guardPending=true;
