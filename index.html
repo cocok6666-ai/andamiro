@@ -1519,12 +1519,11 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .main.pvpat::before{background:url(data/ico/lat_pv.webp) center/100% 100% no-repeat!important;-webkit-mask-image:none!important;mask-image:none!important;opacity:.4!important}
 .main.wdpat::before{background:url(data/ico/lat_wd.webp) center/100% 100% no-repeat!important;-webkit-mask-image:none!important;mask-image:none!important;opacity:.4!important}
 .main.wdpat h2{-webkit-text-stroke:4px rgba(255,255,255,.92);paint-order:stroke fill;text-shadow:none}
-/* 첫 화면 두 메뉴: 그림 카드(제목이 그림 안에 있음) */
-.screen.home .mains .main.cimg{background:var(--bi) 50% var(--by,35%)/cover no-repeat!important;padding:0!important;justify-content:flex-end;border-color:#111}
-.screen.home .mains .main.pv.cimg{--by:29%}
-.screen.home .mains .main.wd.cimg{--by:43%}
+/* 첫 화면 두 메뉴: 그림 전체가 보이게(가로는 같은 그림을 흐리게 채움) */
+.screen.home .mains .main.cimg{background:radial-gradient(ellipse at 50% 40%,#FFF8E6,#FCE7BD)!important;padding:0!important;justify-content:flex-end;border-color:#111;overflow:hidden}
 .main.cimg .mbg,.main.cimg .ico{display:none!important}
-.screen.home .mains .main.cimg::before,.screen.home .mains .main.cimg::after{display:none!important}
+.screen.home .mains .main.cimg::after{content:""!important;display:block!important;position:absolute;inset:0;height:auto;border-radius:0;z-index:0;background:var(--bi) 50% 50%/contain no-repeat!important;pointer-events:none}
+.screen.home .mains .main.cimg::before{display:none!important}
 .main.cimg .mt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .main.cimg .go{position:absolute;right:50%;transform:translateX(50%);bottom:8px;z-index:2;background:none!important;box-shadow:none!important;width:auto;height:auto;margin:0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
 .main.cimg .go .fg{font-size:30px}
