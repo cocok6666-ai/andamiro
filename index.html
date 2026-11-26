@@ -1552,6 +1552,15 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .scene.pic,.o-wrap .story .scene.pic,.mscn .story .scene.pic,.cmp .scene.pic.cp{height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:480/256;width:100%;flex:none!important}
 @media(max-height:720px){.o-wrap .story .scene.pic,.mscn .story .scene.pic{height:auto!important;min-height:0!important}}
 .fg2.g3 .fgrid.n3 .fcard.pimg b{font-size:clamp(20px,3.1dvh,25px);white-space:nowrap;line-height:1.15;text-wrap:nowrap}
+
+/* 하루에 하나씩: 제목만 남기고 말풍선이 10초마다 자동 반복 */
+.screen.home .daily{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;height:28px}
+.screen.home .daily .drow{display:none!important}
+.screen.home .daily .dtab{top:0;font-size:15px;padding:3px 16px}
+.daily .dbal.c{left:0;right:0;margin:0 auto;width:min(88%,310px);pointer-events:auto}
+.daily .dbal.c:after{left:50%;right:auto;margin-left:-7px}
+.daily .dbal small{display:block;font-size:11px;font-weight:700;color:#7a6a4a;margin-bottom:1px}
+.daily .dbal.w strong{color:#14594F}
 </style>
 </head>
 <body>
@@ -1625,12 +1634,7 @@ function initDaily(){
   const box=document.getElementById('daily'); if(!box) return;
   const d=new Date(), key=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
   const bal=document.getElementById('dbal'); let tm=0, cur='';
-  const hide=()=>{ clearTimeout(tm); bal.hidden=true; cur=''; box.classList.remove('open'); };
-  const show=(id,html,side)=>{
-    if(cur===id){ hide(); return; }
-    clearTimeout(tm); cur=id; bal.innerHTML=html; bal.className='dbal '+side; bal.hidden=false; box.classList.add('open');
-    tm=setTimeout(hide,6000);
-  };
+  let iv=0, idx=0; const hide=()=>{ clearTimeout(tm); bal.hidden=true; };
   const cut=(t,n)=>t.length>n?t.slice(0,n).replace(/[\s,]+\S*$/,'')+'…':t;
   Promise.all([loadProverbs(),loadWords()]).then(([pv,wd])=>{
     if(!document.getElementById('daily')) return;
@@ -1638,12 +1642,18 @@ function initDaily(){
     const pp=pv.filter(x=>x.lv==='A'&&x.t.length<=16&&x.m.length<=130); const P=pp[Math.floor(r()*pp.length)];
     const ww=wd.filter(x=>!x.x&&x.f>0&&x.w.length<=6&&x.m&&x.m[0]); const W=ww[Math.floor(r()*ww.length)];
     if(!P||!W) return;
-    const bp=document.querySelector('#dcp b'), bw=document.querySelector('#dcw b');
-    bp.textContent=P.t; bw.textContent=W.w;
-    document.getElementById('dcp').onclick=e=>{ e.stopPropagation(); show('p',`<strong>${esc(P.t)}</strong><span>${esc(cut(P.m,120))}</span>`,'l'); };
-    document.getElementById('dcw').onclick=e=>{ e.stopPropagation(); show('w',`<strong>${esc(W.w)} <em>${esc(W.p||'')}</em></strong><span>${esc(cut(W.m[0],90))}</span>${W.e?`<span class="ex">예) ${esc(cut(W.e,60))}</span>`:''}`,'r'); };
+    const H=[
+      `<small>오늘의 속담</small><strong>${esc(P.t)}</strong><span>${esc(cut(P.m,120))}</span>`,
+      `<small>오늘의 순우리말</small><strong>${esc(W.w)} <em>${esc(W.p||'')}</em></strong><span>${esc(cut(W.m[0],90))}</span>${W.e?`<span class="ex">예) ${esc(cut(W.e,60))}</span>`:''}`
+    ];
+    const cycle=()=>{
+      if(!document.getElementById('daily')){ clearInterval(iv); return; }
+      clearTimeout(tm); bal.hidden=true; void bal.offsetWidth;
+      bal.innerHTML=H[idx%2]; bal.className='dbal c '+(idx%2?'w':'p'); bal.hidden=false; idx++;
+      tm=setTimeout(hide,7000);
+    };
     bal.onclick=e=>{ e.stopPropagation(); hide(); };
-    document.addEventListener('click',function f(e){ if(!document.getElementById('daily')){ document.removeEventListener('click',f); return; } if(!box.contains(e.target)) hide(); });
+    cycle(); iv=setInterval(cycle,10000);
   }).catch(()=>{ box.hidden=true; });
 }
 /* ---------- 도우미 ---------- */
