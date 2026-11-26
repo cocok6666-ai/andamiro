@@ -1426,6 +1426,7 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .mains .main p{text-wrap:balance;font-size:13px;line-height:1.42}
 .fg2.g3 .fgrid.n3 .fcard.pimg b{font-size:clamp(30px,4.8dvh,40px);line-height:1.12}
 .fg2.g3 .fgrid.n3 .fcard.pimg b{word-break:keep-all;text-wrap:balance}
+.fg2.g7 .fgrid.n7 .fcard.pimg b{font-size:clamp(19px,2.9dvh,24px);line-height:1.12;word-break:keep-all;text-wrap:balance}
 </style>
 </head>
 <body>
@@ -2691,7 +2692,7 @@ const CHO_I=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','
 const choI=c=>Math.floor((c.charCodeAt(0)-0xAC00)/588), choF=c=>(c.charCodeAt(0)-0xAC00)%28;
 const MK_O='M30 7 C45 4 57 17 54 31 C52 47 36 57 21 52 C8 48 2 32 9 20 C15 8 31 3 45 9 C50 11 52 14 53 17';
 function renderCho(){
-  return `<div class="leaf fitwrap ${curCls} gm" id="cqg"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔠</span><div><b>순우리말 초성놀이</b><small>초성과 뜻을 보고 낱말을 완성해요</small></div></div><div class="gbody" id="cqb"><div class="fmsg">불러오는 중…</div></div></div>`;
+  return `<div class="leaf fitwrap ${curCls} gm" id="cqg"><div class="fhead ${curCls}${false?' himg':''}"${false?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔠</span><div><b>순우리말 초성놀이</b><small>초성과 뜻을 보고 낱말을 완성해요</small></div></div><div class="gbody" id="cqb"><div class="fmsg">불러오는 중…</div></div></div>`;
 }
 function initCho(){
   const gb=document.getElementById('cqb'); if(!gb) return;
@@ -3013,7 +3014,7 @@ function egBurst(list,n){
   document.body.appendChild(c); setTimeout(()=>c.remove(),3400);
 }
 function renderEmoji(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${false?' himg':''}"${false?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🎭</span><div><b>이모지 속담 게임</b><small>이모지를 보고 속담을 맞혀 봐요</small></div></div><div id="eb"></div></div>`;
 }
 function initEmoji(){
   const eb=document.getElementById('eb'); if(!eb) return;
@@ -3180,7 +3181,7 @@ const fxLoad=()=>{ try{return JSON.parse(localStorage.getItem('andamiro.fix')||'
 const fxSave=o=>{ try{localStorage.setItem('andamiro.fix',JSON.stringify(o));}catch(e){} };
 const fxSent=q=>esc(q.s).replace(/\[\[(.+?)\]\]/g,'<u class="fxw">$1</u>');
 function renderFix(){
-  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${gid==='p-media'?' himg':''}"${gid==='p-media'?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔁</span><div><b>순우리말로 바꾸기</b><small>잘못 쓰는 말을 알맞은 우리말로 바꿔 봐요</small></div></div><div id="eb"></div></div>`;
+  return `<div class="leaf gmz ${curCls}" id="gmz"><div class="fhead ${curCls}${false?' himg':''}"${false?` style="--bi:url(${GBG[gid][0]});--bp:${GBG[gid][1]}%"`:''}><span class="fhe">🔁</span><div><b>순우리말로 바꾸기</b><small>잘못 쓰는 말을 알맞은 우리말로 바꿔 봐요</small></div></div><div id="eb"></div></div>`;
 }
 function initFix(){
   const eb=document.getElementById('eb'); if(!eb) return;
