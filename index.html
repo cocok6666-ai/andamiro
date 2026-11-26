@@ -1490,6 +1490,13 @@ html:has(.mscn){scroll-snap-type:y proximity}
 /* 돌 위 낱말: 흰 글씨 + 검정 테두리, 크게 */
 .sb-sl{font-size:clamp(16px,5vw,21px)}
 .sb-sl.on{color:#fff!important;font-weight:900;-webkit-text-stroke:3.5px #000;paint-order:stroke fill;text-shadow:0 2px 3px rgba(0,0,0,.6)!important;letter-spacing:-.3px}
+/* 메뉴 > 기호 → 손가락 애니 아이콘 */
+.fgr{display:inline-block;font-style:normal;line-height:1;animation:fgrNudge 1s ease-in-out infinite;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+@keyframes fgrNudge{0%,100%{transform:translateX(-2px)}50%{transform:translateX(6px)}}
+.gtile .gar{background:none!important;box-shadow:none!important;width:auto;height:auto;font-size:28px;right:8px;top:8px;color:inherit}
+.s3row .a .fgr{font-size:30px}
+.cta .fgr,.i3txt .go .fgr{font-size:1.15em;vertical-align:-.1em}
+@media(prefers-reduced-motion:reduce){.fgr{animation:none}}
 </style>
 </head>
 <body>
@@ -1631,7 +1638,7 @@ function viewHub(k){
     const c=PALT[i%6], done=g.items.filter(x=>x.status==='done').length, tot=g.items.length;
     const badge = '';/*완성 표시 삭제*/ const _b0 = k==='proverb'?'':done===tot?`<em>완성 ${tot}/${tot}</em>`:done?`<em>${done}/${tot} 완성</em>`:`<em class="wait">준비 중 · ${tot}개</em>`;
     const bi=k==='proverb'&&GBG[g.id];
-    return `<button class="gtile${bi?' gimg':''}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${stl(bi[0])});--bp:${bi[1]}%`:''}"><span class="te">${wico(g.id,GIC[g.id]||'📚')}</span><b>${esc(bi?g.title.replace(/\?$/,''):g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar">›</span></button>`;
+    return `<button class="gtile${bi?' gimg':''}${k!=='proverb'&&WTH[g.id]?' th-'+WTH[g.id]:''}" data-go="${g.id}" style="--c1:${c[0]};--c2:${c[1]};--m:${FAMD[i%FAMD.length][2]}${bi?`;--bi:url(${stl(bi[0])});--bp:${bi[1]}%`:''}"><span class="te">${wico(g.id,GIC[g.id]||'📚')}</span><b>${esc(bi?g.title.replace(/\?$/,''):g.title)}</b><small>${esc(g.note||g.items.map(x=>x.title).slice(0,2).join(' · '))}</small>${badge}<span class="gar"><i class="fgr">👉</i></span></button>`;
   }).join('');
   const src=k==='proverb'?['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 학생용으로 골라 다듬은 속담 6,300여 개','초등학생 (교과서 속담부터 생활 속 속담까지)']:['국립국어원 우리말샘(CC BY-SA 2.0 KR)에서 골라 담은 고운 순우리말 390여 개','초등학생 (뜻과 쓰임을 쉽게 익히고 싶은 친구)'];
   return `<div class="screen hubs hubfit">
@@ -1650,7 +1657,7 @@ function viewIntro(g,m){
   const cards=INTRO3.map(x=>{const it=leafIndex[x.id];
     return `<button class="i3 pimg" data-go="${x.id}" style="--c1:${x.c[0]};--c2:${x.c[1]};--ink3:${x.ink};${pstS(x.id)}">
       <span class="i3art" aria-hidden="true"><i class="blob"></i>${x.art.map(a=>`<em class="ae ${a[2]}" style="--r:${a[1]}deg">${a[0]}</em>`).join('')}</span>
-      <span class="i3txt"><small>${x.n} ${esc(m.short)}이란</small><b>${esc(x.t)}</b><span class="q">${esc(x.q)}</span><span class="go">${it&&it.status==='done'?'알아보러 가기 ›':'준비 중'}</span></span></button>`;}).join('');
+      <span class="i3txt"><small>${x.n} ${esc(m.short)}이란</small><b>${esc(x.t)}</b><span class="q">${esc(x.q)}</span><span class="go">${it&&it.status==='done'?'알아보러 가기 <i class="fgr">👉</i>':'준비 중'}</span></span></button>`;}).join('');
   return `<div class="screen intro3">${bar([['처음','home'],[m.short,'proverb'],[g.title]],m.cls)}<div class="i3wrap">${cards}</div></div>`;
 }
 
@@ -1688,7 +1695,7 @@ const FSRC={'p-quiz':'게임, 완성하기, 평가, 그림 풀이로 속담 실�
 function viewSub3(g,m,k){
   const pal=FCOL[m.cls], par=groupIndex[g.parent].g;
   const rows=g.items.map((it,i)=>{ const c=pal[i%pal.length], done=it.status==='done';
-    return `<button class="s3row${done?'':' s3wait'}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]}"><i class="n">${i+1}</i><span class="e">${it.ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(done?it.desc:'곧 만날 수 있어요')}</small></span><span class="a">${done?'›':'🔒'}</span></button>`; }).join('');
+    return `<button class="s3row${done?'':' s3wait'}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]}"><i class="n">${i+1}</i><span class="e">${it.ic}</span><span class="t"><b>${esc(it.title)}</b><small>${esc(done?it.desc:'곧 만날 수 있어요')}</small></span><span class="a">${done?'<i class="fgr">👉</i>':'🔒'}</span></button>`; }).join('');
   return `<div class="screen sg3">${bar([['처음','home'],[m.short,k],[par.title,par.id],[g.title]],m.cls)}
     <div class="s3head ${m.cls}"><span class="s3ic">${GIC[g.id]||'🎮'}</span><div><h2>${esc(g.title)}</h2><p>${esc(FSRC[g.id]||g.note||'')}</p></div></div>
     <div class="s3pick">👇 하고 싶은 것을 골라요</div>
@@ -1699,7 +1706,7 @@ function viewFindHome(g,m,k){
   const n=g.items.length, pal=FCOL[m.cls];
   const cards=g.items.map((it,i)=>{ const c=pal[i%pal.length], pat=['--pat-sg','--pat-diaw','--pat-sg','--pat-diaw'][i%4];
     const patv=m.cls==='wd'?(i%2?'--pat-diaw':'--pat-dot'):pat;
-    return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico${WIC[it.id]?' wi':''}">${wico(it.id,it.ic)}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go">›</span></button>`; }).join('');
+    return `<button class="fcard ${m.cls}" data-go="${it.id}" style="--c1:${c[0]};--c2:${c[1]};--pat:var(${patv})"><span class="fico${WIC[it.id]?' wi':''}">${wico(it.id,it.ic)}</span><b>${esc(it.title)}</b><small>${esc(it.desc)}</small><span class="go fgfin"><i class="fg">👆</i></span></button>`; }).join('');
   {
     const T=g.id in FHT?FHT[g.id]:['순','우','리','말'];
     const c2=g.items.map((it,i)=>{ const c=pal[i%pal.length];
@@ -1905,7 +1912,7 @@ function renderMeaning(){
     <div class="mscn" id="mscn"><h3 class="sec">일상생활에서 쓰이는 장면 보기</h3>
     <div class="slider" id="msl">${L.cards.map((c,i)=>`<article class="story">${scene(c.e,i,true)}<div class="sb"><div class="sn">${i+1} / ${L.cards.length}</div><h4>${esc(c.p)}</h4><p>${esc(c.s)}</p><div class="sm"><b>뜻</b> ${esc(c.m)}</div></div></article>`).join('')}</div>
     ${pagerBar('m',L.cards.length)}
-    <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 ›</button></div></div>`;
+    <button class="cta nx pv" data-go="p-origin">속담의 유래 보러 가기 <i class="fgr">👉</i></button></div></div>`;
 }
 
 function setupPager(px){
@@ -1976,7 +1983,7 @@ function renderOrigin(){
   const OS=['역사·인물','옛이야기·우화','생활·풍속','종교·믿음','한자 성어','말놀이'];
   return `<div class="leaf les o-wrap"><div class="otw"><div class="tabs o3" id="otabs">${LES.origin.map((g,i)=>`<button class="chip${i?'':' on'}" data-t="${i}" style="${tcVars(i)}"><span class="ti">${g.ic}</span><span>${OS[i]||esc(g.t)}</span></button>`).join('')}</div></div>
     <div id="obody"></div>
-    <button class="cta nx pv" data-go="p-good">속담의 좋은 점 보러 가기 ›</button></div>`;
+    <button class="cta nx pv" data-go="p-good">속담의 좋은 점 보러 가기 <i class="fgr">👉</i></button></div>`;
 }
 function initOrigin(){
   const body=document.getElementById('obody');
