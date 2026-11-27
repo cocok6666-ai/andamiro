@@ -1590,6 +1590,13 @@ html:has(.mscn){scroll-snap-type:y proximity}
 .daily .dbal.c.p:after,.daily .dbal.c.w:after{left:calc(var(--tx,50%) - 7px)!important;right:auto!important;margin:0!important}
 .daily .dbal.c{overflow:visible!important}
 .daily .dbal.c:after{top:calc(100% - 1px)!important;transform:translateY(-8px) rotate(45deg)!important}
+
+/* 말풍선 주제 제목: 크게·강조·오른쪽 정렬+아이콘 */
+.daily .dbal.c small{height:24px!important;line-height:24px!important;font-size:15px!important;font-weight:900!important;letter-spacing:-.2px;text-align:right;align-self:stretch;color:#6a4a22!important}
+.daily .dbal.c.p small{color:#9A2D1F!important}
+.daily .dbal.c.w small{color:#14594F!important}
+.daily .dbal.c small .ti{font-style:normal;margin-right:4px;font-size:15px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.daily .dbal.c{height:100px!important}
 </style>
 </head>
 <body>
@@ -1672,8 +1679,8 @@ function initDaily(){
     const ww=wd.filter(x=>!x.x&&x.f>0&&x.w.length<=6&&x.m&&x.m[0]); const W=ww[Math.floor(r()*ww.length)];
     if(!P||!W) return;
     const H=[
-      `<small>오늘의 속담</small><strong>${esc(P.t)}</strong><span class="ds">${esc(cut(P.m,120))}</span>`,
-      `<small>오늘의 순우리말</small><strong>${esc(W.w)} <em>${esc(W.p||'')}</em></strong><span class="ds">${esc(cut(W.m[0],90))}</span>`
+      `<small><i class="ti">✨</i>오늘의 속담</small><strong>${esc(P.t)}</strong><span class="ds">${esc(cut(P.m,120))}</span>`,
+      `<small><i class="ti">🌸</i>오늘의 순우리말</small><strong>${esc(W.w)} <em>${esc(W.p||'')}</em></strong><span class="ds">${esc(cut(W.m[0],90))}</span>`
     ];
     const bal2=bal.cloneNode(false); bal2.id='dbal2'; bal.after(bal2);
     const put=(el,html,cls)=>{ el.hidden=true; void el.offsetWidth; el.innerHTML=html; el.className='dbal c '+cls; const C=(box.closest('.screen')||document.getElementById('app')).getBoundingClientRect(); el.style.maxWidth=(C.width-16)+'px'; el.style.translate='0px'; el.hidden=false; const r=el.getBoundingClientRect(); let m=0; if(r.left<C.left+8) m=C.left+8-r.left; else if(r.right>C.right-8) m=C.right-8-r.right; el.style.translate=m+'px'; const tb=box.querySelector('.dtab').getBoundingClientRect(), r2=el.getBoundingClientRect(); el.style.setProperty('--tx',Math.max(16,Math.min(r2.width-16,tb.left+tb.width/2-r2.left))+'px'); };
