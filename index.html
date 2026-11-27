@@ -1722,14 +1722,14 @@ function initDaily(){
     const bal2=bal.cloneNode(false); bal2.id='dbal2'; bal.after(bal2);
     const put=(el,html,cls)=>{ el.hidden=true; void el.offsetWidth; el.innerHTML=html; el.className='dbal c '+cls; const C=(box.closest('.screen')||document.getElementById('app')).getBoundingClientRect(); el.style.maxWidth=(C.width-16)+'px'; el.style.translate='0px'; el.hidden=false; const r=el.getBoundingClientRect(); let m=0; if(r.left<C.left+8) m=C.left+8-r.left; else if(r.right>C.right-8) m=C.right-8-r.right; el.style.translate=m+'px'; const tb=box.querySelector('.dtab').getBoundingClientRect(), r2=el.getBoundingClientRect(); el.style.setProperty('--tx',Math.max(16,Math.min(r2.width-16,tb.left+tb.width/2-r2.left))+'px'); };
     const t2=[0,0]; const off=(el,k,ms)=>{ clearTimeout(t2[k]); t2[k]=setTimeout(()=>{ el.hidden=true; },ms); };
-    // 10초 주기: 속담 0~5초, 순우리말 5~10초(겹침·공백 없이 바로 교체)
+    // 10초 주기: 속담 0~10초, 순우리말 10~20초(겹침·공백 없이 바로 교체)
     const cycle=()=>{
       if(!document.getElementById('daily')){ clearInterval(iv); return; }
-      put(bal,H[0],'p'); off(bal,0,5000);
-      clearTimeout(tm); tm=setTimeout(()=>{ put(bal2,H[1],'w'); off(bal2,1,5000); },5000);
+      put(bal,H[0],'p'); off(bal,0,10000);
+      clearTimeout(tm); tm=setTimeout(()=>{ put(bal2,H[1],'w'); off(bal2,1,10000); },10000);
     };
     bal.onclick=bal2.onclick=e=>{ e.stopPropagation(); e.currentTarget.hidden=true; };
-    cycle(); iv=setInterval(cycle,10000);
+    cycle(); iv=setInterval(cycle,20000);
   }).catch(()=>{ box.hidden=true; });
 }
 /* ---------- 도우미 ---------- */
